@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/layout.html :: html_head"/>
+<body>
+    <div th:replace="fragments/layout.html :: menu"/>
+<head>
+  <script type="text/javascript" src="jquery-3.5.1.min.js">
+      $(document).ready(function(){
+          $("#most_popular").click(sortByPopularity);
+      });
+
+      function sortByPopularity(){
+
+        var $tbody = $('#table_displayCourses tbody')
+
+        $tbody.find('tr').sort(sortBy_popular).appendTo($tbody);
+      }
+
+      function sortBy_popular(a, b){
+          var data1 = $(a).attr('popularity');
+          var data2 = $(b).attr('popularity');
+
+          return data1 > data2 ? 1 : data1 < data2 ? -1 : 0;
+      }
+
+      var listItems = document.getElementsClassName("saved");
+        for(var i = 0; i < listItems.length; i += 1){
+        listItems[i].addEventListener('click', function (e) {
+            // e.target.style.visibility = 'hidden';
+            e.target.outerText= 'saved';
+        });
+        }
+  </script>
+</head>
+<body>
+    <div th:if="${#lists.isEmpty(courseList)}">
+        <h4 align="center">There is no course available for <i><b><span th:text="${entered}">skillEntered</span></b></i></h4>
+    </div>
+
+    <div class="m-5" th:if="${not #lists.isEmpty(courseList)}">
+        <table>
+            <td>
+                <!-- FILTER BY DURATION -->
+                <div class="dropdown">
+                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                          Filter by Video Duration
+                          <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        <li><a class="dropdown-item" href="#">1 - 2 hours</a></li>
+                        <li><a class="dropdown-item" href="#">2 - 3 hours</a></li>
+                        <li><a class="dropdown-item" href="#">3+ hours</a></li>
+                        </ul>
+                </div>
+            </td>
+
+            <td>
+              <!-- SORT BY "BEST MATCH", "MOST POPULAR", "MOST RECENT" -->
+                <div class="dropdown">
+                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                          Sort By
+                          <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        <li id="best_match"><a class="dropdown-item" href="#">Best Match</a></li>
+                        <li id="most_popular"><a class="dropdown-item" href="#">Most Popular</a></li>
+                        <li id="most_recent"><a class="dropdown-item" href="#">Most Recent</a></li>
+                        </ul>
+                </div>
+            </td>
+            <td>
+                <a th:href="@{/myCourses}" class="btn btn-default">View My Courses</a>
+            </td>
+        </table>
+        <hr>
+        <!-- LIST OF COURSES -->
+        <table class="table table-stripe" th:each="course : ${courseList}" id="table_displayCourses">
+              <tr th:attr="popularity=${course.views}">
+                <td><a href="${course.urlLink}"> <img src="/images/placeholder/placeholderCourse1.jpg" width="320" height="180"></a> </td>
+                <td style="vertical-align:middle;">
+                  <a href="${course.urlLink}"><p class="text-uppercase"><b><span th:text="${course.courseTitle}"></span></b></p></a>
+                  <p class="fw-light"><span th:text="${course.description}"></span><br>
+                     <span th:text="${course.views}"></span> Views    |   <span th:text="${course.likes}">104,234</span> Likes    |    <span th:text="${course.subscribers}">104,234</span> Subscribers</p></td>
+                <td style="vertical-align:middle;"  >
+                    <!-- <form th:action="@{/courseResult/save/{courseId}(courseId=${course.courseId})}" method="post" class="saved"> -->
+
+                        <form th:action="@{/courses/save/{courseId}(courseId=${course.courseId})}" method="get" id="myForm">
+                     
+                        <input type="hidden" th:value="${course.courseId}" >
+                        
+                        <!-- <input type="submit" value="Save" class="btn btn-secondary"  role="button" onclick="disableBtn()" id="myBtn"/> -->
+                        <a class="btn btn-secondary" id="myBtn" role="button" onclick="disableBtn()"><i class="bi bi-bookmarks"></i></i> Save</a>
+                        <!-- <button type="button" id="myBtn" name="save" onclick="disableBtn()" value="save" class="btn btn-secondary" role="button"></button> -->
+                        
+                    </form>
+                    
+                </td>
+              </tr>
+          </table>
+
+        <table th:if="${totalPages > 1}">
+        </table>
+
+    </div>
+
+    <script>
+
+        function disableBtn() {
+
+           
+            document.getElementById("myBtn").disabled = true;  
+            document.getElementById("myForm").submit();
+        }
+
+    </script>
+<!-- 
+    <script>
+
+        var listItems = document.getElementsByClassName("saved");
+        for(var i = 0; i < listItems.length; i += 1){
+        listItems[i].addEventListener('click', function (e) {
+            // e.target.style.visibility = 'hidden';
+            e.target.outerText= 'saved';
+        });
+        }
+    
+    
+    </script> -->
+</body>
+<footer>
+    <div th:replace="fragments/layout.html :: footer" />
+</footer>
+
+
+
+

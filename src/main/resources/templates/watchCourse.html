@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head  th:replace="fragments/layout.html :: html_head"/>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <div th:replace="fragments/layout.html :: menu"/>
+
+    <h3 th:text="${course.myCourseTitle}"></h3>
+
+    <!-- <span th:text="${urlQuery}"></span> -->
+    <table class='table table-borderless' style="background-color:#f7f5f5">
+        <tr>
+            <td>
+                <center> <iframe width="800" height="450" th:src="@{https://www.youtube.com/embed/{url} (url=${urlQuery})}"  title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen</iframe></center>
+            </td>
+        </tr>
+    </table>
+
+   
+
+ 
+</body>
+</html>

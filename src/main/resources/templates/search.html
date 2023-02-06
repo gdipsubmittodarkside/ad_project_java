@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/layout.html :: html_head"/>
+<body>
+<div th:replace="fragments/layout.html :: menu"/>
+<head>
+</head>
+<body>
+<p>This is the Search page and is also the home page of the website</p>
+
+<div>
+    <form th:action="@{/search}" method="post" th:object="${query}">
+        <div th:each="searchType: ${T(nus.iss.team2.ADProjectTECHS.Model.Enums.SearchType).values()}">
+            <input type="radio" th:field="*{searchType}" th:value="${searchType}"  />
+            <label th:for="${#ids.prev('searchType')}" th:text="${searchType}" />
+        </div>
+        <input type="text" placeholder="Enter a skill" th:field="*{queryString}">
+        <input type="submit" value="Submit" />
+    </form>
+
+</div>
+
+
+<script>
+
+    var input = document.getElementById("queryString")
+    var searchType = document.getElementsByName("searchType")
+
+    for(let i = 0; i < searchType.length; i++) {
+        searchType[i].addEventListener('click', function (e) {
+            if (e.target.checked) {
+                input.placeholder ="Enter: " + e.target.value.toLowerCase();
+            }
+        })
+    }
+
+    input.addEventListener('keyup', (event) => {
+
+
+    } )
+
+
+
+</script>
+</body>
+
+<footer>
+    <div th:replace="fragments/layout.html :: footer" />
+</footer>

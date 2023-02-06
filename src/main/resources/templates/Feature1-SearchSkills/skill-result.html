@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/layout.html :: html_head"/>
+<body>
+<div th:replace="fragments/layout.html :: menu"/>
+<head>
+</head>
+<body>
+<div class="m-4">
+    <div class="shadow p-0.5 mb-5 bg-white rounded">
+        <table class="table table-borderless">
+            <td Align = Middle> <img src="/images/Jt.png" width="80" height="80"> </td>
+            <td style="vertical-align:middle;"><h5>Joey, your career goal is to be a <span style="color:#ad2eb3;"><b>Software Engineer</b></span>. </h5></td>
+            <td class="text-center align-middle"><button type="button" class="btn btn-secondary"><i class="fa fa-pencil"> Goal</i></button></td>
+        </table>
+    </div>
+    <figure class="text-center">
+        <blockquote class="blockquote">
+            <h1 class="display-6"> <span style="color:#ad2eb3;">Essential skills for you to achieve your goal!</span></h1>
+        </blockquote>
+    </figure>
+
+    <!--NAV BAR STYLE-->
+    <!-- <nav class="nav nav-pills flex-column flex-sm-row" th:each="skill : ${skillList}">
+        <a class="flex-sm-fill text-sm-center nav-link active" aria-current="page" th:href="@{/skills/searchIntro/}+${skill.skillId}" th:text="${skill.skillTitle}" th:object="${skill}"></a>
+         -->
+    <!-- <a class="flex-sm-fill text-sm-center nav-link active" aria-current="page" href="#">Java</a>
+    <a class="flex-sm-fill text-sm-center nav-link" href="#">HTML</a>
+    <a class="flex-sm-fill text-sm-center nav-link" href="#">MS SQL</a>
+    <a class="flex-sm-fill text-sm-center nav-link" href="#">C++</a>
+    <a class="flex-sm-fill text-sm-center nav-link" href="#">Visual Basic</a>
+    <a class="flex-sm-fill text-sm-center nav-link" href="#">Tableu</a>
+    <a class="flex-sm-fill text-sm-center nav-link" href="#">Kotlin</a>
+    <a class="flex-sm-fill text-sm-center nav-link" href="#">Redis</a>
+    <a class="flex-sm-fill text-sm-center nav-link" href="#">Angular</a> -->
+    <!-- </nav> -->
+
+    <!--TABLE STYLE-->
+    <div>
+        <table >
+            <tr th:each="skill : ${skillList}">
+
+                <td>
+                    <form method="POST" th:action="@{/skills/searchIntro/}+${skill.skillId}" th:object="${skill}">
+                        <button type="submit"  class="btn btn-primary" > <span th:text="${skill.skillTitle}"> </span></button>
+                    </form>
+                </td>
+            </tr>
+
+
+        </table>
+
+    </div>
+
+    <br>
+    <div layout:fragment="content">
+        <table class='table table-borderless' style="background-color:#f7f5f5" th:if="${urlQuery != null}">
+            <tr>
+                <td Align = Middle> <img src="/images/java.png" width="100" height="100"> </td>
+                <td bgcolor="#fff"><b th:text="'what is '+${targetSkill.skillTitle}+' ?'">What is Java?</b>
+                    <p>This simple, beginner-friendly JAVA course requires no previous coding knowledge. All you need is a mobile phone or desktop computer and 5 minutes a day! </p>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2"><p class="text-center"><b th:text="'Introduction to '+${targetSkill.skillTitle}">Introduction to Java</b></p>
+                    <center><iframe width="800" height="450" th:src="@{https://www.youtube.com/embed/{url} (url=${urlQuery})}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></center>
+
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <center><a class="btn btn-secondary" th:href="@{/skills/searchIntro/}+${targetSkill.skillId}" role="button"><i class="bi bi-book"></i> Start Learning</a></center>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2"></td>
+            </tr>
+        </table>
+    </div>
+
+
+</div>
+</body>
+<footer>
+    <div th:replace="fragments/layout.html :: footer" />
+</footer>

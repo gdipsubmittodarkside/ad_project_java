@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/layout.html :: html_head"/>
+<body>
+    <div th:replace="fragments/layout.html :: menu"/>
+    <link th:href="@{/css/js-calendar-calendar.css}" rel="stylesheet">
+    <script defer th:src="@{/js/js-calendar.js}"></script> 
+
+<head>
+</head>
+<style>
+    h2{
+        color: #ad2eb3;
+        text-align:center;
+    }
+    h4{
+        font-weight: bold;
+    }
+</style>
+<body style="background-color: #ebebeb">
+    <div class="m-4 container8">
+        <table class="table table-borderless" style="table-layout:fixed;">
+            <tr>
+                <h2>My Courses</h2>
+                <td width="500px" style="background-color: #fcfcfc; position: sticky;"><h4>My Courses</h4>
+                    <table>
+                        <div class = "tabinator">
+                            <input type = "radio" id = "tab1" name = "tabs" checked>
+                            <label for = "tab1" onclick="openCourse('All');">All</label>
+                            <input type = "radio" id = "tab2" name = "tabs">
+                            <label for = "tab2" onclick="openCourse('In Progress');">In Progress</label>
+                            <input type = "radio" id = "tab3" name = "tabs">
+                            <label for = "tab3" onclick="openCourse('Completed');">Completed</label>
+                        </div>
+                        </td>
+                    </table>
+                    <div id="All" class="course">
+                        <div id="content-wrapper">
+                        <table class="table table-striped">      
+                            <tr>
+                              <td><a href="https://www.Youtube.com/"> <img src="/images/placeholder/placeholderCourse1.jpg" width="160px" height="90px"></a> </td>
+                              <td><a href="https://www.Youtube.com/"><p class="link-primary text-uppercase">Full Introduction to JAVA</p></a><p class="fw-light">By Harvard</p></td>
+                            </tr>
+                            <tr>
+                              <td><a href="https://www.Youtube.com/"> <img src="/images/placeholder/placeholderCourse2.jpg" width="160px" height="90px"></a> </td>
+                              <td><a href="https://www.Youtube.com/"><p class="link-primary text-uppercase">Learn java from the best industry expert so that you can be a pro</p></a><p class="fw-light">By Harvard</p></td>
+                            </tr>
+                            <tr>
+                                <td><a href="https://www.Youtube.com/"> <img src="/images/placeholder/placeholderCourse3.jpg" width="160px" height="90px"></a> </td>
+                                <td><a href="https://www.Youtube.com/"><p class="link-primary text-uppercase">Full Introduction to JAVA</p></a><p class="fw-light">By Harvard</p></td>
+                            </tr>
+                            <tr>
+                                <td><a href="https://www.Youtube.com/"> <img src="/images/placeholder/placeholderCourse4.jpg" width="160px" height="90px"></a> </td>
+                                <td><a href="https://www.Youtube.com/"><p class="link-primary text-uppercase">Full Introduction to JAVA</p></a><p class="fw-light">By Harvard</p></td>
+                            </tr>
+                            <tr>
+                                  <td><a href="https://www.Youtube.com/"> <img src="/images/placeholder/placeholderCourse5.jpg" width="160px" height="90px"></a> </td>
+                                  <td><a href="https://www.Youtube.com/"><p class="link-primary text-uppercase">Full Introduction to JAVA</p></a><p class="fw-light">By Harvard</p></td>
+                            </tr>
+                            <tr>
+                                <td><a href="https://www.Youtube.com/"> <img src="/images/placeholder/placeholderCourse4.jpg" width="160px" height="90px"></a> </td>
+                                <td><a href="https://www.Youtube.com/"><p class="link-primary text-uppercase">Full Introduction to JAVA</p></a><p class="fw-light">By Harvard</p></td>
+                            </tr>
+                            <tr>
+                                  <td><a href="https://www.Youtube.com/"> <img src="/images/placeholder/placeholderCourse5.jpg" width="160px" height="90px"></a> </td>
+                                  <td><a href="https://www.Youtube.com/"><p class="link-primary text-uppercase">Full Introduction to JAVA</p></a><p class="fw-light">By Harvard</p></td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    </div>
+
+                    <div id="In Progress" class="course" style="display:none">
+                        <div id="content-wrapper">
+                            <table class="table table-striped">    
+                                <tr>
+                                <td><a href="https://www.Youtube.com/"> <img src="/images/placeholder/placeholderCourse5.jpg" width="160px" height="90px"></a> </td>
+                                <td><a href="https://www.Youtube.com/"><p class="link-primary text-uppercase">From Zero to Hero in Python</p></a><p class="fw-light">By Harvard</p>
+                                </tr>
+                                <tr>
+                                <td><a href="https://www.Youtube.com/"> <img src="/images/placeholder/placeholderCourse4.jpg" width="160px" height="90px"></a> </td>
+                                <td><a href="https://www.Youtube.com/"><p class="link-primary text-uppercase">From Zero to Hero in Python</p></a><p class="fw-light">By Harvard</p>
+                                </tr>
+                                <tr>
+                                    <td><a href="https://www.Youtube.com/"> <img src="/images/placeholder/placeholderCourse3.jpg" width="160px" height="90px"></a> </td>
+                                    <td><a href="https://www.Youtube.com/"><p class="link-primary text-uppercase">From Zero to Hero in Python</p></a><p class="fw-light">By Harvard</p>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div id="Completed" class="course" style="display:none">
+                        <div id="content-wrapper">
+                            <table class="table table-striped">      
+                                <tr>
+                                <td><a href="https://www.Youtube.com/"> <img src="/images/placeholder/placeholderCourse3.jpg" width="160px" height="90px"></a> </td>
+                                <td><a href="https://www.Youtube.com/"><p class="link-primary text-uppercase">Full Introduction to JAVA</p></a><p class="fw-light">By Harvard</p></td>
+                                </tr>
+                                <tr>
+                                <td><a href="https://www.Youtube.com/"> <img src="/images/placeholder/placeholderCourse1.jpg" width="160px" height="90px"></a> </td>
+                                <td><a href="https://www.Youtube.com/"><p class="link-primary text-uppercase">Learn java from the best industry expert so that you can be a pro</p></a><p class="fw-light">By Harvard</p></td>
+                                </tr>
+                                <tr>
+                                    <td><a href="https://www.Youtube.com/"> <img src="/images/placeholder/placeholderCourse2.jpg" width="160px" height="90px"></a> </td>
+                                    <td><a href="https://www.Youtube.com/"><p class="link-primary text-uppercase">Full Introduction to JAVA</p></a><p class="fw-light">By Harvard</p></td>
+                                </tr>
+                                <tr>
+                                    <td><a href="https://www.Youtube.com/"> <img src="/images/placeholder/placeholderCourse4.jpg" width="160px" height="90px"></a> </td>
+                                    <td><a href="https://www.Youtube.com/"><p class="link-primary text-uppercase">Full Introduction to JAVA</p></a><p class="fw-light">By Harvard</p></td>
+                                </tr>
+                                <tr>
+                                    <td><a href="https://www.Youtube.com/"> <img src="/images/placeholder/placeholderCourse5.jpg" width="160px" height="90px"></a> </td>
+                                    <td><a href="https://www.Youtube.com/"><p class="link-primary text-uppercase">Full Introduction to JAVA</p></a><p class="fw-light">By Harvard</p></td>
+                                </tr>
+                            </table>
+                        </div>
+
+                    </td>
+                    <!-- NEED FILTER BY ALPHABETICAL AND PROGRESS RATE -->
+                    <td width="72%" style="position:static">
+                        <div id="content-wrapper-progress">
+                        <table class="table table-borderless" > 
+                            <tr>
+                                <td>
+                                    <div class="text-uppercase"><b>Zero to Hero in Cloud<b></b> <div class="btn" role="button"><i class="bi bi-pencil"></i></div>
+                                    <div class="progress">
+                                        <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="text-uppercase"><b>Be the best in coding and programming</b> <div class="btn" role="button"><i class="bi bi-pencil"></i></div>
+                                    <div class="progress">
+                                        <div class="progress-bar" role="progressbar" style="width: 20%;" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">20%</div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="text-uppercase"><b>Full introduction to java</b> <div class="btn" role="button"><i class="bi bi-pencil"></i></div>
+                                    <div class="progress">
+                                        <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="text-uppercase"><b>Everything you need to know about JAVA</b> <div class="btn" role="button"><i class="bi bi-pencil"></i></div>
+                                    <div class="progress">
+                                        <div class="progress-bar" role="progressbar" style="width: 75%;" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">75%</div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="text-uppercase"><b>From zero to hero in Python</b> <div class="btn" role="button"><i class="bi bi-pencil"></i></div>
+                                    <div class="progress">
+                                        <div class="progress-bar" role="progressbar" style="width: 50%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">50%</div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="text-uppercase"><b> Learn C# today!</b> <div class="btn" role="button"><i class="bi bi-pencil"></i></div>
+                                    <div class="progress">
+                                        <div class="progress-bar" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">100%</div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="text-uppercase"><b>Full introduction to java</b> <div class="btn" role="button"><i class="bi bi-pencil"></i></div>
+                                    <div class="progress">
+                                        <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="text-uppercase"><b>Learn Java from the best industry expert so that you can be a pro</b> <div class="btn" role="button"><i class="bi bi-pencil"></i></div>
+                                    <div class="progress">
+                                        <div class="progress-bar" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">100%</div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                        </table>
+                    </div>    
+  
+                </td>
+                
+            </tr>
+        </table>
+    </div>
+</body>
+<footer>
+    <div th:replace="fragments/layout.html :: footer" />
+</footer>
+  
+  <script>
+  function openCourse(coursetype) {
+    var i;
+    var x = document.getElementsByClassName("course");
+    for (i = 0; i < x.length; i++) {
+      x[i].style.display = "none";  
+    }
+    document.getElementById(coursetype).style.display = "block"; 
+  }
+  </script>

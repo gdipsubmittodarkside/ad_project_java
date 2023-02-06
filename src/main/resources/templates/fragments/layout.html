@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<head th:fragment="html_head" id="html_head" >
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TECHS</title>
+<!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"> -->
+<link th:href="@{/DataTable/css.css}" rel="stylesheet" />
+<link th:href="@{/css/styles.css}" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+
+<body>
+<div th:fragment="menu" id="menu">
+    <!-- <div class="m-4"> -->
+        <nav class="navbar navbar-expand-sm navbar-light bg-light">
+            <div class="container-fluid">
+                <a href="#" class="navbar-brand"><img src="/images/TECHSLOGO.JPG" width="100" height="50"></a>
+                <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div id="navbarCollapse" class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li class="nav-item">
+                            <form class="d-flex">
+                                <div class="input-group">                    
+                                    <input type="text" class="form-control" placeholder="Search by Job or Skill">
+                                    <a class="btn btn-secondary" href="http://localhost:8081/search/skills" role="button"><i class="bi-search"></i></a>
+                                </div>
+                            </form>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav ms-auto">
+                        <li class="nav-item dropdown">
+                            <table>
+                                <tr><td>
+                                    <a href="#" class="navbar-brand"><img src="/images/Jt.png" width="50" height="50"></a> <br>
+                                </td>
+                                <td>
+                                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Me</a>
+                                    <div class="dropdown-menu dropdown-menu-end">
+                                        <a th:href="@{/dashboard}" class="dropdown-item">Dashboard</a>
+                                        <a href="#" class="dropdown-item">Settings</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a href="#" class="dropdown-item">Logout</a>
+                                    </div>
+                                </td></tr>
+
+                            </table>
+
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>    
+    <!-- </div> -->
+
+</div>
+
+
+<div th:fragment="footer">
+
+    <footer>
+        <div id="footer"
+            <div class="footer-copyright text-center py-3"><span style="color:#fff; font-size:12px"> GDSA-55 Team-2 2023 All rights reserved©</span></div>
+        </div>
+    </footer>
+
+</html>
