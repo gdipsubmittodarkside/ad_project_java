@@ -114,34 +114,11 @@ public class SkillController {
 
     }
 
+
+
+
     
-    @GetMapping("/home")
-    public String showSearchPage(Model model) {
 
-        List<Skill> skillList = skillService.findAll();
-
-        List<String> titles = new ArrayList<>();
-        for (int i = 0; i < skillList.size(); i++) {
-            titles.add(skillList.get(i).getSkillTitle());
-        }
-        model.addAttribute("titles", titles);
-
-        return "Feature2-SearchCourse/search";
-    }
-
-    @GetMapping("/result")
-    public String getSearchResult(@RequestParam String skill, Model model){
-
-        Skill skill1 = skillService.findSkillByTitle(skill);
-
-        List<CourseCrawled> courseCrawledList = courseCrawledService.findCoursesBySkillId(skill1.getSkillId());
-
-
-        model.addAttribute("courseList", courseCrawledList);
-
-        return "Feature2-SearchCourse/course-result";
-
-    }
 
     
 }

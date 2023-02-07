@@ -41,6 +41,11 @@ public class JobServiceImpl implements JobService{
     }
 
     @Override
+    public List<Job> findAll() {
+        return jRepo.findAll();
+    }
+
+    @Override
     public Job findJobById(Long id) {
         // TODO Auto-generated method stub
         return null;

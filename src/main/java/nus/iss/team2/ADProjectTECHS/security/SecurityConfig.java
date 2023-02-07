@@ -61,8 +61,8 @@ public class SecurityConfig {
             "/login**",
             "/api/**",
             "/oauth/**",
-            "/home",
             "/search/**/**",
+            "/search/**",
             "/skills/**/**",
             "/skills/**"
     };
@@ -83,7 +83,7 @@ public class SecurityConfig {
 
         http.formLogin()
                 .loginPage("/login")
-                .defaultSuccessUrl("/skills/home")
+                .defaultSuccessUrl("/search/skills/home")
                 .permitAll();
         http.oauth2Login().loginPage("/login")
                         .userInfoEndpoint()
@@ -97,11 +97,11 @@ public class SecurityConfig {
 
                         CustomOAuth2User oAuth2User = (CustomOAuth2User) authentication.getPrincipal();
                         memberService.processOAuthPostLogin(oAuth2User.getName(), oAuth2User.getEmail());
-                        response.sendRedirect("/skills/home");
+                        response.sendRedirect("/search/skills/home");
                     }
                 });
 
-        http.logout().logoutSuccessUrl("/search").permitAll();
+        http.logout().logoutSuccessUrl("/search/skills/home").permitAll();
 
         return http.build();
     }
@@ -122,6 +122,7 @@ public class SecurityConfig {
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
+
 
 
 

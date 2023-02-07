@@ -65,6 +65,8 @@ public class CourseCrawled {
     @Column(name = "duration")
     private String duration;
 
+    private String img;
+
     @JsonProperty("skill_id")
     @ManyToOne(cascade = { 
         CascadeType.PERSIST,CascadeType.MERGE})

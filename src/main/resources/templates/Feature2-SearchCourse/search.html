@@ -12,7 +12,7 @@
             <center><p class="mb-0"><span style="color:#ad2eb3; font-weight: bold;" >Start learning the skills you need to achieve your dream job</p></center>
             </blockquote>
      
-            <div id="resp-table">
+            <div id="resp-table"
                 <table align="center">
                     <tr>
                         <td>
@@ -25,7 +25,7 @@
 
                             </td>
                         <td>
-                            <form autocomplete="off" style="width:800px;" th:action="@{/skills/result}" method="GET">
+                            <form autocomplete="off" style="width:800px;" th:action="@{/search/courses/result}" method="GET">
                                 <span class="autocomplete form-outline input-group">
                                 <input id="skill" type="text" name="skill" placeholder="Enter the skill you wish to be equipped with" class="form-control">
                                 <button class="btn btn-secondary" role="button"> <i class="bi-search"></i></button>
@@ -106,8 +106,7 @@
           });
         }
         
-        var skill = ["HTML", "JavaScript","MS SQL","C++","Visual Basic","CSS3","Spring boot framework",	"Angular",	"DAX (Data Analysis Expressions)","Azure Cloud","Java","Talend","Azure Data Lake","Devpos CI/CD","ReactJS","Amazon EC2","Tableau","C#", 	"Docker","Kubernetes","Kotlin","vue.js","Redis","Spark Framework","Grafana","OAuth security framework","Flutter","C","Figma","Swift","Perl","XML","Bash",	"Python","MongoDB", "VB .NET", "J2ee","Terraform","Ruby","Groovy","Ubuntu","Debian","Git","PHP","ASP.NET","Redux","Express","Boostrap","OPENAPI","Linux",	"PostgreSQL","Ruby on Rails","Flask","Django","Objective-C","Nginx","jQuery","Apache","Node.js","Redshift","Snowflake","Laravel","Emberjs",	"Backbonejs",	"R","Matlab","TypeScript","Scala","Rust","Go","Android Studio","Neural Network Models","Machine Learning","Amazon S3","AWS Aurora",	"Amazon DynamoDB",	"Amazon RDB","Amazon Lambda","Amazon VPC",	"Natural Language Processing","HQL","PyTorch","Tensorflow",	"MindSpore","Drupal","Ether.js","Unity","FastAPI"];
-    
+
         let skillList = []
 
         /*[# th:each="n : ${titles}"]*/

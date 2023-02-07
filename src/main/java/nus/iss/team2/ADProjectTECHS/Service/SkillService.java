@@ -18,4 +18,6 @@ public interface SkillService {
 
 
     List<Skill> findAll();
+
+    List<String> findSkillTitles();
 }

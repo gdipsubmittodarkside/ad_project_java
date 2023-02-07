@@ -50,6 +50,8 @@ public class MyCourse implements Serializable {
     @Column(name="course_url")
     private String courseUrl;
 
+    private String img;
+
     @Override
     public boolean equals(Object o) {
         if (this == o)

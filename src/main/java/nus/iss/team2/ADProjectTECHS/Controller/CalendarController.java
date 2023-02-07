@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.security.Principal;
+import java.util.List;
 
 @Controller
 @RequestMapping("/calendar")
@@ -30,13 +31,14 @@ public class CalendarController {
     @Autowired
     private MemberService memberService;
 
-    private String currentUsername;
+    private Member currentMember;
 
 
 
     // READ
     @GetMapping(value = {"/",""})
     public String ViewCalendar(Model model) {
+        String currentUsername;
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (!(authentication instanceof AnonymousAuthenticationToken)) {
             currentUsername = authentication.getName();
@@ -44,8 +46,11 @@ public class CalendarController {
             throw new RuntimeException("No User");
         }
 
-        Member currentMember = memberService.loadMemberByUsername(currentUsername);
+        currentMember = memberService.loadMemberByUsername(currentUsername);
 
+        if (currentMember == null) throw new RuntimeException("cannot find current member");
+
+        List<MyCourse> myCourseList = myCourseService.getAllMyCourses();
 
 
 
@@ -70,6 +75,8 @@ public class CalendarController {
     public String UpdateScheduleEvent(){
         return "";
     }
+
+
 
 
 

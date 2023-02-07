@@ -36,8 +36,8 @@
     width: 90%;
     padding: 10px;
     margin-bottom: 20px;
-    border: 1px solid #1c87c9;
-    outline: none;
+    border: 1px solid #ad2eb3;
+    border-radius: 5px;
   }
   .contact-form button {
     width: 100%;
@@ -78,3 +78,27 @@
     border-bottom: #a99567 1px solid;
     color: #a99567;
   }
+
+
+  .select 
+  {
+    background-color: #fff;
+    width: 90%;
+    height:30px;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ad2eb3;
+    border-radius: 5px;
+    text-transform: uppercase;
+  }
+  
+  .select::-ms-expand {
+      display: none;
+  }
+
+  
+
+
+
+
+  

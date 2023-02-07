@@ -1,5 +1,6 @@
 package nus.iss.team2.ADProjectTECHS.Service.Impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -67,6 +68,16 @@ public class SkillServiceImpl implements SkillService{
     @Override
     public List<Skill> findAll() {
         return skillRepo.findAll();
+    }
+
+    @Override
+    public List<String> findSkillTitles() {
+        List<Skill> skillList = skillRepo.findAll();
+        List<String> titles = new ArrayList<>();
+        for (int i = 0; i < skillList.size(); i++) {
+            titles.add(skillList.get(i).getSkillTitle());
+        }
+        return titles;
     }
 
 }

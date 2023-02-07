@@ -19,5 +19,5 @@ public interface JobService {
     List<String> findJobTitles();
 
 
-
+    List<Job> findAll();
 }
