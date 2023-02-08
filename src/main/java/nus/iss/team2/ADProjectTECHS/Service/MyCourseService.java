@@ -13,4 +13,5 @@ public interface MyCourseService {
 
     List<MyCourse> getMyCoursesByMemberId(Long id);
 
+    MyCourse findMyCourseByTitle(String title);
 }

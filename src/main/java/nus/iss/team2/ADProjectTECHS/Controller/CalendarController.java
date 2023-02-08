@@ -109,16 +109,14 @@ public class CalendarController {
 
     // DELETE
     @PostMapping("/delete")
-    public String DeleteScheduleEvent(@RequestParam("s") String startDate,
-                                      @RequestParam("e") String endDate){
+    public String DeleteScheduleEvent(@RequestParam("c") String courseTitle){
 
-        startDate = startDate.substring(0, startDate.indexOf("T"));
-        endDate = endDate.substring(0, endDate.indexOf("T"));
-        LocalDate sd = LocalDate.parse(startDate);
-        LocalDate ed = LocalDate.parse(endDate);
-
-        ScheduleEvent scheduleEvent = scheduleEventService.findScheduleEventByStartDateAndEndDate(sd, ed);
-        scheduleEventService.deleteScheduleEvent(scheduleEvent.getScheduleId());
+        MyCourse myCourse = myCourseService.findMyCourseByTitle(courseTitle);
+        List<ScheduleEvent> scheduleEventList = scheduleEventService.findScheduleEventByMemberId(userId);
+        for (int i = 0; i < scheduleEventList.size(); i++) {
+            if (scheduleEventList.get(i).getMyCourse().equals(myCourse));
+            scheduleEventService.deleteScheduleEvent(scheduleEventList.get(i).getScheduleId());
+        }
 
         return "redirect:/calendar";
     }

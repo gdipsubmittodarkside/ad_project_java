@@ -61,4 +61,9 @@ public class MyCourseServiceImpl implements MyCourseService{
         return mcRepo.findMyCoursesByMemberId(id);
     }
 
+    @Override
+    public MyCourse findMyCourseByTitle(String title) {
+        return mcRepo.findMyCoursesByTitle(title).orElse(null);
+    }
+
 }
