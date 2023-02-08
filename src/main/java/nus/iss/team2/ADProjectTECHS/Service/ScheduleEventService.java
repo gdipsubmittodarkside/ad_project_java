@@ -1,5 +1,6 @@
 package nus.iss.team2.ADProjectTECHS.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import nus.iss.team2.ADProjectTECHS.Model.ScheduleEvent;
@@ -13,4 +14,6 @@ public interface ScheduleEventService {
     List<ScheduleEvent> getAllScheduleEvents();
 
     List<ScheduleEvent> findScheduleEventByMemberId(Long memberId);
+
+    ScheduleEvent findScheduleEventByStartDateAndEndDate(LocalDate sd, LocalDate ed);
 }

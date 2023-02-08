@@ -40,8 +40,8 @@ public class Skill implements Serializable{
     @Column(name = "skill_title")
     private String skillTitle;
 
-    @OneToOne(mappedBy = "skill")
-    private MyCourse myCourse;
+    // @OneToOne(mappedBy = "skill")
+    // private MyCourse myCourse;
 
     @Override
     public boolean equals(Object o) {

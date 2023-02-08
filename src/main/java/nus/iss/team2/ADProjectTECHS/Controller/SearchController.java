@@ -18,7 +18,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import nus.iss.team2.ADProjectTECHS.Model.Query;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
@@ -36,6 +38,8 @@ public class SearchController {
 
     @Autowired
     private CourseCrawledService courseCrawledService;
+
+    private List<CourseCrawled> currentList;
 
 
 
@@ -87,8 +91,31 @@ public class SearchController {
 
         model.addAttribute("courseList", courseCrawledList);
 
+        this.currentList = courseCrawledList;
+
         return "Feature2-SearchCourse/course-result";
 
+    }
+
+    @GetMapping("/sort/popular")
+    public String sortByLikes(Model model){
+
+        currentList.sort(Comparator.comparingInt(c -> (int) c.getLikes()));
+        model.addAttribute("courseList", currentList);
+
+        return "Feature2-SearchCourse/course-result";
+
+
+
+    }
+
+    @GetMapping("/sort/time")
+    public String sortByPopular(Model model){
+
+        currentList.sort(Comparator.comparing(CourseCrawled::getDate));
+        model.addAttribute("courseList", currentList);
+
+        return "Feature2-SearchCourse/course-result";
     }
 
     public List<String> getAllJobsAndSkillTitles(){
@@ -98,6 +125,36 @@ public class SearchController {
         titles.addAll(jobTitles);
         titles.addAll(skillTitles);
         return titles;
+    }
+
+    @GetMapping("/duration/{i}")
+    public String filterByVideoDuration(@PathVariable("i") int i, Model model) {
+
+        List<CourseCrawled> result = new ArrayList<>();
+
+        if (i == 1) {
+            result = currentList.stream().filter(courseCrawled ->
+                            courseCrawled.getDurationHours() < 1)
+                    .collect(Collectors.toList());
+        }
+
+        if (i == 2) {
+            result = currentList.stream().filter(courseCrawled ->
+                            courseCrawled.getDurationHours() >= 1 && courseCrawled.getDurationHours() < 2)
+                    .collect(Collectors.toList());
+        }
+
+        if (i == 3) {
+            result = currentList.stream().filter(courseCrawled ->
+                            courseCrawled.getDurationHours() >=2 )
+                    .collect(Collectors.toList());
+        }
+
+        model.addAttribute("courseList", result);
+
+        return "Feature2-SearchCourse/course-result";
+
+
     }
 
 

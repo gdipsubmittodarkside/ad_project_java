@@ -3,6 +3,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>TECHS</title>
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
     <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"> -->
     <link th:href="@{/DataTable/css.css}" rel="stylesheet" />
     <link th:href="@{/css/styles.css}" rel="stylesheet" />
@@ -11,6 +12,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <link th:href="@{/css/setting.css}" rel="stylesheet" />
     <script defer th:src="@{/js/js-setting.js}"></script>
+    //# sourceMappingURL=bootstrap-select.js.map
+    <!-- dropdown -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" />
+    <script defer th:src="@{/DataTable/dropdown-stackpath.js}"></script>
+    <script defer th:src="@{/DataTable/dropdown-cdnjs.js}"></script>
+
 
     <style>
 
@@ -42,7 +49,7 @@
 
 </head>
 
-
+<!-- FRAGMENT: MENU -->
 <body>
 <div th:fragment="menu" id="menu">
     <!-- <div class="m-4"> -->
@@ -69,156 +76,167 @@
                         </form>
                     </li>
                 </ul>
+
                 <ul class="nav navbar-nav ms-auto">
-                    <li class="nav-item dropdown">
-                        <table>
-                            <tr><td>
-                                <a th:href="@{/dashboard/}" class="navbar-brand"><img src="/images/Jt.png" width="50" height="50"></a> <br>
-                            </td>
-                                <td>
-                                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Me</a>
-                                    <div class="dropdown-menu dropdown-menu-end">
-                                        <a th:href="@{/dashboard/}" class="dropdown-item">Dashboard</a>
-                                        <a class="dropdown-item setting" data-modal="modalTwo">Settings</a>
-                                        <div class="dropdown-divider"></div>
-                                        <a href="#" class="dropdown-item">Logout</a>
-                                    </div>
-                                </td></tr>
-
-                        </table>
-
-                    </li>
-                </ul>
-                <!-- starts -->
-
-                <div id="modalTwo" class="modal" style="position:fixed">
-                    <div class="modal-content">
-                        <div class="contact-form">
-                            <span class="close">x</span>
-                            <form class="form1" action="/">
-                                <h2>Settings</h2>
-                                <table>
-                                    <div class = "tabinator">
-                                        <input type = "radio" id = "tab4" name = "tabs" checked>
-                                        <label for = "tab4" onclick="openSetting('Profile');">Profile</label>
-                                        <input type = "radio" id = "tab5" name = "tabs">
-                                        <label for = "tab5" onclick="openSetting('Information');">Information</label>
-                                        <input type = "radio" id = "tab6" name = "tabs">
-                                        <label for = "tab6" onclick="openSetting('Password');">Password</label>
-                                    </div>
-                                    </td>
-                                </table>
-
-                                <div id="Profile" class="setting">
-                                    <table class="table table-borderless">
-                                        <tr>
-                                            <td>
-                                                <span>Username</span>
-                                                <input class="fname input1" type="text" placeholder=" " />
-                                            </td>
-                                            <td>
-                                                <span>Email Address</span>
-                                                <input class="input1" type="text" placeholder=" " />
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <span>Dream Job</span>
-                                                <input class="input1" type="text" placeholder=" " />
-                                            </td>
-                                            <td>
-                                                <span>Current Role</span>
-                                                <input class="input1" type="text" placeholder=" " />
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <span>Year of Birth</span>
-                                                <input class="input1" type="text" placeholder=" " />
-                                            </td>
-                                            <td>
-                                                <span>Bio</span>
-                                                <textarea class="textarea1" rows="2" placeholder=" "></textarea>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <a class="btn btn-secondary" href="/" role="button"> Save</i></a>
-                                            </td>
-                                        </tr>
-
-                                    </table>
-                                </div>
-
-                                <div id="Information" class="setting" style="display:none">
-                                    <table class="table table-borderless">
-                                        <tr>
-                                            <td>
-                                                <span>Gender</span>
-                                                <select name='options' class="select">
-                                                    <option value='option-1'>Male</option>
-                                                    <option value='option-2'>Female</option>
-                                                    <option value='option-3'>Prefer Not To Say</option>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <span>Education Level</span>
-                                                <select name='options' class="select">
-                                                    <option value='option-1'>Doctoral</option>
-                                                    <option value='option-2'>Master's</option>
-                                                    <option value='option-3'>Degree</option>
-                                                    <option value='option-4'>Diploma</option>
-                                                    <option value='option-5'>College</option>
-                                                    <option value='option-6'>High School</option>
-                                                </select>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <span>Add More Skills</span>
-                                                <select name='options' class="select">
-                                                    <option value='option-1'>R</option>
-                                                    <option value='option-2'>Java</option>
-                                                    <option value='option-3'>Degree</option>
-                                                    <option value='option-4'>Diploma</option>
-                                                    <option value='option-5'>College</option>
-                                                    <option value='option-6'>High School</option>
-                                                </select>
-                                            </td>
-                                        </tr>
-                                        <td>
-                                            <a class="btn btn-secondary" href="/" role="button"> Save</i></a>
-                                        </td>
-                                        </tr>
-
-
-                                    </table>
-                                </div>
-
-                                <div id="Password" class="setting" style="display:none">
-                                    <table class="table table-borderless">
-                                        <tr>
-                                            <td>
-                                                <span>Current Password</span>
-                                                <input class="fname input1" type="text" placeholder="Current Password" />
-                                            </td>
-                                            <td>
-                                                <span>New Password</span>
-                                                <input class="input1" type="text" placeholder="New Password (min 8 char)" />
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <a class="btn btn-secondary" href="/" role="button"> Save</i></a>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </div>
-
-                            </form>
-                        </div>
+                    <div sec:authorize="!isAuthenticated()">
+                        <a th:href="@{/login}">Login</a>
                     </div>
-                </div>
+
+                    <div sec:authorize="isAuthenticated()">
+                        <li class="nav-item dropdown">
+                            <table>
+                                <tr>
+                                    <td>
+                                        <!-- icon -->
+                                        <a th:href="@{/dashboard/}" class="navbar-brand"><img src="/images/Jt.png" width="50" height="50"></a> <br>
+                                    </td>
+                                    <td>
+                                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><span sec:authentication="name"></span></a>
+                                        <div class="dropdown-menu dropdown-menu-end">
+                                            <a th:href="@{/dashboard/}" class="dropdown-item">Dashboard</a>
+                                            <a class="dropdown-item setting" data-modal="modalTwo">Settings</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a th:href="@{/logout}" class="dropdown-item">Logout</a>
+                                        </div>
+                                    </td></tr>
+
+                            </table>
+
+                        </li>
+                        <!-- below is /div for sec -->
+                    </div>
+                </ul>
+
+                <!-- Settings Start -->
+
+<!--                <div id="modalTwo" class="modal" style="position:fixed">-->
+<!--                    <div class="modal-content">-->
+<!--                        <div class="contact-form">-->
+<!--                            <span class="close">x</span>-->
+<!--                            <form class="form1" action="/">-->
+<!--                                <h2>Settings</h2>-->
+<!--                                <table>-->
+<!--                                    <div class = "tabinator">-->
+<!--                                        <input type = "radio" id = "tab4" name = "tabs" checked>-->
+<!--                                        <label for = "tab4" onclick="openSetting('Profile');">Profile</label>-->
+<!--                                        <input type = "radio" id = "tab5" name = "tabs">-->
+<!--                                        <label for = "tab5" onclick="openSetting('Information');">Information</label>-->
+<!--                                        <input type = "radio" id = "tab6" name = "tabs">-->
+<!--                                        <label for = "tab6" onclick="openSetting('Password');">Password</label>-->
+<!--                                    </div>-->
+<!--                                    </td>-->
+<!--                                </table>-->
+
+<!--                                <div id="Profile" class="setting">-->
+<!--                                    <table class="table table-borderless">-->
+<!--                                        <tr>-->
+<!--                                            <td>-->
+<!--                                                <span>Username</span>-->
+<!--                                                <input class="fname input1" type="text" placeholder=" " />-->
+<!--                                            </td>-->
+<!--                                            <td>-->
+<!--                                                <span>Email Address</span>-->
+<!--                                                <input class="input1" type="text" placeholder=" " />-->
+<!--                                            </td>-->
+<!--                                        </tr>-->
+<!--                                        <tr>-->
+<!--                                            <td>-->
+<!--                                                <span>Dream Job</span>-->
+<!--                                                <input class="input1" type="text" placeholder=" " />-->
+<!--                                            </td>-->
+<!--                                            <td>-->
+<!--                                                <span>Current Role</span>-->
+<!--                                                <input class="input1" type="text" placeholder=" " />-->
+<!--                                            </td>-->
+<!--                                        </tr>-->
+<!--                                        <tr>-->
+<!--                                            <td>-->
+<!--                                                <span>Year of Birth</span>-->
+<!--                                                <input class="input1" type="text" placeholder=" " />-->
+<!--                                            </td>-->
+<!--                                            <td>-->
+<!--                                                <span>Bio</span>-->
+<!--                                                <textarea class="textarea1" rows="2" placeholder=" "></textarea>-->
+<!--                                            </td>-->
+<!--                                        </tr>-->
+<!--                                        <tr>-->
+<!--                                            <td>-->
+<!--                                                <a class="btn btn-secondary" href="/" role="button"> Save</i></a>-->
+<!--                                            </td>-->
+<!--                                        </tr>-->
+
+<!--                                    </table>-->
+<!--                                </div>-->
+
+<!--                                <div id="Information" class="setting" style="display:none">-->
+<!--                                    <table class="table table-borderless">-->
+<!--                                        <tr>-->
+<!--                                            <td>-->
+<!--                                                <span>Gender</span>-->
+<!--                                                <select name='options' class="select">-->
+<!--                                                    <option value='option-1'>Male</option>-->
+<!--                                                    <option value='option-2'>Female</option>-->
+<!--                                                    <option value='option-3'>Prefer Not To Say</option>-->
+<!--                                                </select>-->
+<!--                                            </td>-->
+<!--                                            <td>-->
+<!--                                                <span>Education Level</span>-->
+<!--                                                <select name='options' class="select">-->
+<!--                                                    <option value='option-1'>Doctoral</option>-->
+<!--                                                    <option value='option-2'>Master's</option>-->
+<!--                                                    <option value='option-3'>Degree</option>-->
+<!--                                                    <option value='option-4'>Diploma</option>-->
+<!--                                                    <option value='option-5'>College</option>-->
+<!--                                                    <option value='option-6'>High School</option>-->
+<!--                                                </select>-->
+<!--                                            </td>-->
+<!--                                        </tr>-->
+<!--                                        <tr>-->
+<!--                                            <td>-->
+<!--                                                <span>Add More Skills</span>-->
+<!--                                                <select name='options' class="select">-->
+<!--                                                    <option value='option-1'>R</option>-->
+<!--                                                    <option value='option-2'>Java</option>-->
+<!--                                                    <option value='option-3'>Degree</option>-->
+<!--                                                    <option value='option-4'>Diploma</option>-->
+<!--                                                    <option value='option-5'>College</option>-->
+<!--                                                    <option value='option-6'>High School</option>-->
+<!--                                                </select>-->
+<!--                                            </td>-->
+<!--                                        </tr>-->
+<!--                                        <td>-->
+<!--                                            <a class="btn btn-secondary" href="/" role="button"> Save</i></a>-->
+<!--                                        </td>-->
+<!--                                        </tr>-->
+
+
+<!--                                    </table>-->
+<!--                                </div>-->
+
+<!--                                <div id="Password" class="setting" style="display:none">-->
+<!--                                    <table class="table table-borderless">-->
+<!--                                        <tr>-->
+<!--                                            <td>-->
+<!--                                                <span>Current Password</span>-->
+<!--                                                <input class="fname input1" type="text" placeholder="Current Password" />-->
+<!--                                            </td>-->
+<!--                                            <td>-->
+<!--                                                <span>New Password</span>-->
+<!--                                                <input class="input1" type="text" placeholder="New Password (min 8 char)" />-->
+<!--                                            </td>-->
+<!--                                        </tr>-->
+<!--                                        <tr>-->
+<!--                                            <td>-->
+<!--                                                <a class="btn btn-secondary" href="/" role="button"> Save</i></a>-->
+<!--                                            </td>-->
+<!--                                        </tr>-->
+<!--                                    </table>-->
+<!--                                </div>-->
+
+<!--                            </form>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
 
 
                 <!-- ends -->
@@ -340,5 +358,4 @@
         <div class="footer-copyright text-center py-3"><span style="color:#fff; font-size:12px"> GDSA-55 Team-2 2023 All rights reserved©</span></div>
         </section>
     </footer>
-
-    </html>
+</html>

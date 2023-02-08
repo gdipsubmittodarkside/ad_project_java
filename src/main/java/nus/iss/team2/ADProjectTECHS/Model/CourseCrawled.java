@@ -2,7 +2,10 @@ package nus.iss.team2.ADProjectTECHS.Model;
 
 import java.sql.Time;
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -59,7 +62,7 @@ public class CourseCrawled {
     @Column(name = "thumbnail")
     private String thumbnail;
 
-    @Column(name = "description")
+    @Column(name = "description", length = 10000)
     private String description;
 
     @Column(name = "duration")
@@ -67,7 +70,6 @@ public class CourseCrawled {
 
     private String img;
 
-    @JsonProperty("skill_id")
     @ManyToOne(cascade = { 
         CascadeType.PERSIST,CascadeType.MERGE})
     @JoinColumn(name = "skill_id")
@@ -87,4 +89,22 @@ public class CourseCrawled {
     public int hashCode() {
         return Objects.hash(courseId);
     }
+
+    public int getDurationHours(){
+
+        String duration = this.getDuration();
+
+        Pattern pattern = Pattern.compile("[0-9]+H");
+        Matcher matcher = pattern.matcher(duration);
+        if (matcher.find()) {
+            String a = matcher.group();
+            a = a.substring(0, a.indexOf("H"));
+            System.out.println(a);
+            return Integer.valueOf(a);
+        } else {
+            return 0;
+        }
+    }
+
+
 }

@@ -1,6 +1,7 @@
 package nus.iss.team2.ADProjectTECHS.Service.Impl;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -54,13 +55,13 @@ public class JobServiceImpl implements JobService{
     @Override
     public Job createJob(Job job) {
         // TODO Auto-generated method stub
-        return null;
+        return jRepo.save(job);
     }
 
     @Override
     public Job updateJob(Job job, Long id) {
         // TODO Auto-generated method stub
-        return null;
+        return jRepo.save(job);
     }
 
     @Override

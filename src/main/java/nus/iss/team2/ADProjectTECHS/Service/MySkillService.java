@@ -2,7 +2,9 @@ package nus.iss.team2.ADProjectTECHS.Service;
 
 import java.util.List;
 
+import nus.iss.team2.ADProjectTECHS.Model.Member;
 import nus.iss.team2.ADProjectTECHS.Model.MySkill;
+import nus.iss.team2.ADProjectTECHS.Model.Skill;
 
 
 public interface MySkillService {
@@ -13,4 +15,8 @@ public interface MySkillService {
     List<MySkill> getAllMySkills();
 
     List<MySkill> findMySkillByMemberId(Long memberId);
+
+    void save(MySkill mySkill);
+
+    MySkill findMySkillByMemberAndSkill(Member currentMember, Skill skill);
 }

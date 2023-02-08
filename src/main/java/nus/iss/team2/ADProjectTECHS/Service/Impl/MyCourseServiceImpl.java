@@ -60,4 +60,5 @@ public class MyCourseServiceImpl implements MyCourseService{
     public List<MyCourse> getMyCoursesByMemberId(Long id){
         return mcRepo.findMyCoursesByMemberId(id);
     }
+
 }

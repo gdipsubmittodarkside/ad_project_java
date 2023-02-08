@@ -28,7 +28,7 @@ public class JobSkillServiceImpl implements JobSkillService{
     @Override
     public JobSkill createJobSkill(JobSkill jobSkill) {
         // TODO Auto-generated method stub
-        return null;
+        return  jsRepo.save(jobSkill);
     }
 
     @Override

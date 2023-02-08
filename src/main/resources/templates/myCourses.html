@@ -27,10 +27,11 @@
             </thead>
 
             <tbody>
-                <tr th:each="course : ${myCourseList}">
+                
+                <tr th:each="course,iterStat : ${myCourseList}">
                     <td th:text="${course.myCourseId}"></td>
                     <td th:text="${course.myCourseTitle}"></td>
-                    <td th:text="${course.skill.skillTitle}"></td>
+                    <td th:text="${skillTitles[_${iterStat.index}_]}"></td>
                     <td th:text="${course.progress}"></td>
                     <td th:text="${course.scheduleEvent} ? 'Scheduled' : 'Not Scheduled'"></td>
                     <td><a th:href="@{/myCourses/watchCourse/}+${course.myCourseId}"

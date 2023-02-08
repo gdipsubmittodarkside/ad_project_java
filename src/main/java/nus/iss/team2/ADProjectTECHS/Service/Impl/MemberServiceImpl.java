@@ -89,9 +89,16 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
-    @Transactional
     public void save(Member member){
+        memberRepository.saveAndFlush(member);
+    }
+
+    @Override
+    public void changePassword(Member member, String newPassword) {
+        String encodedPassword = encoder.encode(newPassword);
+        member.setPassword(encodedPassword);
         memberRepository.save(member);
     }
+
 
 }

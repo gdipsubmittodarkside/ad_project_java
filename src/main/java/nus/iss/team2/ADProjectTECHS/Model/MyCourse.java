@@ -31,17 +31,17 @@ public class MyCourse implements Serializable {
     @Column(name = "progress")
     private int progress;
 
-    @OneToOne(cascade = { CascadeType.ALL })
-    @JoinColumn(name = "schedule_id")
+    @OneToOne(mappedBy ="myCourse" ,cascade = {CascadeType.ALL})
+    //@JoinColumn(name = "schedule_id")
     private ScheduleEvent scheduleEvent;
 
     @Column(name = "my_course_title")
     private String myCourseTitle;
 
     @JsonProperty("skill_id")
-    @OneToOne
-    @JoinColumn(name = "skill_id")
-    private Skill skill;
+    // @OneToOne
+    // @JoinColumn(name = "skill_id")
+    private Long skill;
 
     @ManyToOne
     @JoinColumn(name ="member_id")
@@ -50,7 +50,8 @@ public class MyCourse implements Serializable {
     @Column(name="course_url")
     private String courseUrl;
 
-    private String img;
+    @Column(name = "thumbnail")
+    private String thumbnail;
 
     @Override
     public boolean equals(Object o) {

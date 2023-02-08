@@ -68,31 +68,33 @@
                 </ul>
             </div>
         </td>
+        
         <td>
+            <div sec:authorize="isAuthenticated()">
             <a th:href="@{/myCourses}" class="btn btn-default">View My Courses</a>
+            </div>
         </td>
+    
     </table>
     <hr>
     <!-- LIST OF COURSES -->
     <table class="table table-stripe" th:each="course : ${courseList}" id="table_displayCourses">
         <tr th:attr="popularity=${course.views}">
-            <td><a href="${course.urlLink}"> <img src="/images/placeholder/placeholderCourse1.jpg" width="320" height="180"></a> </td>
+            <td>
+                <a href="${course.urlLink}"> <img src="/images/placeholder/placeholderCourse1.jpg" width="320" height="180"></a> 
+            </td>
             <td style="vertical-align:middle;">
                 <a href="${course.urlLink}"><p class="text-uppercase"><b><span th:text="${course.courseTitle}"></span></b></p></a>
                 <p class="fw-light"><span th:text="${course.description}"></span><br>
-                    <span th:text="${course.views}"></span> Views    |   <span th:text="${course.likes}">104,234</span> Likes    |    <span th:text="${course.subscribers}">104,234</span> Subscribers</p></td>
-            <td style="vertical-align:middle;"  >
-                <!-- <form th:action="@{/courseResult/save/{courseId}(courseId=${course.courseId})}" method="post" class="saved"> -->
+                    <span th:text="${course.views}"></span> Views    |   <span th:text="${course.likes}">104,234</span> Likes    |    <span th:text="${course.subscribers}">104,234</span> Subscribers</p>
+            </td>
+            <td style="vertical-align:middle;">
 
-                <form th:action="@{/courses/save/{courseId}(courseId=${course.courseId})}" method="get" id="myForm">
+                        <div sec:authorize="isAuthenticated()">
 
-                    <input type="hidden" th:value="${course.courseId}" >
+                        <a class="btn btn-secondary saved" id="myBtn" role="button" th:attr="onclick=|SaveCourse('${course}')|"><i class="bi bi-bookmarks"></i></i> Save</a>
 
-                    <!-- <input type="submit" value="Save" class="btn btn-secondary"  role="button" onclick="disableBtn()" id="myBtn"/> -->
-                    <a class="btn btn-secondary" id="myBtn" role="button" onclick="disableBtn()"><i class="bi bi-bookmarks"></i></i> Save</a>
-                    <!-- <button type="button" id="myBtn" name="save" onclick="disableBtn()" value="save" class="btn btn-secondary" role="button"></button> -->
-
-                </form>
+                        </div>
 
             </td>
         </tr>
@@ -105,15 +107,32 @@
 
 <script>
 
-    function disableBtn() {
+    function SaveCourse(course) {
+        let ajax = new XMLHttpRequest();
 
+        ajax.open("post", "/courses/save");
+        ajax.setRequestHeader("Content-Type", "application/json; charset=utf8");
 
-        document.getElementById("myBtn").disabled = true;
-        document.getElementById("myForm").submit();
+        ajax.onreadystatechange = function () {
+            if (this.readyState === XMLHttpRequest.DONE) {
+                // receive response from server
+                if (this.status !== 200) {
+                    return;
+                }
+                
+                // success
+                console.log("successfully save course!")
+            }
+        }
+
+        let data = {
+            "course": course
+        }
+        ajax.send(JSON.stringify(data))
     }
 
 </script>
-<!-- 
+
     <script>
 
         var listItems = document.getElementsByClassName("saved");
@@ -125,11 +144,9 @@
         }
     
     
-    </script> -->
+    </script>
 </body>
 <footer>
     <div th:replace="fragments/layout.html :: footer" />
 </footer>
-
-
 

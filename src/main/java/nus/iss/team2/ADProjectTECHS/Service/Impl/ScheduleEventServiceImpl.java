@@ -1,5 +1,6 @@
 package nus.iss.team2.ADProjectTECHS.Service.Impl;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,11 @@ public class ScheduleEventServiceImpl implements ScheduleEventService{
     }
 
     @Override
+    public ScheduleEvent findScheduleEventByStartDateAndEndDate(LocalDate sd, LocalDate ed) {
+        return seRepo.findScheduleEventByStartDateAndEndDate(sd, ed);
+    }
+
+    @Override
     public ScheduleEvent findScheduleEventById(Long id) {
         // TODO Auto-generated method stub
         return null;
@@ -32,7 +38,7 @@ public class ScheduleEventServiceImpl implements ScheduleEventService{
     @Override
     public ScheduleEvent createScheduleEvent(ScheduleEvent event) {
         // TODO Auto-generated method stub
-        return null;
+        return seRepo.save(event);
     }
 
     @Override
@@ -44,7 +50,12 @@ public class ScheduleEventServiceImpl implements ScheduleEventService{
     @Override
     public Boolean deleteScheduleEvent(Long id) {
         // TODO Auto-generated method stub
-        return null;
+       try {
+           seRepo.deleteById(id);
+           return true;
+       } catch (Exception e){
+           return false;
+       }
     }
 
     @Override

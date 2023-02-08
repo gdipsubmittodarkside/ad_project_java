@@ -127,7 +127,10 @@
                             </div>
                             <div class="evt100">
                             <label>Event</label>
-                            <input id="evtTxt" type="text" required>
+                            <input id="evtTxt" type="text">
+                                <select id="select" name="selectList">
+                                    <option th:each="course: ${unscheduledCourseList}" th:text="${course.getMyCourseTitle()}" th:value="${course.getMyCourseId()}"></option>
+                                </select>
                             </div>
                             <div class="evt100">
                             <input type="hidden" id="evtID">
@@ -154,4 +157,45 @@
     }
     document.getElementById(coursetype).style.display = "block"; 
   }
+
+  const start = document.getElementById("evtStart");
+  const end = document.getElementById("evtEnd");
+  const course = document.getElementById("evtTxt");
+  const saveBtn = document.getElementById("evtSave");
+  const deleteBtn = document.getElementById("evtDel");
+  const selectCourse = document.getElementById("select");
+
+  selectCourse.addEventListener("change", function () {
+      course.value = selectCourse.value
+  })
+
+  saveBtn.addEventListener("click", function () {
+
+      let xhr = new XMLHttpRequest();
+      let data = "s=" + start.value + "&"+ "e="+end.value + "&" + "c="+ course.value;
+      xhr.open("POST", "/calendar/create", true);
+      xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+      xhr.send(data)
+      xhr.onreadystatechange = function () {
+          if (xhr.readyState == 4 && xhr.status == 200) {
+              console.log(data)
+          }
+      }
+  })
+
+  deleteBtn.addEventListener("click", function (){
+      let xhr = new XMLHttpRequest();
+      let data = "s=" + start.value + "&"+ "e="+end.value;
+      xhr.open("POST", "/calendar/delete", true);
+      xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+      xhr.send(data)
+      xhr.onreadystatechange = function () {
+          if (xhr.readyState == 4 && xhr.status == 200) {
+              console.log(data)
+          }
+      }
+  })
+
+
+
   </script>

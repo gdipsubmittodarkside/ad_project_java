@@ -18,4 +18,5 @@ public interface MemberService {
 
     void save(Member member);
 
+    void changePassword(Member member, String newPassword);
 }

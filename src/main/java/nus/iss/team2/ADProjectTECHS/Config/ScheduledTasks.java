@@ -21,7 +21,6 @@ public class ScheduledTasks {
 
     @Scheduled(cron = "0 0 1 * * MON")
     public void getCoursesFromPython() {
-        courseService.getAndSaveCrawledCourses();
 
     }
 }

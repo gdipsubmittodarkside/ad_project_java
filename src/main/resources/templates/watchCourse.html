@@ -6,23 +6,116 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+<style>
+    p{
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+</style>
 <body>
     
     <div th:replace="fragments/layout.html :: menu"/>
 
-    <h3 th:text="${course.myCourseTitle}"></h3>
-
-    <!-- <span th:text="${urlQuery}"></span> -->
-    <table class='table table-borderless' style="background-color:#f7f5f5">
+    <table class='table' th:object="${course}">
         <tr>
             <td>
-                <center> <iframe width="800" height="450" th:src="@{https://www.youtube.com/embed/{url} (url=${urlQuery})}"  title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen</iframe></center>
+            <center><iframe width="800" height="450" th:src="@{*{urlLink}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></center>
             </td>
         </tr>
+        <tr>
+            <td>
+            <table style="margin-left:auto;margin-right:auto">
+                <tr>
+                    <td>
+                        <main>
+                            <div class="slide-read-more">  
+                                <p th:text="*{courseTitle}">Couse Title</p>
+                                <span th:text="'By ' + *{channelName} + ' on ' + *{date}">By Harvard on 18 July 2021</span>
+                                <p th:text="*{description}">
+                                Java is a programming language famous for its ability to compile to platform-independent bytecode. 
+                                It powers enterprise web apps, big data pipelines, and android mobile apps.
+                                
+                                #java #programming #100SecondsOfCode
+                                
+                                🔗 Resources
+                                
+                                Java Website https://java.com
+                                Star7 Demo https://youtu.be/1CsTH9S79qI
+                                
+                                🔥 Get More Content - Upgrade to PRO
+                                
+                                Upgrade to Fireship PRO at https://fireship.io/pro
+                                Use code lORhwXd2 for 25% off your first payment. 
+                                
+                                🎨 My Editor Settings
+                                
+                                - Atom One Dark 
+                                - vscode-icons
+                                - Fira Code Font
+                                
+                                🔖 Topics Covered
+                                
+                                - How Java works
+                                - Java basics
+                                - History of Java
+                                - Java vs C
+                                - How to compile Java
+                                - Overview of JVM, JRE, & JDK
+                                </p>
+                            </div>
+                            <div class="slide-read-more-button read-more-button">Read More</div>
+                            <div class="slide-read-more-button">Read Less</div>
+                        </main>
+                    </td>
+                    <td>
+                        <a class="btn btn-secondary" role="button"><i class="bi bi-bookmarks"></i> Save</a>
+
+                    </td>
+                </tr>
+            </table>
+        </tr>
     </table>
+    <br>
+    <br>
+    <br>
+    <br>
 
-   
+    <script>
+    $(document).ready(function(){
+    // resize the slide-read-more Div
+    var box = $(".slide-read-more");
+    var minimumHeight = 150; // max height in pixels
+    var initialHeight = box.innerHeight();
+    // reduce the text if it's longer than 200px
+    if (initialHeight > minimumHeight) {
+        box.css('height', minimumHeight);
+        $(".read-more-button").show();
+    }
+    
+    SliderReadMore();
 
+   function SliderReadMore() {
+      $(".slide-read-more-button").on('click', function () {
+         // get current height
+         var currentHeight = box.innerHeight();
+
+         // get height with auto applied
+         var autoHeight = box.css('height', 'auto').innerHeight();
+
+         // reset height and revert to original if current and auto are equal
+         var newHeight = (currentHeight | 0) === (autoHeight | 0) ? minimumHeight : autoHeight;
+
+         box.css('height', currentHeight).animate({
+            height: (newHeight)
+         })
+         $('html, body').animate({
+            scrollTop: box.offset().top
+         });
+        $(".slide-read-more-button").toggle();
+      });
+   }
+});
+        </script>
  
 </body>
 </html>

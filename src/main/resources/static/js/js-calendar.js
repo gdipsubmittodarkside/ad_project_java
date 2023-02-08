@@ -363,6 +363,7 @@ var cal = {
       return false;
     }
 
+
     // (I3) SAVE
     if (data.id) { cal.iTX().put(data); }
     else { cal.iTX().add(data); }
@@ -377,5 +378,12 @@ var cal = {
     cal.hFormWrap.close();
     cal.load();
   }}
+
 };
 window.onload = cal.init;
+
+// function f() {
+//   XMLHttpRequest
+// }
+
+

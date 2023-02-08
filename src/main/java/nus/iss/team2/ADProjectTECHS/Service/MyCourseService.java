@@ -12,4 +12,5 @@ public interface MyCourseService {
     List<MyCourse> getAllMyCourses();
 
     List<MyCourse> getMyCoursesByMemberId(Long id);
+
 }

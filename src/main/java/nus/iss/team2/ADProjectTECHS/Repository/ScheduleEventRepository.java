@@ -1,5 +1,6 @@
 package nus.iss.team2.ADProjectTECHS.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,5 +22,8 @@ public interface ScheduleEventRepository extends JpaRepository<ScheduleEvent, Lo
 
     @Query("select s from ScheduleEvent s where s.member.memberId = :memberId")
     List<ScheduleEvent> findScheduleEventByMemberId(@Param("memberId") Long memberId);
+
+    @Query("select s from ScheduleEvent s where s.startDate = :sd and s.endDate = :ed")
+    ScheduleEvent findScheduleEventByStartDateAndEndDate(@Param("sd") LocalDate sd, @Param("ed") LocalDate ed);
 }
 

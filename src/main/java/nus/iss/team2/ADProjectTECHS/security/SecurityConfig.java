@@ -64,7 +64,9 @@ public class SecurityConfig {
             "/search/**/**",
             "/search/**",
             "/skills/**/**",
-            "/skills/**"
+            "/skills/**",
+            "/courses/**/**",
+            "/courses/**","/myCourses/**","/myCourses/**/**"
     };
     @Autowired
     private MemberRepository memberRepository;
