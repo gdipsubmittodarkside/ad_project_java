@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/layout.html :: html_head"/>
@@ -31,7 +33,7 @@
                 <tr th:each="course,iterStat : ${myCourseList}">
                     <td th:text="${course.myCourseId}"></td>
                     <td th:text="${course.myCourseTitle}"></td>
-                    <td th:text="${skillTitles[_${iterStat.index}_]}"></td>
+                    <td th:text="${skillTitles[__${iterStat.index}__]}"></td>
                     <td th:text="${course.progress}"></td>
                     <td th:text="${course.scheduleEvent} ? 'Scheduled' : 'Not Scheduled'"></td>
                     <td><a th:href="@{/myCourses/watchCourse/}+${course.myCourseId}"

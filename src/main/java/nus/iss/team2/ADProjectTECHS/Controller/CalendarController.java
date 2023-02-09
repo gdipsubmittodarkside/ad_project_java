@@ -37,9 +37,6 @@ public class CalendarController {
 
 
 
-    private Long userId = -1l;
-
-
 
     // READ
     @GetMapping(value = {"/",""})
@@ -47,36 +44,36 @@ public class CalendarController {
 
         // from spring security context get member
 
-        String currentUsername;
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (!(authentication instanceof AnonymousAuthenticationToken)) {
-            currentUsername = authentication.getName();
-        } else {
-            throw new RuntimeException("No User");
-        }
+        // String currentUsername;
+        // currentUsername = MemberUtils.getMemberFromSpringSecurity();
 
-        if (userId < 0) {
-            String username = MemberUtils.getMemberFromSpringSecurity();
-            Member currentMember = memberService.loadMemberByUsername(username);
-            userId = currentMember.getMemberId();
-        }
 
-        Member currentMember = memberService.findById(userId);
-        List<ScheduleEvent> scheduleEventList = scheduleEventService.findScheduleEventByMemberId(userId);
+        // if (userId < 0) {
+        //     String username = MemberUtils.getMemberFromSpringSecurity();
+        //     Member currentMember = memberService.loadMemberByUsername(username);
+        //     userId = currentMember.getMemberId();
+        // }
+
+        String currentUsername = MemberUtils.getMemberFromSpringSecurity();
+
+        Member currentMember = memberService.loadMemberByUsername(currentUsername);
+
+        if (currentMember == null) throw new RuntimeException("cannot find current member");
+
+        // Member currentMember = memberService.findById(userId);
+
         List<MyCourse> myCoursesS = new ArrayList<>();
         List<MyCourse> myCoursesUns = new ArrayList<>();
-        List<MyCourse> myCourseList = myCourseService.getMyCoursesByMemberId(userId);
-
-
-        for (int i = 0; i < scheduleEventList.size(); i++) {
-            myCoursesS.add(scheduleEventList.get(i).getMyCourse());
-        }
+        List<MyCourse> myCourseList = myCourseService.getMyCoursesByMemberId(currentMember.getMemberId());
 
         for (int i = 0; i < myCourseList.size(); i++) {
-            if (myCourseList.get(i).getScheduleEvent()==null) {
+            if (myCourseList.get(i).getScheduleEvent()!=null) {
+                myCoursesS.add(myCourseList.get(i));
+            } else {
                 myCoursesUns.add(myCourseList.get(i));
             }
         }
+
 
         model.addAttribute("unscheduledCourseList", myCoursesUns);
         model.addAttribute("scheduledCourseList", myCoursesS);
@@ -89,43 +86,61 @@ public class CalendarController {
     @PostMapping("/create")
     public String CreateScheduleEvent(@RequestParam("s") String startDate,
                                       @RequestParam("e") String endDate,
-                                      @RequestParam("c") Long courseId){
+                                      @RequestParam("c") String courseTitle){
 
-        MyCourse myCourse = myCourseService.findMyCourseById(courseId);
+        String currentUsername = MemberUtils.getMemberFromSpringSecurity();
+
+        Member currentMember = memberService.loadMemberByUsername(currentUsername);
+
+
+        MyCourse myCourse = myCourseService.findMyCourseByTitle(courseTitle);
         startDate = startDate.substring(0, startDate.indexOf("T"));
         endDate = endDate.substring(0, endDate.indexOf("T"));
         LocalDate sd = LocalDate.parse(startDate);
         LocalDate ed = LocalDate.parse(endDate);
 
-        ScheduleEvent scheduleEvent = new ScheduleEvent();
-        scheduleEvent.setMember(memberService.findById(userId));
-        scheduleEvent.setStartDate(sd);
-        scheduleEvent.setEndDate(ed);
-        scheduleEvent.setMyCourse(myCourse);
-        scheduleEventService.createScheduleEvent(scheduleEvent);
+        if (scheduleEventService.findScheduleEventByMemberAndMyCourse(memberService.findById(currentMember.getMemberId()), myCourse) == null) {
+            ScheduleEvent scheduleEvent = new ScheduleEvent();
+            scheduleEvent.setMember(memberService.findById(currentMember.getMemberId()));
+            scheduleEvent.setStartDate(sd);
+            scheduleEvent.setEndDate(ed);
+            myCourse.setScheduleEvent(scheduleEvent);
+            scheduleEvent.setMyCourse(myCourse);
+            scheduleEventService.createScheduleEvent(scheduleEvent);
+        }
+
 
         return "redirect:/calendar";
     }
 
     // DELETE
     @PostMapping("/delete")
-    public String DeleteScheduleEvent(@RequestParam("c") String courseTitle){
+    public String DeleteScheduleEvent(@RequestParam("s") String startDate,
+                                      @RequestParam("e") String endDate,
+                                      @RequestParam("c") String courseTitle){
+
+        String currentUsername = MemberUtils.getMemberFromSpringSecurity();
+
+        Member currentMember = memberService.loadMemberByUsername(currentUsername);
+
+
+        Member cm = memberService.findById(currentMember.getMemberId());
 
         MyCourse myCourse = myCourseService.findMyCourseByTitle(courseTitle);
-        List<ScheduleEvent> scheduleEventList = scheduleEventService.findScheduleEventByMemberId(userId);
-        for (int i = 0; i < scheduleEventList.size(); i++) {
-            if (scheduleEventList.get(i).getMyCourse().equals(myCourse));
-            scheduleEventService.deleteScheduleEvent(scheduleEventList.get(i).getScheduleId());
+
+        ScheduleEvent se = scheduleEventService.findScheduleEventByMemberAndMyCourse(cm, myCourse);
+        myCourse.setScheduleEvent(null);
+        myCourseService.updateMyCourse(myCourse, myCourse.getMyCourseId());
+
+        if (se == null) {
+            throw new RuntimeException("cannot find xx");
         }
+
+        scheduleEventService.delete(se);
 
         return "redirect:/calendar";
     }
 
-    //UPDATE
-    @PostMapping("/update")
-    public String UpdateScheduleEvent(){
-        return "";
-    }
 
 
 

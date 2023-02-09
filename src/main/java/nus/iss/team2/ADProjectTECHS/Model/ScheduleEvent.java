@@ -39,8 +39,7 @@ public class ScheduleEvent{
     @Column(name = "end_date")
     private LocalDate endDate;
 
-    @OneToOne(cascade = {CascadeType.ALL})
-    @JoinColumn(name = "my_course_id")
+    @OneToOne(mappedBy = "scheduleEvent",cascade = {CascadeType.PERSIST})
     private MyCourse myCourse;
 
     @ManyToOne

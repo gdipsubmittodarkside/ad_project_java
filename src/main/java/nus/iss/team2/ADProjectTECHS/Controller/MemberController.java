@@ -29,7 +29,6 @@ public class MemberController {
     private MemberService memberService;
 
 
-
     @GetMapping("/register")
     public String showRegistrationForm(Model model) {
         model.addAttribute("newMember",new Member());

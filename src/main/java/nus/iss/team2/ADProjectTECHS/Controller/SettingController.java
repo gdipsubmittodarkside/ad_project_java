@@ -9,6 +9,7 @@ import nus.iss.team2.ADProjectTECHS.Service.JobService;
 import nus.iss.team2.ADProjectTECHS.Service.MemberService;
 import nus.iss.team2.ADProjectTECHS.Service.MySkillService;
 import nus.iss.team2.ADProjectTECHS.Service.SkillService;
+import nus.iss.team2.ADProjectTECHS.Utility.MemberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -16,9 +17,14 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.ClassUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,7 +44,10 @@ public class SettingController {
     @Autowired
     private MySkillService mySkillService;
 
-    private Long userId = -1l;
+    // private Long userId = -1l;
+
+
+
 
     private PasswordEncoder passwordEncoder;
 
@@ -49,11 +58,18 @@ public class SettingController {
     @GetMapping(value = {"/",""})
     public String showSettingsPage(Model model){
 
-        if (userId < 0) {
-            Member currentMember = getMemberFromSpringSecurity();
-            userId = currentMember.getMemberId();
-        }
+        // if (userId < 0) {
+        //     Member currentMember = getMemberFromSpringSecurity();
+        //     userId = currentMember.getMemberId();
+        // }
 
+         //find member
+        String currentUsername = MemberUtils.getMemberFromSpringSecurity();
+
+        Member currentMember = memberService.loadMemberByUsername(currentUsername);
+
+
+        if (currentMember == null) throw new RuntimeException("cannot find current member");
 
         model.addAttribute("member", new Member());
         List<Job> jobList = jobService.findAll();
@@ -67,7 +83,12 @@ public class SettingController {
 
     @PostMapping("/profile")
     public String updateProfile(@ModelAttribute("member") Member newMember, RedirectAttributes redirectAttributes,Model model){
-        Member currentMember = getCurrentMember(userId);
+        // Member currentMember = getCurrentMember(userId);
+
+        String currentUsername = MemberUtils.getMemberFromSpringSecurity();
+
+        Member currentMember = memberService.loadMemberByUsername(currentUsername);
+
 
         if (newMember != null) {
 
@@ -115,14 +136,19 @@ public class SettingController {
 
     @PostMapping("/information")
     public String updateInfo(@ModelAttribute("member") Member newMember, @RequestParam("skills") List<Integer> skillsIds , RedirectAttributes redirectAttributes, Model model){
-        Member currentMember = getCurrentMember(userId);
+        // Member currentMember = getCurrentMember(userId);
+
+        String currentUsername = MemberUtils.getMemberFromSpringSecurity();
+
+        Member currentMember = memberService.loadMemberByUsername(currentUsername);
+
 
         if (skillsIds.size()>0) {
             List<Skill> skillList = new ArrayList<>();
             for (int i = 0; i < skillsIds.size(); i++) {
                 Skill skill = skillService.findSkillById(Long.valueOf(skillsIds.get(i)));
                 MySkill mySkill = new MySkill();
-                if (mySkillService.findMySkillByMemberAndSkill(currentMember, skill)!=null){
+                if (mySkillService.findMySkillByMemberAndSkill(currentMember, skill) == null){
                     mySkill.setSkill(skill);
                     mySkill.setMember(currentMember);
                     mySkillService.save(mySkill);
@@ -131,8 +157,6 @@ public class SettingController {
 
             }
         }
-
-
 
 
         if (newMember!=null) {
@@ -160,7 +184,11 @@ public class SettingController {
             @RequestParam("newPwd")String newPwd,
             RedirectAttributes ra,
             Model model){
-        Member currentMember = getCurrentMember(userId);
+        // Member currentMember = getCurrentMember(userId);
+        String currentUsername = MemberUtils.getMemberFromSpringSecurity();
+
+        Member currentMember = memberService.loadMemberByUsername(currentUsername);
+
 
         if (curPwd.equals(newPwd)) {
             model.addAttribute("message", "Your new password must be different than the old one.");
@@ -183,22 +211,34 @@ public class SettingController {
 
 
 
-    public Member getMemberFromSpringSecurity(){
-        String currentUsername;
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (!(authentication instanceof AnonymousAuthenticationToken)) {
-            currentUsername = authentication.getName();
-        } else {
-            throw new RuntimeException("No User");
+
+    @RequestMapping("/image")
+    @ResponseBody
+    public String uploadImage(@RequestParam("file")MultipartFile file, HttpServletRequest request) {
+        String staticPath = ClassUtils.getDefaultClassLoader().getResource("static").getPath();
+        String filename = file.getOriginalFilename();
+        String url_path = "images/avatar" + File.separator + filename;
+        String savePath = staticPath + File.separator + url_path;
+        String visitPath = "static/" + url_path;
+        File saveFile = new File(savePath);
+        if (!saveFile.exists()){
+            saveFile.mkdir();
+        }
+        try {
+            file.transferTo(saveFile);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
 
-        return memberService.loadMemberByUsername(currentUsername);
+        return visitPath;
     }
 
 
     public Member getCurrentMember(Long id) {
         return memberService.findById(id);
     }
+
+
 
 
 

@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+import nus.iss.team2.ADProjectTECHS.Model.MyCourse;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -25,5 +26,10 @@ public interface ScheduleEventRepository extends JpaRepository<ScheduleEvent, Lo
 
     @Query("select s from ScheduleEvent s where s.startDate = :sd and s.endDate = :ed")
     ScheduleEvent findScheduleEventByStartDateAndEndDate(@Param("sd") LocalDate sd, @Param("ed") LocalDate ed);
+
+    Optional<ScheduleEvent> findScheduleEventByMemberAndMyCourse(Member member, MyCourse myCourse);
+
+
+    void deleteByScheduleId(Long id);
 }
 

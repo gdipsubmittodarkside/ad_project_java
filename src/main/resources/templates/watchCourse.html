@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head  th:replace="fragments/layout.html :: html_head"/>
@@ -16,10 +18,10 @@
     
     <div th:replace="fragments/layout.html :: menu"/>
 
-    <table class='table' th:object="${course}">
+    <table class='table' >
         <tr>
             <td>
-            <center><iframe width="800" height="450" th:src="@{*{urlLink}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></center>
+            <center><iframe width="800" height="450" th:src="@{https://www.youtube.com/embed/{url} (url=${urlQuery})}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></center>
             </td>
         </tr>
         <tr>
@@ -29,38 +31,10 @@
                     <td>
                         <main>
                             <div class="slide-read-more">  
-                                <p th:text="*{courseTitle}">Couse Title</p>
-                                <span th:text="'By ' + *{channelName} + ' on ' + *{date}">By Harvard on 18 July 2021</span>
-                                <p th:text="*{description}">
-                                Java is a programming language famous for its ability to compile to platform-independent bytecode. 
-                                It powers enterprise web apps, big data pipelines, and android mobile apps.
+                                <p th:text="${course.myCourseTitle}">Couse Title</p>
+                                <span th:text="'By ' + ${currentCourse.channelName} + ' on ' + ${currentCourse.date}">By Harvard on 18 July 2021</span>
+                                <p th:text="${currentCourse.description}">
                                 
-                                #java #programming #100SecondsOfCode
-                                
-                                🔗 Resources
-                                
-                                Java Website https://java.com
-                                Star7 Demo https://youtu.be/1CsTH9S79qI
-                                
-                                🔥 Get More Content - Upgrade to PRO
-                                
-                                Upgrade to Fireship PRO at https://fireship.io/pro
-                                Use code lORhwXd2 for 25% off your first payment. 
-                                
-                                🎨 My Editor Settings
-                                
-                                - Atom One Dark 
-                                - vscode-icons
-                                - Fira Code Font
-                                
-                                🔖 Topics Covered
-                                
-                                - How Java works
-                                - Java basics
-                                - History of Java
-                                - Java vs C
-                                - How to compile Java
-                                - Overview of JVM, JRE, & JDK
                                 </p>
                             </div>
                             <div class="slide-read-more-button read-more-button">Read More</div>
@@ -68,6 +42,7 @@
                         </main>
                     </td>
                     <td>
+                    
                         <a class="btn btn-secondary" role="button"><i class="bi bi-bookmarks"></i> Save</a>
 
                     </td>
@@ -119,3 +94,4 @@
  
 </body>
 </html>
+

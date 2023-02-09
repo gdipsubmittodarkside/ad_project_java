@@ -41,5 +41,8 @@ public interface CourseCrawledService {
 
     List<CourseCrawled> findCoursesBySkillId(long skillId);
 
+    
+    CourseCrawled findCourseCrawledByUrl(String url);
+
 
 }

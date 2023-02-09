@@ -114,6 +114,11 @@ public class CourseCrawledServiceImpl implements CourseCrawledService {
         return courseCrawledRepository.findCourseBySkillId(skillId);
     }
 
+    @Override
+    public CourseCrawled findCourseCrawledByUrl(String url){
+        return courseCrawledRepository.findCourseCrawledByUrl(url);
+    }
+
 
 
 

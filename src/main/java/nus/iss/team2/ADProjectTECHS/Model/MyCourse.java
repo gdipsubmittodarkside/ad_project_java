@@ -31,8 +31,8 @@ public class MyCourse implements Serializable {
     @Column(name = "progress")
     private int progress;
 
-    @OneToOne(mappedBy ="myCourse" ,cascade = {CascadeType.ALL})
-    //@JoinColumn(name = "schedule_id")
+    @OneToOne(cascade = {CascadeType.PERSIST})
+    @JoinColumn(name = "schedule_id")
     private ScheduleEvent scheduleEvent;
 
     @Column(name = "my_course_title")

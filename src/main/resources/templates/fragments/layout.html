@@ -12,8 +12,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <link th:href="@{/css/setting.css}" rel="stylesheet" />
     <script defer th:src="@{/js/js-setting.js}"></script>
-    //# sourceMappingURL=bootstrap-select.js.map
-    <!-- dropdown -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" />
     <script defer th:src="@{/DataTable/dropdown-stackpath.js}"></script>
     <script defer th:src="@{/DataTable/dropdown-cdnjs.js}"></script>
@@ -94,7 +92,7 @@
                                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><span sec:authentication="name"></span></a>
                                         <div class="dropdown-menu dropdown-menu-end">
                                             <a th:href="@{/dashboard/}" class="dropdown-item">Dashboard</a>
-                                            <a class="dropdown-item setting" data-modal="modalTwo">Settings</a>
+                                            <a th:href="@{/settings/}" class="dropdown-item setting" data-modal="modalTwo">Settings</a>
                                             <div class="dropdown-divider"></div>
                                             <a th:href="@{/logout}" class="dropdown-item">Logout</a>
                                         </div>

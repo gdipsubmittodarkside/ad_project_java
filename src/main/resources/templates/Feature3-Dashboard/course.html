@@ -5,6 +5,7 @@
     <div th:replace="fragments/layout.html :: menu"/>
     <link th:href="@{/css/js-calendar-calendar.css}" rel="stylesheet">
     <script defer th:src="@{/js/js-calendar.js}"></script> 
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 
 <head>
 </head>
@@ -36,81 +37,44 @@
                     </table>
                     <div id="All" class="course">
                         <div id="content-wrapper">
-                        <table class="table table-striped">      
-                            <tr>
-                              <td><a href="https://www.Youtube.com/"> <img src="/images/placeholder/placeholderCourse1.jpg" width="160px" height="90px"></a> </td>
-                              <td><a href="https://www.Youtube.com/"><p class="link-primary text-uppercase">Full Introduction to JAVA</p></a><p class="fw-light">By Harvard</p></td>
-                            </tr>
-                            <tr>
-                              <td><a href="https://www.Youtube.com/"> <img src="/images/placeholder/placeholderCourse2.jpg" width="160px" height="90px"></a> </td>
-                              <td><a href="https://www.Youtube.com/"><p class="link-primary text-uppercase">Learn java from the best industry expert so that you can be a pro</p></a><p class="fw-light">By Harvard</p></td>
-                            </tr>
-                            <tr>
-                                <td><a href="https://www.Youtube.com/"> <img src="/images/placeholder/placeholderCourse3.jpg" width="160px" height="90px"></a> </td>
-                                <td><a href="https://www.Youtube.com/"><p class="link-primary text-uppercase">Full Introduction to JAVA</p></a><p class="fw-light">By Harvard</p></td>
-                            </tr>
-                            <tr>
-                                <td><a href="https://www.Youtube.com/"> <img src="/images/placeholder/placeholderCourse4.jpg" width="160px" height="90px"></a> </td>
-                                <td><a href="https://www.Youtube.com/"><p class="link-primary text-uppercase">Full Introduction to JAVA</p></a><p class="fw-light">By Harvard</p></td>
-                            </tr>
-                            <tr>
-                                  <td><a href="https://www.Youtube.com/"> <img src="/images/placeholder/placeholderCourse5.jpg" width="160px" height="90px"></a> </td>
-                                  <td><a href="https://www.Youtube.com/"><p class="link-primary text-uppercase">Full Introduction to JAVA</p></a><p class="fw-light">By Harvard</p></td>
-                            </tr>
-                            <tr>
-                                <td><a href="https://www.Youtube.com/"> <img src="/images/placeholder/placeholderCourse4.jpg" width="160px" height="90px"></a> </td>
-                                <td><a href="https://www.Youtube.com/"><p class="link-primary text-uppercase">Full Introduction to JAVA</p></a><p class="fw-light">By Harvard</p></td>
-                            </tr>
-                            <tr>
-                                  <td><a href="https://www.Youtube.com/"> <img src="/images/placeholder/placeholderCourse5.jpg" width="160px" height="90px"></a> </td>
-                                  <td><a href="https://www.Youtube.com/"><p class="link-primary text-uppercase">Full Introduction to JAVA</p></a><p class="fw-light">By Harvard</p></td>
+                        <table class="table table-striped" >      
+                            <tr  th:each="course : ${myCourseList}">
+                              <td><a th:href="@{/myCourses/watchCourse/}+${course.myCourseId}"> <img src="/images/placeholder/placeholderCourse1.jpg" width="160px" height="90px"></a> </td>
+                              <td><a th:href="@{/myCourses/watchCourse/}+${course.myCourseId}"><p class="link-primary text-uppercase" th:text="${course.myCourseTitle}"></p></a><p class="fw-light"></p></td>
                             </tr>
                         </table>
                     </div>
 
                     </div>
 
+                   
+
+
                     <div id="In Progress" class="course" style="display:none">
+                        <div th:if="${#lists.isEmpty(inProgressList)}">
+                            <span><b>You have no In Progress Courses. Start to add your new one.</b> </span>
+                        </div>
                         <div id="content-wrapper">
                             <table class="table table-striped">    
-                                <tr>
-                                <td><a href="https://www.Youtube.com/"> <img src="/images/placeholder/placeholderCourse5.jpg" width="160px" height="90px"></a> </td>
-                                <td><a href="https://www.Youtube.com/"><p class="link-primary text-uppercase">From Zero to Hero in Python</p></a><p class="fw-light">By Harvard</p>
-                                </tr>
-                                <tr>
-                                <td><a href="https://www.Youtube.com/"> <img src="/images/placeholder/placeholderCourse4.jpg" width="160px" height="90px"></a> </td>
-                                <td><a href="https://www.Youtube.com/"><p class="link-primary text-uppercase">From Zero to Hero in Python</p></a><p class="fw-light">By Harvard</p>
-                                </tr>
-                                <tr>
-                                    <td><a href="https://www.Youtube.com/"> <img src="/images/placeholder/placeholderCourse3.jpg" width="160px" height="90px"></a> </td>
-                                    <td><a href="https://www.Youtube.com/"><p class="link-primary text-uppercase">From Zero to Hero in Python</p></a><p class="fw-light">By Harvard</p>
+                                <tr th:each="course : ${inProgressList}">
+                                <td><a th:href="@{/myCourses/watchCourse/}+${course.myCourseId}"> <img src="/images/placeholder/placeholderCourse5.jpg" width="160px" height="90px"></a> </td>
+                                <td><a th:href="@{/myCourses/watchCourse/}+${course.myCourseId}"><p class="link-primary text-uppercase" th:text="${course.myCourseTitle}"></p></a><p class="fw-light"></p>
                                 </tr>
                             </table>
                         </div>
                     </div>
 
+                 
+
                     <div id="Completed" class="course" style="display:none">
+                        <div th:if="${#lists.isEmpty(completedLlist)}">
+                            <span><b> You have no Completed Course yet. Start Learning a new one.</b></span>
+                        </div>
                         <div id="content-wrapper">
                             <table class="table table-striped">      
-                                <tr>
-                                <td><a href="https://www.Youtube.com/"> <img src="/images/placeholder/placeholderCourse3.jpg" width="160px" height="90px"></a> </td>
-                                <td><a href="https://www.Youtube.com/"><p class="link-primary text-uppercase">Full Introduction to JAVA</p></a><p class="fw-light">By Harvard</p></td>
-                                </tr>
-                                <tr>
-                                <td><a href="https://www.Youtube.com/"> <img src="/images/placeholder/placeholderCourse1.jpg" width="160px" height="90px"></a> </td>
-                                <td><a href="https://www.Youtube.com/"><p class="link-primary text-uppercase">Learn java from the best industry expert so that you can be a pro</p></a><p class="fw-light">By Harvard</p></td>
-                                </tr>
-                                <tr>
-                                    <td><a href="https://www.Youtube.com/"> <img src="/images/placeholder/placeholderCourse2.jpg" width="160px" height="90px"></a> </td>
-                                    <td><a href="https://www.Youtube.com/"><p class="link-primary text-uppercase">Full Introduction to JAVA</p></a><p class="fw-light">By Harvard</p></td>
-                                </tr>
-                                <tr>
-                                    <td><a href="https://www.Youtube.com/"> <img src="/images/placeholder/placeholderCourse4.jpg" width="160px" height="90px"></a> </td>
-                                    <td><a href="https://www.Youtube.com/"><p class="link-primary text-uppercase">Full Introduction to JAVA</p></a><p class="fw-light">By Harvard</p></td>
-                                </tr>
-                                <tr>
-                                    <td><a href="https://www.Youtube.com/"> <img src="/images/placeholder/placeholderCourse5.jpg" width="160px" height="90px"></a> </td>
-                                    <td><a href="https://www.Youtube.com/"><p class="link-primary text-uppercase">Full Introduction to JAVA</p></a><p class="fw-light">By Harvard</p></td>
+                                <tr th:each="course : ${completedLlist}">
+                                <td><a th:href="@{/myCourses/watchCourse/}+${course.myCourseId}"> <img src="/images/placeholder/placeholderCourse3.jpg" width="160px" height="90px"></a> </td>
+                                <td><a th:href="@{/myCourses/watchCourse/}+${course.myCourseId}"><p class="link-primary text-uppercase" th:text="${course.myCourseTitle}"></p></a><p class="fw-light"></p></td>
                                 </tr>
                             </table>
                         </div>
@@ -120,70 +84,31 @@
                     <td width="72%" style="position:static">
                         <div id="content-wrapper-progress">
                         <table class="table table-borderless" > 
-                            <tr>
+                            <tr th:each="course : ${myCourseList}">
                                 <td>
-                                    <div class="text-uppercase"><b>Zero to Hero in Cloud<b></b> <div class="btn" role="button"><i class="bi bi-pencil"></i></div>
+                                    <div class="text-uppercase"><b th:text="${course.myCourseTitle}"></b> <div class="btn" role="button">
+                                       
+                                        <form  th:action="@{/myCourses/updateProgress/}+${course.myCourseId}" method="GET">
+                                         
+                                            <input type="number" th:value="${course.progress}" name="updatedProgress" min="1" max="100" style="width:5rem;height:1.5rem;"/>
+                             
+                                            <button class="btn btn-info btn-sm" type="submit" style="font-size:12px;height: 2.5em;" >SAVE</button>
+                                        
+                                        </form>
+                                     
+                                    <!-- <a th:href="@{/myCourses/edit/}+${course.myCourseId}" class="btn btn-info"><span
+                                            th:text="Save"></span></a> -->
+                                    
+                                    </div>
+
+                                    <div>
+                           
                                     <div class="progress">
-                                        <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                                        <div class="progress-bar" role="progressbar" th:style="'width:' + (${course.progress}) + '%;'"  aria-valuenow="'width:' + (${course.progress}) + '%;'"  aria-valuemin="0" aria-valuemax="100" th:text="${course.progress}+'%'"></div>
                                     </div>
                                 </td>
                             </tr>
-                            <tr>
-                                <td>
-                                    <div class="text-uppercase"><b>Be the best in coding and programming</b> <div class="btn" role="button"><i class="bi bi-pencil"></i></div>
-                                    <div class="progress">
-                                        <div class="progress-bar" role="progressbar" style="width: 20%;" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">20%</div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="text-uppercase"><b>Full introduction to java</b> <div class="btn" role="button"><i class="bi bi-pencil"></i></div>
-                                    <div class="progress">
-                                        <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="text-uppercase"><b>Everything you need to know about JAVA</b> <div class="btn" role="button"><i class="bi bi-pencil"></i></div>
-                                    <div class="progress">
-                                        <div class="progress-bar" role="progressbar" style="width: 75%;" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">75%</div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="text-uppercase"><b>From zero to hero in Python</b> <div class="btn" role="button"><i class="bi bi-pencil"></i></div>
-                                    <div class="progress">
-                                        <div class="progress-bar" role="progressbar" style="width: 50%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">50%</div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="text-uppercase"><b> Learn C# today!</b> <div class="btn" role="button"><i class="bi bi-pencil"></i></div>
-                                    <div class="progress">
-                                        <div class="progress-bar" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">100%</div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="text-uppercase"><b>Full introduction to java</b> <div class="btn" role="button"><i class="bi bi-pencil"></i></div>
-                                    <div class="progress">
-                                        <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="text-uppercase"><b>Learn Java from the best industry expert so that you can be a pro</b> <div class="btn" role="button"><i class="bi bi-pencil"></i></div>
-                                    <div class="progress">
-                                        <div class="progress-bar" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">100%</div>
-                                    </div>
-                                </td>
-                            </tr>
+
 
                         </table>
                     </div>    

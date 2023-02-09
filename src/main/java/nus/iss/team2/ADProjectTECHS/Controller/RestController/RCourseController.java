@@ -31,6 +31,8 @@ public class RCourseController {
 
     @Autowired
     private CourseCrawledService courseCrawledService;
+
+
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "${api.response-codes.ok.desc}"),
         @ApiResponse(responseCode = "400", description = "${api.response-codes.badRequest.desc}", content = {
@@ -41,6 +43,7 @@ public class RCourseController {
     public ResponseEntity<List<CourseCrawled>> getAllCourses() {
 
         try {
+
             List<CourseCrawled> coursesCrawled = new ArrayList<CourseCrawled>();
             coursesCrawled = courseCrawledService.getCourseCrawledList();
 
@@ -76,6 +79,7 @@ public class RCourseController {
             Optional<CourseCrawled> optCourseCrawled = courseCrawledService.findCourseCrawled(id);
 
             if (optCourseCrawled.isPresent()) {
+
                 CourseCrawled course = optCourseCrawled.get();
                 course.setCourseTitle(courseCrawled.getCourseTitle());
                 course.setLikes(courseCrawled.getLikes());
@@ -83,9 +87,7 @@ public class RCourseController {
                 course.setUrlLink(courseCrawled.getUrlLink());
                 course.setViews(courseCrawled.getViews());
                 course.setSkill(courseCrawled.getSkill());
-
                 CourseCrawled savedCourseCrawled = courseCrawledService.updateCourseCrawled(course);
-
                 return new ResponseEntity<CourseCrawled>(savedCourseCrawled, HttpStatus.OK);
             }
 
@@ -142,6 +144,7 @@ public class RCourseController {
     public ResponseEntity<List<CourseCrawled>> getCoursesBySkill(@RequestBody Skill skill) {
 
         try {
+
             List<CourseCrawled> coursesCrawled = courseCrawledService.findCoursesBySkill(skill);
             return new ResponseEntity<>(coursesCrawled, HttpStatus.OK);
 
@@ -171,8 +174,8 @@ public class RCourseController {
     public ResponseEntity<List<CourseCrawled>> getCoursesBySubscribers() {
 
         try {
-            List<CourseCrawled> coursesCrawled = courseCrawledService.findCoursesSortedBySubscribers();
 
+            List<CourseCrawled> coursesCrawled = courseCrawledService.findCoursesSortedBySubscribers();
             return new ResponseEntity<>(coursesCrawled, HttpStatus.OK);
 
         } catch (Exception e) {
@@ -188,10 +191,9 @@ public class RCourseController {
         try {
 
             skillTitle = skillTitle.toLowerCase();
-            List<CourseCrawled> courseCrawleds = courseCrawledService
+            List<CourseCrawled> courseCrawledList = courseCrawledService
                     .findCoursesBySkillTitleLike(skillTitle);
-
-            return new ResponseEntity<>(courseCrawleds, HttpStatus.OK);
+            return new ResponseEntity<>(courseCrawledList, HttpStatus.OK);
 
         } catch (Exception e) {
 

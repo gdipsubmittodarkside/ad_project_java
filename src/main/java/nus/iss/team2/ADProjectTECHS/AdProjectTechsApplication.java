@@ -345,8 +345,8 @@ CommandLineRunner loadData(CourseCrawledRepository ccRepo,
 		m1.setCurrentJobTitle("Tax Accountant");
 		m1.setAvatar("https://robohash.org/reiciendisrerumin.png?size=50x50&set=set1");
 		Member m2 = new Member();
-		m2.setUsername("oshankland1");
-		m2.setPassword("o6XfV7cOOx1");
+		m2.setUsername("abc");
+		m2.setPassword("abc");
 		m2.setEmail("jthresh1@census.gov");
 		m2.setGender(Gender.MALE);
 		m2.setCourseTaken("Spring Boot");

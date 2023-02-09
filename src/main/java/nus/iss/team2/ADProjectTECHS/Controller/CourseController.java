@@ -56,7 +56,8 @@ public class CourseController {
 
 
     @GetMapping("/searchByCourseTitle")
-    public String FindCoursesByCourseTitle(@RequestParam String courseTitleEntered, Model model){
+    public String FindCoursesByCourseTitle(@RequestParam String courseTitleEntered,
+                                           Model model){
         List<CourseCrawled> courses = courseCrawledService.findCoursesTitleLike(courseTitleEntered);
 
         model.addAttribute("entered", courseTitleEntered);
@@ -67,7 +68,8 @@ public class CourseController {
 
     // to view details and watch a course
     @PostMapping("/{courseId}")
-    public String watchCourse(@PathVariable String courseId, Model model){
+    public String watchCourse(@PathVariable String courseId,
+                              Model model){
         
         CourseCrawled courseSelected = courseCrawledService.findCourseCrawledById(Long.parseLong(courseId));
         model.addAttribute("course", courseSelected);
@@ -76,9 +78,10 @@ public class CourseController {
 
     @RequestMapping(value="/save", method=RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public void SaveToMyCourses(@RequestBody CourseCrawled course, RedirectAttributes redirectAttributes){
+    public void SaveToMyCourses(@RequestBody CourseCrawled course,
+                                RedirectAttributes redirectAttributes){
     
-        if (course != null){
+//        if (course != null){
             // String courseTitle = course.getCourseTitle();
             // Skill courseSkill = course.getSkill();
             // String courseUrl = course.getUrlLink();
@@ -103,7 +106,7 @@ public class CourseController {
             // my_course.setMember(member);
     
             // myCourseService.createMyCourse(my_course);
-        }
+        return;
 
     }
 
@@ -135,7 +138,6 @@ public class CourseController {
 
 
         return findPaginated(1, 5, model);
-        
 
 
     }
