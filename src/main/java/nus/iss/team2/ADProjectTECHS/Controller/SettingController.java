@@ -1,6 +1,7 @@
 package nus.iss.team2.ADProjectTECHS.Controller;
 
 
+import com.google.api.client.util.Lists;
 import nus.iss.team2.ADProjectTECHS.Model.Job;
 import nus.iss.team2.ADProjectTECHS.Model.Member;
 import nus.iss.team2.ADProjectTECHS.Model.MySkill;
@@ -10,10 +11,8 @@ import nus.iss.team2.ADProjectTECHS.Service.MemberService;
 import nus.iss.team2.ADProjectTECHS.Service.MySkillService;
 import nus.iss.team2.ADProjectTECHS.Service.SkillService;
 import nus.iss.team2.ADProjectTECHS.Utility.MemberUtils;
+import org.hibernate.type.descriptor.java.UUIDTypeDescriptor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,9 +23,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Controller
 @RequestMapping("/settings")
@@ -44,11 +43,6 @@ public class SettingController {
     @Autowired
     private MySkillService mySkillService;
 
-    // private Long userId = -1l;
-
-
-
-
     private PasswordEncoder passwordEncoder;
 
     public SettingController(PasswordEncoder passwordEncoder) {
@@ -58,18 +52,17 @@ public class SettingController {
     @GetMapping(value = {"/",""})
     public String showSettingsPage(Model model){
 
-        // if (userId < 0) {
-        //     Member currentMember = getMemberFromSpringSecurity();
-        //     userId = currentMember.getMemberId();
-        // }
 
          //find member
         String currentUsername = MemberUtils.getMemberFromSpringSecurity();
 
         Member currentMember = memberService.loadMemberByUsername(currentUsername);
+        model.addAttribute("currentAvatar", currentMember.getAvatar());
+        model.addAttribute("currentMember", currentMember);
 
 
         if (currentMember == null) throw new RuntimeException("cannot find current member");
+
 
         model.addAttribute("member", new Member());
         List<Job> jobList = jobService.findAll();
@@ -211,32 +204,43 @@ public class SettingController {
 
 
 
-
     @RequestMapping("/image")
-    @ResponseBody
-    public String uploadImage(@RequestParam("file")MultipartFile file, HttpServletRequest request) {
-        String staticPath = ClassUtils.getDefaultClassLoader().getResource("static").getPath();
+    public String uploadImage(Model model,@RequestParam("image")MultipartFile file) {
+
+        String currentUsername = MemberUtils.getMemberFromSpringSecurity();
+
+        Member currentMember = memberService.loadMemberByUsername(currentUsername);
+
+
+        if(file.isEmpty()) throw new RuntimeException("upload image fail");
+
+        // change to  your static path!!!
+        //String staticPath = ClassUtils.getDefaultClassLoader().getResource("static").getPath();
+
+        String staticPath = "/Users/phoebeong/Downloads/AD_Project_TECHS-mycourseCon3/AD_Project_TECHS-mycourseCon 3/src/main/resources/static";
         String filename = file.getOriginalFilename();
         String url_path = "images/avatar" + File.separator + filename;
         String savePath = staticPath + File.separator + url_path;
-        String visitPath = "static/" + url_path;
+        String visitPath = File.separator + url_path;
         File saveFile = new File(savePath);
         if (!saveFile.exists()){
-            saveFile.mkdir();
+            saveFile.mkdirs();
         }
         try {
-            file.transferTo(saveFile);
+           file.transferTo(saveFile);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
-        return visitPath;
+        currentMember.setAvatar(visitPath);
+        memberService.save(currentMember);
+
+        return "redirect:/settings";
     }
 
 
-    public Member getCurrentMember(Long id) {
-        return memberService.findById(id);
-    }
+
+
 
 
 

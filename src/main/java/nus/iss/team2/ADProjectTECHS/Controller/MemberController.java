@@ -31,6 +31,8 @@ public class MemberController {
 
     @GetMapping("/register")
     public String showRegistrationForm(Model model) {
+
+
         model.addAttribute("newMember",new Member());
 
         return "sign-up";

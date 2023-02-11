@@ -8,9 +8,6 @@ import nus.iss.team2.ADProjectTECHS.Service.MyCourseService;
 import nus.iss.team2.ADProjectTECHS.Service.ScheduleEventService;
 import nus.iss.team2.ADProjectTECHS.Utility.MemberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,17 +39,6 @@ public class CalendarController {
     @GetMapping(value = {"/",""})
     public String ViewCalendar(Model model) {
 
-        // from spring security context get member
-
-        // String currentUsername;
-        // currentUsername = MemberUtils.getMemberFromSpringSecurity();
-
-
-        // if (userId < 0) {
-        //     String username = MemberUtils.getMemberFromSpringSecurity();
-        //     Member currentMember = memberService.loadMemberByUsername(username);
-        //     userId = currentMember.getMemberId();
-        // }
 
         String currentUsername = MemberUtils.getMemberFromSpringSecurity();
 
@@ -60,7 +46,6 @@ public class CalendarController {
 
         if (currentMember == null) throw new RuntimeException("cannot find current member");
 
-        // Member currentMember = memberService.findById(userId);
 
         List<MyCourse> myCoursesS = new ArrayList<>();
         List<MyCourse> myCoursesUns = new ArrayList<>();
@@ -92,6 +77,8 @@ public class CalendarController {
 
         Member currentMember = memberService.loadMemberByUsername(currentUsername);
 
+        if (currentMember == null) throw new RuntimeException("cannot find current member");
+
 
         MyCourse myCourse = myCourseService.findMyCourseByTitle(courseTitle);
         startDate = startDate.substring(0, startDate.indexOf("T"));
@@ -122,6 +109,8 @@ public class CalendarController {
         String currentUsername = MemberUtils.getMemberFromSpringSecurity();
 
         Member currentMember = memberService.loadMemberByUsername(currentUsername);
+
+        if (currentMember == null) throw new RuntimeException("cannot find current member");
 
 
         Member cm = memberService.findById(currentMember.getMemberId());

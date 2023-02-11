@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/search")
+@RequestMapping(value = {"/search","/","/"})
 public class SearchController {
 
     @Autowired
@@ -54,7 +54,7 @@ public class SearchController {
         return "Feature1-SearchSkills/skill-result";
     }
 
-    @GetMapping("/skills/home")
+    @GetMapping(value = {"/skills/home",""})
     public String SearchSkill(Model model){
         List<Job> jobList = jobService.findAll();
         List<String> titles = new ArrayList<>();

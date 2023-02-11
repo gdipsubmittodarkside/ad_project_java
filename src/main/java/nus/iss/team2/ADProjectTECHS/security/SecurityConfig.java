@@ -50,10 +50,12 @@ public class SecurityConfig {
     * */
 
     private static final String[] INGORE_PATH = {
+            "/",
             "/DataTable/**",
             "/js/**",
             "/css/**",
             "/images/**",
+            "/images/**/**",
             "/webjars/**",
             "/register**",
             "/courses**",
@@ -98,9 +100,11 @@ public class SecurityConfig {
                             throws IOException, ServletException {
 
                         CustomOAuth2User oAuth2User = (CustomOAuth2User) authentication.getPrincipal();
-                        memberService.processOAuthPostLogin(oAuth2User.getName(), oAuth2User.getEmail());
-                        response.sendRedirect("/search/skills/home");
-                    }
+                        if(!memberService.processOAuthPostLogin(oAuth2User.getName(), oAuth2User.getEmail())){
+                            response.sendRedirect("/register");
+                        } else{
+                            response.sendRedirect("/search/skills/home");}
+                        }
                 });
 
         http.logout().logoutSuccessUrl("/search/skills/home").permitAll();

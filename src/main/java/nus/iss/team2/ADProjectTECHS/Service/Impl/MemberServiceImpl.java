@@ -37,7 +37,8 @@ public class MemberServiceImpl implements MemberService{
         return memberRepository.save(member);
     }
 
-    public void processOAuthPostLogin(String username,String email) {
+    public Boolean processOAuthPostLogin(String username,String email) {
+
         Member existMember = memberRepository.findMemberByUsername(username).orElse(null);
 
         if (existMember == null) {
@@ -45,7 +46,10 @@ public class MemberServiceImpl implements MemberService{
             newMember.setUsername(username);
             newMember.setEmail(email);
             memberRepository.save(newMember);
+            return false;
         }
+
+        return true;
 
     }
 

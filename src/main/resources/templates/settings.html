@@ -14,15 +14,16 @@
                 <div class="center">
                     <div class="form-input">
                         <div class="preview">
-                            <img id="file-ip-1-preview">
+                            <img th:src="@{|${currentAvatar}|}" id="file-ip-1-preview">
                         </div>
                     </div>
                 </div>
             </td>
             <td style= vertical-align:middle>
-                <div class="form-input">
-                    <label for="file-ip-1">Upload Image</label>
-                    <input type="file" id="file-ip-1" accept="image/*" onchange="showPreview(event);">
+                <form enctype="multipart/form-data" th:action="@{/settings/image}" method="post">
+                    <input type="file" accept="image/*" name="image" onchange="showPreview(event)">
+                    <input type="submit" value="upload avatar">
+                </form>
             </td>
         </tr>
     </table>
@@ -41,11 +42,15 @@
     <div id="Profile" class="setting">
         <table class="table table-borderless">
             <form th:action="@{/settings/profile}" th:object="${member}" method="post">
-                <p>Username: <input type="text" th:field="*{username}"></p>
-                <p>Email Address: <input type="email" th:field="*{email}"></p>
-                <p>Current Role: <input type="text" th:field="*{currentJobTitle}"></p>
+                <p>Username: <input type="text" th:placeholder="${currentMember.getUsername()}" th:field="*{username}"></p>
+                <p>Email Address: <input type="email" th:placeholder="${currentMember.getEmail()}" th:field="*{email}"></p>
+                <p>Current Role: <input type="text" th:placeholder="${currentMember.getCurrentJobTitle()}" th:field="*{currentJobTitle}"></p>
+
                 <p>Year of Birth<input type="date" th:field="*{birthday}"></p>
-                <p>Bio <textarea name="shortBio" th:text="${member.shortBio}" rows="2"></textarea></p>
+
+                <p>Bio <textarea name="shortBio" th:placeholder="${currentMember.getShortBio()}" th:text="${member.shortBio}" rows="2"></textarea></p>
+
+                <p th:text="${currentMember.getDreamJob().getJobTitle()}"></p>
                 <select th:field="*{dreamJob}">
                     <option th:each="job : ${jobList}" th:value="${job.getJobId()}" th:text="${job.getJobTitle()}"></option>
                 </select>
@@ -57,14 +62,21 @@
 
     <div id="Information" class="setting" style="display: none">
         <form th:action="@{/settings/information}" th:object="${member}" method="post">
+
+            <p th:text="${currentMember.getGender()}"></p>
             <select th:field="*{gender}">
                 <option th:each="gender : ${T(nus.iss.team2.ADProjectTECHS.Model.Enums.Gender).values()}" th:value="${gender}" th:text="${gender}"></option>
             </select>
 
+            <p th:text="${currentMember.getEducation()}"></p>
             <select th:field="*{education}">
                 <option th:each="level : ${T(nus.iss.team2.ADProjectTECHS.Model.Enums.Education).values()}" th:value="${level}" th:text="${level}"></option>
             </select>
 
+
+            <div th:each="mk : ${currentMember.getMySkills()}">
+                <span th:text="${mk.getSkill().getSkillTitle()}"></span>
+            </div>
             <select name="skills" multiple="multiple">
                 <option th:each="skill : ${skillList}" th:value="${skill.getSkillId()}" th:text="${skill.getSkillTitle()}"></option>
             </select>
@@ -128,6 +140,8 @@
                 fieldConfirmPassword.setCustomValidity("");
             }
         }
+
+
     </script>
 
 </body>

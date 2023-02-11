@@ -14,7 +14,7 @@ public interface MemberService {
 
     Member loadMemberByUsername(String username);
 
-    void processOAuthPostLogin(String username,String email);
+    Boolean processOAuthPostLogin(String username,String email);
 
     void save(Member member);
 
