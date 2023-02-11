@@ -13,6 +13,8 @@ import nus.iss.team2.ADProjectTECHS.Service.SkillService;
 import nus.iss.team2.ADProjectTECHS.Utility.MemberUtils;
 import org.hibernate.type.descriptor.java.UUIDTypeDescriptor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -42,6 +44,9 @@ public class SettingController {
 
     @Autowired
     private MySkillService mySkillService;
+
+    @Autowired
+    private UserDetailsService userDetailsService;
 
     private PasswordEncoder passwordEncoder;
 
@@ -120,7 +125,10 @@ public class SettingController {
 
         if (newMember.getUsername()!=null && newMember.getUsername().trim()!="") {
 
-            return "redirect:/logout";
+            UserDetails userDetails = userDetailsService.loadUserByUsername(currentMember.getUsername());
+            MemberUtils.setLoginUser(userDetails);
+            
+//            return "redirect:/logout";
         }
 
         return "redirect:/settings";
