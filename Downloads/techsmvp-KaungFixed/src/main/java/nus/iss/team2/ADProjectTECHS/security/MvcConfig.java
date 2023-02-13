@@ -1,8 +1,11 @@
 package nus.iss.team2.ADProjectTECHS.security;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import java.io.File;
 
 @Configuration
 public class MvcConfig implements WebMvcConfigurer {
@@ -21,4 +24,12 @@ public class MvcConfig implements WebMvcConfigurer {
 //                .allowCredentials(true);
 //
 //    }
+
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/images/avatar/**")
+                .addResourceLocations("file:"+System.getProperty("user.dir")
+                        +"/src/main/resources/static/images/avatar/");
+    }
 }

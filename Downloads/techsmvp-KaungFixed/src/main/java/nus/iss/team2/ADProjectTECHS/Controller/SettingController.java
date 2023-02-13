@@ -197,13 +197,13 @@ public class SettingController {
         if (curPwd.equals(newPwd)) {
             model.addAttribute("message", "Your new password must be different than the old one.");
             model.addAttribute("member" ,new Member());
-            return "settings";
+            return "Others/settings";
 
         }
         if (!passwordEncoder.matches(curPwd, currentMember.getPassword())) {
             model.addAttribute("message", "Your old password is incorrect.");
             model.addAttribute("member" ,new Member());
-            return "settings";
+            return "Others/settings";
 
         } else {
 
