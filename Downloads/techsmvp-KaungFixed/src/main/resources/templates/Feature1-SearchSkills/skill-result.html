@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/layout.html :: html_head"/>
+<body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
+
+</script>
+<div th:replace="fragments/layout.html :: menu"/>
+<head>
+</head>
+<body>
+<div class="m-4">
+
+    <div class="shadow p-0.5 mb-5 bg-white rounded" sec:authorize="isAuthenticated()">
+        <table class="table table-borderless">
+            <td Align = Middle> <img th:src=${member.avatar} width="80" height="80"> </td>
+            <td style="vertical-align:middle;"><h5 th:text="${member.username} + ', your career goal is to be a ' +${searchedjob}  +'.'" style="color:#ad2eb3;"><span style="color:#ad2eb3;"><b ></b></span></h5></td>
+            <td class="text-center align-middle"><a class="btn btn-secondary" id="settinggoal" role="button"  th:data-name="${job1.jobId}" th:onclick="savedDreamJob(this.getAttribute('data-name'))" ><i class="bi bi-pencil"></i> Set Goal</a></td>
+            
+        </table>
+    </div>
+    <figure class="text-center">
+        <blockquote class="blockquote">
+            <h1 class="display-6"> <span style="color:#ad2eb3;">Essential skills for you to achieve your goal!</span></h1>
+        </blockquote>
+    </figure>
+
+
+    <div>
+        <table size="100%">
+            <tr >
+
+                <td th:each="skill : ${skillList}">
+                    <button type="submit"  class="btn btn-primary" th:data-name="${skill.skillId}" th:onclick="WatchCourseIntro(this.getAttribute('data-name'))"> <span th:text="${skill.skillTitle}"> </span></button>
+                </td>
+            </tr>
+        </table>
+
+    </div>
+
+    </div>
+   
+
+    <div>
+        <table class='table table-borderless' style="background-color:#f7f5f5">
+            <!-- <tbody id="imageId"> </tbody> -->
+
+            <tbody id="skillTitleId"> </tbody>
+
+            <tbody id="descriptionId"></tbody>
+
+            <tbody id="introId"></tbody>
+
+            <tbody id="videoId"></tbody>
+
+            <tbody id="startLearningId"></tbody>
+
+
+        </table>
+    </div>
+
+</div>
+
+<script>
+    
+    var x = document.getElementById("settinggoal");
+    x.addEventListener('click', function (event){
+            event.target.outerText='set';
+            event.target.disabled = true;
+        });
+
+    function WatchCourseIntro(skillId){
+        var data = {
+            "skillId" : skillId
+        };
+        console.log(skillId)
+
+        // var selectedSkill = [];
+
+
+        $.ajax({
+            type: "POST",
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            url: "/skills/searchIntro/" + skillId ,
+            data: JSON.stringify(data),
+            success: function (result) {
+
+                // testing ajax response from controller
+                result.forEach(element => {
+                    console.log(element);
+
+                });
+
+                //inserting data into html
+                // $('#imageId').append("<td Align = Middle>\<img src='/images/java.png' width='100' height='100'>\</td>");
+                $('#skillTitleId').empty().append("<tr>\<td Align = Middle>\<b>What is "+result[0]+"?<b>\</td>\</tr>");
+                $('#descriptionId').empty().append("<tr>\<td Align = Middle>\<b>"+result[1]+"<b>\</td>\</tr>");
+                $('#introId').empty().append("<tr>\<td colspan='2'><p class='text-center'>\<b>Introduction to "+result[0]+"<b>\</p>\</td>\</tr>");
+                $('#videoId').empty().append("<tr>\<td><center><iframe width='800' height='450' src="+result[2]+" title='YouTube video player' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share' allowfullscreen>\</iframe>\</center>\</td>\</tr>");
+                $('#startLearningId').empty().append("<tr>\<td><center><a class='btn btn-secondary' href='/skills/searchIntro/"+skillId+"  'role='button'>\<i class='bi bi-book'>\</i> Start Learning</a>\</center>");
+
+                //testing
+                console.log("@{skills/searchIntro/"+skillId+"}");
+
+
+            }
+        });
+
+    }
+
+
+    function savedDreamJob(newDreamJobId){
+        var data = {
+            "newDreamJobId" : newDreamJobId
+        };
+
+        console.log(newDreamJobId);
+
+        $.ajax({
+            type: "POST",
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            url: "/members/setdreamJob/" + newDreamJobId ,
+            data: JSON.stringify(data),
+            success: function (result) {
+                // testing ajax response from controller
+                console.log(result);
+            }
+        });
+
+    }
+
+</script>
+
+
+
+</body>
+
+
+<footer>
+    <div th:replace="fragments/layout.html :: footer" />
+</footer>
