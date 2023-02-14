@@ -8,7 +8,11 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -139,28 +143,35 @@ public class SettingController {
     }
 
     @PostMapping("/information")
-    public String updateInfo(@ModelAttribute("member") Member newMember, @RequestParam("skills") List<Integer> skillsIds , RedirectAttributes redirectAttributes, Model model){
+    public String updateInfo(@ModelAttribute("member") Member newMember, @RequestParam(value = "skills", required = false) List<Integer> skillsIds , RedirectAttributes redirectAttributes, Model model){
         // Member currentMember = getCurrentMember(userId);
 
         String currentUsername = MemberUtils.getMemberFromSpringSecurity();
 
         Member currentMember = memberService.loadMemberByUsername(currentUsername);
 
+        if (skillsIds!=null) {
+            if (skillsIds.size()>0) {
+                List<Skill> skillList = new ArrayList<>();
+                for (int i = 0; i < skillsIds.size(); i++) {
+                    Skill skill = skillService.findSkillById(Long.valueOf(skillsIds.get(i)));
+                    MySkill mySkill = new MySkill();
+                    if (mySkillService.findMySkillByMemberAndSkill(currentMember, skill) == null){
+                        mySkill.setSkill(skill);
+                        mySkill.setMember(currentMember);
+                        mySkillService.save(mySkill);
+                        if(currentMember.getMySkills()==null){
+                            currentMember.setMySkills(new ArrayList<MySkill>());
+                            currentMember.getMySkills().add(mySkill);
+                        } else {
+                            currentMember.getMySkills().add(mySkill);
+                        };
+                    }
 
-        if (skillsIds.size()>0) {
-            List<Skill> skillList = new ArrayList<>();
-            for (int i = 0; i < skillsIds.size(); i++) {
-                Skill skill = skillService.findSkillById(Long.valueOf(skillsIds.get(i)));
-                MySkill mySkill = new MySkill();
-                if (mySkillService.findMySkillByMemberAndSkill(currentMember, skill) == null){
-                    mySkill.setSkill(skill);
-                    mySkill.setMember(currentMember);
-                    mySkillService.save(mySkill);
-                    currentMember.getMySkills().add(mySkill);
                 }
-
             }
         }
+
 
 
         if (newMember!=null) {
@@ -247,6 +258,15 @@ public class SettingController {
 
         currentMember.setAvatar(visitPath);
         memberService.save(currentMember);
+
+        if (!setAvatar(visitPath)){
+            setAuth2Avatar(visitPath);
+        }
+
+
+
+
+
 
         return "redirect:/settings";
     }
@@ -436,5 +456,31 @@ public class SettingController {
 //    public Member getCurrentMember(Long id) {
 //        return memberService.findById(id);
 //    }
+    public Boolean setAuth2Avatar(String visitPath) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        try{
+            nus.iss.team2.ADProjectTECHS.security.CustomOAuth2User userDetails = (nus.iss.team2.ADProjectTECHS.security.CustomOAuth2User) authentication.getPrincipal();
+            userDetails.setAvatar(visitPath);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+
+    public Boolean setAvatar(String visitPath) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        try{
+            nus.iss.team2.ADProjectTECHS.security.User userDetails = (nus.iss.team2.ADProjectTECHS.security.User) authentication.getPrincipal();
+            userDetails.setAvatar(visitPath);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
 
 }

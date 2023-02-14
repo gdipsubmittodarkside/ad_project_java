@@ -13,7 +13,7 @@
 
     <table th:object="${member}">
         <tr>
-            <img type= "image" class="image2"  th:src=${member.avatar} alt="photo" width=100 height=100  />
+            <img type= "image" class="image2"  th:src="${#authentication.getPrincipal().getAvatar()}" alt="photo" width=100 height=100  />
 
             <div class="bottom-left" th:text="*{username}"></div>
             <td class="container3" style="height:fit-content">

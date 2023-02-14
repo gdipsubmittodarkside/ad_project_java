@@ -1,10 +1,10 @@
 package nus.iss.team2.ADProjectTECHS.Controller;
 
-import nus.iss.team2.ADProjectTECHS.Model.Job;
-import nus.iss.team2.ADProjectTECHS.Model.Member;
-import nus.iss.team2.ADProjectTECHS.Model.Query;
+import nus.iss.team2.ADProjectTECHS.Model.*;
 import nus.iss.team2.ADProjectTECHS.Service.JobService;
 import nus.iss.team2.ADProjectTECHS.Service.MemberService;
+import nus.iss.team2.ADProjectTECHS.Service.MySkillService;
+import nus.iss.team2.ADProjectTECHS.Service.SkillService;
 import nus.iss.team2.ADProjectTECHS.Utility.MemberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -16,6 +16,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -38,21 +40,38 @@ public class MemberController {
     @Autowired
     private JobService jobService;
 
+    @Autowired
+    private SkillService skillService;
+
+    @Autowired
+    private MySkillService mySkillService;
+
 
 
 
     @GetMapping("/register")
     public String showRegistrationForm(Model model) {
-        model.addAttribute("newMember", new Member());
+
 
         String currentUsername = MemberUtils.getMemberFromSpringSecurity();
         Member currentMember = memberService.loadMemberByUsername(currentUsername);
+
         if (currentMember!=null) {
             if (currentMember.getUsername()!=null&&currentMember.getPassword()==null) {
                 model.addAttribute("currentEmail", currentMember.getEmail());
                 model.addAttribute("currentUsername", currentMember.getUsername());
+
+
             }
         }
+
+        model.addAttribute("newMember", new Member());
+
+        List<Job> jobList = jobService.findAll();
+        model.addAttribute("jobList", jobList);
+        List<Skill> skillList = skillService.findAll();
+        model.addAttribute("skillList", skillList);
+
 
 
 
@@ -61,20 +80,51 @@ public class MemberController {
 
 
     @PostMapping("/register")
-    public String registerMemberAccount(@ModelAttribute("newMember") @Valid Member newMember
+    public String registerMemberAccount(@ModelAttribute("newMember") @Valid Member newMember, @RequestParam(value = "skills", required = false) List<Integer> skillsIds
             , BindingResult bindingResult) {
 
-        if (bindingResult.hasErrors()) {
-            return "Others/sign-up";
-        }
-        try {
+
+        String currentUsername = MemberUtils.getMemberFromSpringSecurity();
+        Member currentMember = memberService.loadMemberByUsername(currentUsername);
+
+        newMember.setAvatar("/images/avatar/defaultAvatar.jpeg");
+
+        if (currentMember!=null) {
+            newMember.setUsername(currentMember.getUsername());
+            newMember.setEmail(currentMember.getEmail());
+            memberService.deleteMember(currentMember.getMemberId());
             memberService.createMember(newMember);
-            return "redirect:/login";
+        } else {
+            memberService.createMember(newMember);
+        }
 
-        } catch (Exception e){
-            return "Others/sign-up";
+        if (skillsIds!=null){
+            if (skillsIds.size()>0) {
+                List<Skill> skillList = new ArrayList<>();
+                for (int i = 0; i < skillsIds.size(); i++) {
+                    Skill skill = skillService.findSkillById(Long.valueOf(skillsIds.get(i)));
+                    MySkill mySkill = new MySkill();
+                    if (mySkillService.findMySkillByMemberAndSkill(newMember, skill) == null){
+                        mySkill.setSkill(skill);
+                        mySkill.setMember(newMember);
+                        mySkillService.save(mySkill);
+                        if(newMember.getMySkills()==null){
+                            newMember.setMySkills(new ArrayList<MySkill>());
+                            newMember.getMySkills().add(mySkill);
+                        } else {
+                            newMember.getMySkills().add(mySkill);
+                        };
+                    }
+
+                }
+            }
 
         }
+
+
+
+        return "redirect:/login";
+
     }
 
     @GetMapping("/members/{id}")
