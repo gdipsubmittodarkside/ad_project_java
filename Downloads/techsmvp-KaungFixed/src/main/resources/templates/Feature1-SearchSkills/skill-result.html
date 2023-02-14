@@ -26,34 +26,36 @@
 
 
     <!--NAV BAR STYLE-->
-    <!-- <nav class="nav nav-pills flex-column flex-sm-row" th:each="skill : ${skillList}">
-        <a class="flex-sm-fill text-sm-center nav-link active" aria-current="page" th:href="@{/skills/searchIntro/}+${skill.skillId}" th:text="${skill.skillTitle}" th:object="${skill}"></a>
+    <!-- <nav class="nav nav-pills flex-column flex-sm-row" th:each="skill : ${skillList}"> -->
+        <!-- <a class="flex-sm-fill text-sm-center nav-link active" aria-current="page" th:href="@{/skills/searchIntro/}+${skill.skillId}" th:text="${skill.skillTitle}" th:object="${skill}"></a>
          -->
-    <!-- <a class="flex-sm-fill text-sm-center nav-link active" aria-current="page" href="#">Java</a>
+     <!-- <a class="flex-sm-fill text-sm-center nav-link active" aria-current="page" href="#">Java</a>
     <a class="flex-sm-fill text-sm-center nav-link" href="#">HTML</a>
     <a class="flex-sm-fill text-sm-center nav-link" href="#">MS SQL</a>
     <a class="flex-sm-fill text-sm-center nav-link" href="#">C++</a>
-    <a class="flex-sm-fill text-sm-center nav-link" href="#">Visual Basic</a>
-    <a class="flex-sm-fill text-sm-center nav-link" href="#">Tableu</a>
-    <a class="flex-sm-fill text-sm-center nav-link" href="#">Kotlin</a>
-    <a class="flex-sm-fill text-sm-center nav-link" href="#">Redis</a>
-    <a class="flex-sm-fill text-sm-center nav-link" href="#">Angular</a> -->
-    <!-- </nav> -->
+    <a class="flex-sm-fill text-sm-center nav-link" href="#">Visual Basic</a> -->
+
+    <nav class="nav nav-pills flex-column flex-sm-row">
+        <td th:each="skill : ${skillList}">
+        <a type="button" class="flex-sm-fill text-sm-center button-tab"  aria-current="page" th:data-name="${skill.skillId}" th:onclick="WatchCourseIntro(this.getAttribute('data-name'))"><span th:text="${skill.skillTitle}"></span></a>
+    </td>
+</nav>
+
+     </nav>
 
     <!--TABLE STYLE-->
-    <div>
-        <table >
-            <tr th:each="skill : ${skillList}">
-
-                <td>
+    <!-- <div>
+        <table>
+            <tr>
+                <td th:each="skill : ${skillList}"> -->
                     <!-- <form method="POST" th:action="@{/skills/searchIntro/}+${skill.skillId}" th:object="${skill}"> -->
-                    <button type="submit"  class="btn btn-primary" th:data-name="${skill.skillId}" th:onclick="WatchCourseIntro(this.getAttribute('data-name'))"> <span th:text="${skill.skillTitle}"> </span></button>
+                    <!-- <button type="submit"  class="btn btn-secondary" th:data-name="${skill.skillId}" th:onclick="WatchCourseIntro(this.getAttribute('data-name'))"> <span th:text="${skill.skillTitle}"> </span></button> -->
                     <!-- </form> -->
-                </td>
+                <!-- </td>
             </tr>
         </table>
 
-    </div>
+    </div> -->
     <!--
         <br>
         <div layout:fragment="content" th:if="${not #lists.isEmpty(selectedSkill)}" id="#testing" >
@@ -98,6 +100,8 @@
 
         </table>
     </div>
+
+    <br>
 
 
 
@@ -150,11 +154,11 @@
 
 
                 // $('#imageId').append("<td Align = Middle>\<img src='/images/java.png' width='100' height='100'>\</td>");
-                $('#skillTitleId').append("<tr>\<td Align = Middle>\<b>What is "+result[0]+"?<b>\</td>\</tr>");
-                $('#descriptionId').append("<tr>\<td Align = Middle>\<b>"+result[1]+"<b>\</td>\</tr>");
-                $('#introId').append("<tr>\<td colspan='2'><p class='text-center'>\<b>Introduction to "+result[0]+"<b>\</p>\</td>\</tr>");
-                $('#videoId').append("<tr>\<td><center><iframe width='800' height='450' src="+result[2]+" title='YouTube video player' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share' allowfullscreen>\</iframe>\</center>\</td>\</tr>");
-                $('#startLearningId').append("<tr>\<td><center><a class='btn btn-secondary' href='/skills/searchIntro/"+skillId+"  'role='button'>\<i class='bi bi-book'>\</i> Start Learning</a>\</center>");
+                $('#skillTitleId').empty().append("<tr>\<td Align = Middle>\<b>What is "+result[0]+"?<b>\</td>\</tr>");
+                $('#descriptionId').empty().append("<tr>\<td Align = Middle>"+result[1]+"</td>\</tr>");
+                $('#introId').empty().append("<tr>\<td colspan='2'><p class='text-center'>\<b>Introduction to "+result[0]+"<b>\</p>\</td>\</tr>");
+                $('#videoId').empty().append("<tr>\<td><center><iframe width='800' height='450' src="+result[2]+" title='YouTube video player' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share' allowfullscreen>\</iframe>\</center>\</td>\</tr>");
+                $('#startLearningId').empty().append("<tr>\<td><center><a class='btn btn-secondary' href='/skills/searchIntro/"+skillId+"  'role='button'>\<i class='bi bi-book'>\</i> Start Learning</a>\</center>");
 
                 //testing
                 console.log("@{skills/searchIntro/"+skillId+"}");

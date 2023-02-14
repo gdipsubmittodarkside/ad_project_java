@@ -381,4 +381,33 @@ color: #ad2eb3;
 display: none;
 }
 
+.button-tab {
+  background-color: #fff;
+  border-radius: 5px;
+  border: 1px solid #ad2eb3;
+  box-sizing: border-box;
+  color: #ad2eb3;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  height: 40px;
+  width: 120px;
+  line-height: 20px;
+  list-style: none;
+  padding: 10px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  transition: color 100ms;
+  vertical-align: baseline;
+  margin-top: 1%;
+  }
+  
+  .button-tab:hover,
+  .button-tab:focus {
+  background-color: #616161;
+  color: #fff;
+  border: none;
+  }
+
 /*   Main color: #ad2eb3; */

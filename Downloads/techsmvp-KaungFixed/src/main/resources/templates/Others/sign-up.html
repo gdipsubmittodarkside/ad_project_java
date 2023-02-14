@@ -4,106 +4,186 @@
 <body>
 <div th:replace="fragments/layout.html :: menu"/>
 <head>
-
-    </script>
 </head>
 <body>
 
-<h2> Sign Up </h2>
+    <div class="m-2">
+        <div class="row d-flex h-100">
+            <table>
+                <tr>
+                    <td width="5%">
+                       
+    
+                    </td>
+                    <td width="40%">
+                    <form id="regForm" action="#" th:action="@{/register}"
+                        th:object="${newMember}" method="post">
+                        
+                        <h1 style="color:#ad2eb3;">Sign Up</h1>
+                        <!-- One "tab" for each step in the form: -->
+                        <div class="tab"><b>Email</b>
+                          <p><input name="email" type="email" th:field="*{email}" th:placeholder="${currentEmail}" class="signup-input"></p>
+                          <b>Password</b> (8 or more characters)
+                          <p><input name="password" type="text" th:field="*{password}" class="signup-input"></p>
+                          <b>Username</b>
+                          <p><input name="username" type="text" th:placeholder="${currentUsername}" th:field="*{username}" class="signup-input"></p>
+                          <b>Year of Birth</b>
+                          <p><input name="birthday" type="date" th:field="*{birthday}" class="signup-input"></p>
+                          <p><b>Current Role</b></p>
+                          <p><input name="currentJobTitle" input type="text" th:field="*{currentJobTitle}" class="signup-input"></p>
+                        </div>
+                        <div class="tab">
+                          <p><b>Gender</b></p>
+                          <select class="select" th:field="*{gender}" required>
+                            <option value="" disabled selected hidden>Choose one...</option>
+                                  <option value='option-1'>Male</option>
+                                  <option value='option-2'>Female</option>
+                                  <option value='option-3'>Prefer Not To Say</option>
+                              </select>
+                          <p><b>Education Level</b></p>
+                          <select class="select" th:field="*{education}" required>
+                            <option value="" disabled selected hidden>Choose one..</option>
+                                  <option value='option-1'>Doctoral</option>
+                                  <option value='option-2'>Master's</option>
+                                  <option value='option-3'>Degree</option>
+                                  <option value='option-4'>Diploma</option>
+                                  <option value='option-5'>College</option>
+                                  <option value='option-6'>High School</option>
+                              </select>
+                           <p><b>Dream Job</b></p>
+                          <select class="select" th:field="*{dreamJob}" required>
+                            <option value="" disabled selected hidden>Choose one..</option>
+                              <option value='Software Engineer'>Software Engineer</option>
+                              <option value='UIUX Designer'>UIUX Designer</option>
+                              <option value='Devpos'>Devpos</option>
+                           </select>
+                          <p><b>Your Skills</b></p>
+                          <select style="margin-bottom:30px;" th:field="*{mySkills}" class="selectm" multiple>
+                            <option value="HTML">HTML</option>
+                            <option value="Jquery">Jquery</option>
+                            <option value="CSS">CSS</option>
+                            <option value="Bootstrap 3">Bootstrap 3</option>
+                            <option value="Bootstrap 4">Bootstrap 4</option>
+                            <option value="Java">Java</option>
+                            <option value="Javascript">Javascript</option>
+                            <option value="Angular">Angular</option>
+                            <option value="Python">Python</option>
+                            <option value="Hybris">Hybris</option>
+                            <option value="SQL">SQL</option>
+                            <option value="NOSQL">NOSQL</option>
+                            <option value="NodeJS">NodeJS</option>
+                          </select> 
+                          <br>
+                          <br>
+                        </div> 
+                        <div class="tab">
+                          <p><b>About Yourself</b></p>
+                          <p><textarea class="textarea2" th:field="*{shortBio}" rows="3" placeholder="max character 30 words"></textarea></p>
+                        </div>
+                        <div style="overflow:auto;">
+                            <button type="button" class="btn btn-secondary" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
+                            <button type="button" class="btn btn-secondary" id="nextBtn" onclick="nextPrev(1)">Next</button>
+                        </div>
+                        <!-- Circles which indicates the steps of the form: -->
+                        <div style="text-align:center;margin-top:30px;">
+                          <span class="step"></span>
+                          <span class="step"></span>
+                          <span class="step"></span>
+                        </div>
+                      </form>
 
-<form action="#" th:action="@{/register}"
-      th:object="${newMember}" method="post">
-    <table>
-        <tbody>
-        <tr>
-            <td><span th:text="#{fieldLabel.email}"></span></td>
-            <td><input type="email" th:field="*{email}" size="40" th:placeholder="${currentEmail}"/></td>
-        </tr>
-        <tr>
-            <td><span th:text="#{fieldLabel.password}"></span></td>
-            <td><input type="text" th:field="*{password}" size="40" /></td>
-            <!-- <td th:if="${#fields.hasErrors('password')}"
-              th:errors="*{password}"></td> -->
-        </tr>
-        <tr>
-            <td><span th:text="#{fieldLabel.username}"></span></td>
-            <td><input type="text" th:value="*{username}" th:field="*{username}"  th:placeholder="${currentUsername}"/></td>
-            <!-- <td th:if="${#fields.hasErrors('username')}"
-              th:errors="*{username}"></td> -->
-        </tr>
-        <tr>
-            <td><span th:text="#{fieldLabel.gender}"></span></td>
-            <td>
-                <select th:field="*{gender}">
-                    <option value="MALE">MALE</option>
-                    <option value="FEMALE">FEMALE</option>
-                    <option value="OTHER">OTHER</option>
-                </select>
-            </td>
-        </tr>
-        <tr>
-            <td><span th:text="#{fieldLabel.birthday}"></span></td>
-            <td><input type="date" th:value="*{birthday}" th:field="*{birthday}"  /></td>
-            <!-- <td th:if="${#fields.hasErrors('birthday')}"
-              th:errors="*{birthday}"></td> -->
+                </td>
+                <td width="50%">
+                    <div>
+                        
+                        <img src="/images/signupimage.png"
+                          class="img-fluid" width="800" height="600">
+                      </div>
+                </td>
+                <td width="5%">
+                   
 
-        </tr>
+                </td>
+            </tr>
+        </table>
+            
+    </div>
+</body>
 
-
-        <tr>
-            <td><span th:text="#{fieldLabel.currentCity}"></span></td>
-            <td><input type="text" th:value="*{currentCity}" th:field="*{currentCity}"  /></td>
-        </tr>
-
-        <tr>
-            <td><span th:text="#{fieldLabel.courseTaken}"></span></td>
-            <td><input type="text" th:value="*{courseTaken}" th:field="*{courseTaken}"  /></td>
-        </tr>
-
-        <tr>
-            <td><span th:text="#{fieldLabel.dreamJob}"></span></td>
-            <td><input type="text" th:field="*{dreamJob}" size="20" /></td>
-        </tr>
-
-        <!-- <td>
-          <fieldset>
-            <select th:field="*{dreamJob}">
-              <option value=""></option>
-              <option th:each="dreamJob : ${dreamJobs}" th:value="${manager}" th:text="${manager}">List
-              </option>
-            </select>
-          </fieldset>
-        </td> -->
-
-        <tr>
-            <td><span th:text="#{fieldLabel.currentJobTitle}"></span></td>
-            <td><input type="text" th:field="*{currentJobTitle}" size="20" /></td>
-        </tr>
-        <tr>
-            <td><span th:text="#{fieldLabel.education}"></span></td>
-            <td><input type="text" th:field="*{education}" size="20" /></td>
-            <!-- <td th:if="${#fields.hasErrors('education')}"
-            th:errors="*{education}"></td> -->
-
-        </tr>
-        <tr>
-            <td><span th:text="#{fieldLabel.shortBio}"></span></td>
-            <td colspan="3"><textarea th:field="*{shortBio}"
-                                      th:rows="${shortBio}" cols="40"></textarea></td>
-        </tr>
-
-
-        <tr>
-        <tr>
-            <td></td>
-            <td>
-                <input type="submit" value="Sign Up" class="blcass" />
-                <input type="reset" value="Reset" class="blcass" />
-            </td>
-        </tr>
-        </tbody>
-    </table>
-</form>
+<script>
+    var currentTab = 0; // Current tab is set to be the first tab (0)
+    showTab(currentTab); // Display the current tab
+    
+    function showTab(n) {
+      // This function will display the specified tab of the form...
+      var x = document.getElementsByClassName("tab");
+      x[n].style.display = "block";
+      //... and fix the Previous/Next buttons:
+      if (n == 0) {
+        document.getElementById("prevBtn").style.display = "none";
+      } else {
+        document.getElementById("prevBtn").style.display = "inline";
+      }
+      if (n == (x.length - 1)) {
+        document.getElementById("nextBtn").innerHTML = "Sign Up";
+      } else {
+        document.getElementById("nextBtn").innerHTML = "Next";
+      }
+      //... and run a function that will display the correct step indicator:
+      fixStepIndicator(n)
+    }
+    
+    function nextPrev(n) {
+      // This function will figure out which tab to display
+      var x = document.getElementsByClassName("tab");
+      // Exit the function if any field in the current tab is invalid:
+      if (n == 1 && !validateForm()) return false;
+      // Hide the current tab:
+      x[currentTab].style.display = "none";
+      // Increase or decrease the current tab by 1:
+      currentTab = currentTab + n;
+      // if you have reached the end of the form...
+      if (currentTab >= x.length) {
+        // ... the form gets submitted:
+        document.getElementById("regForm").submit();
+        return false;
+      }
+      // Otherwise, display the correct tab:
+      showTab(currentTab);
+    }
+    
+    function validateForm() {
+      // This function deals with validation of the form fields
+      var x, y, i, valid = true;
+      x = document.getElementsByClassName("tab");
+      y = x[currentTab].getElementsByTagName("input");
+      // A loop that checks every input field in the current tab:
+      for (i = 0; i < y.length; i++) {
+        // If a field is empty...
+        if (y[i].value == "") {
+          // add an "invalid" class to the field:
+          y[i].className += " valid";
+          // and set the current valid status to false
+          valid = true;
+        }
+      }
+      // If the valid status is true, mark the step as finished and valid:
+      if (valid) {
+        document.getElementsByClassName("step")[currentTab].className += " finish";
+      }
+      return valid; // return the valid status
+    }
+    
+    function fixStepIndicator(n) {
+      // This function removes the "active" class of all steps...
+      var i, x = document.getElementsByClassName("step");
+      for (i = 0; i < x.length; i++) {
+        x[i].className = x[i].className.replace(" active", "");
+      }
+      //... and adds the "active" class on the current step:
+      x[n].className += " active";
+    }
+    </script>
 
 <script th:inline="javascript">
     /*<![CDATA[*/
@@ -124,9 +204,8 @@
     }
 </script>
 
-
-
-</body>
 <footer>
     <div th:replace="fragments/layout.html :: footer" />
-</footer>
+</footer> 
+
+
