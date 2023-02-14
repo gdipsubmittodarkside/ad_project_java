@@ -23,6 +23,7 @@
   transform: translateY(20%);
 } 
 
+
 .container{ 
   display:block; 
   position:absolute; 
@@ -179,6 +180,7 @@ width: 100%;
 height:73vh;
 overflow-y: scroll;
 }
+
 
 /* for Sign Up page */
 #regForm {
@@ -424,5 +426,18 @@ display: none;
     height:2.0rem;
     font-size: small;
     }
+
+    /* for dashboard */
+    #content-wrapper-dashboard {
+      width: 590px;
+      height:370px;
+      overflow-y: scroll;
+      }
+      
+      #content-wrapper-progress {
+      width: 100%;
+      height:370px;
+      overflow-y: scroll;
+      }
 
 /*   Main color: #ad2eb3; */

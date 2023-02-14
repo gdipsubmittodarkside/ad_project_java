@@ -8,6 +8,7 @@
     <script defer th:src="@{/js/js-calendar-dashboard.js}"></script> 
 <head>
 </head>
+
 <body style="background-color: #ebebeb">
     <img class="image1" src="/images/dashboardbgmini.png" width=100% height=10%/>
 
@@ -35,14 +36,15 @@
                         <table>
                             <tr>
                                 <td width="70%">
-                                    <p><b>Progress of Goal</b></p>
+                                    <p><b>Progress of skills</b></p>
+                                    <p style="font-size: small;"><i>towards acheiving<b> Dream Job</b></i></p>
                                 </td>
                             </tr>
                         </table>
                         <table>
                             <tr >
                                 <td>
-                                    <canvas id="courseChart" style="width:150%;"></canvas>
+                                    <canvas id="courseChart" style="width:150%; height:320px"></canvas>
                                 </td>
                             </tr>
                         </table>
@@ -50,21 +52,32 @@
                 </td>
                 <td width="430px" height="430px">
                     <div class="container5">
-                        <table>
-                            <tr>
-                                <td width="70%">
-                                    <p><b>Skills Require</b></p>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td width="70%">
-                                    <ul>
-                                        <li th:each="sk : ${skills}" > <a th:href="@{/search/courses/result(skill=${sk.skillTitle})}" th:text="${sk.skillTitle}">element</a></li>
-                                    </ul>
-                                </td>
-                            </tr>
-                        </table>
-                        <hr/>
+                        <div id="content-wrapper-dashboard">
+                            <table>
+                                <tr>
+                                    <td width="70%">
+                                        <p><b>Courses</b></p>
+                                    </td>
+                                    <td width="10%">
+                                        <a th:href="@{/myCourses/manageProgress}" class="link-secondary">Manage</a>
+                                    </td>
+                                </tr>
+                            </table>
+                            <table class="coursesTable">
+
+                                <tr th:each="course : ${myCourses}">
+
+                                    <td align="left"  style= "width: 35% ; font-size: smaller;"><span th:text="${course.myCourseTitle}" ></span><hr></td>
+                                    <td class="progress progress-bar" role="progressbar" th:style="'width:' + ( ${course.progress}) + '%;'"  aria-valuenow="'width:' + ( ${course.progress}) + '%;'"  aria-valuemin="0" aria-valuemax="100" th:text="${course.progress}+'%'"><hr></td>     
+                                </tr>       
+                            </table>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td width="430px" height="430px">
+                    <div class="container7">
                         <table>
                             <tr>
                                 <td width="70%">
@@ -77,36 +90,6 @@
 
                                 <td  th:each="skill : ${skillTitles}" class="award shadow p-0.5 mb-5 rounded"> <span th:text="${skill}" > </span></td>
                             </tr>
-                        </table>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td width="430px" height="430px">
-                    <div class="container7">
-                        <table>
-                            <tr>
-                                <td width="70%">
-                                    <p><b>Courses</b></p>
-                                </td>
-                                <td width="10%">
-                                    <a th:href="@{/myCourses/manageProgress}" class="link-secondary">Manage</a>
-                                </td>
-                            </tr>
-                        </table>
-                        <table class="coursesTable">
-
-                            <tr th:each="course : ${myCourses}">
-
-                                <td aligh="left"  style= "width: 20% ; font-size: x-small; font-weight: bold;"><span th:text="${course.myCourseTitle}" ></span></td>
-                                <td class="progress progress-bar" role="progressbar" th:style="'width:' + ( ${course.progress}) + '%;'"  aria-valuenow="'width:' + ( ${course.progress}) + '%;'"  aria-valuemin="0" aria-valuemax="100" th:text="${course.progress}+'%'"></td>
-                                
-                                    <!-- <canvas id="progressbar" style="width:150%; height:300%;"></canvas> -->
-                                
-                            </tr>
-
-
-                       
                         </table>
                     </div>
                 </td>
