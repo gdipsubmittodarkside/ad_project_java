@@ -139,28 +139,35 @@ public class SettingController {
     }
 
     @PostMapping("/information")
-    public String updateInfo(@ModelAttribute("member") Member newMember, @RequestParam("skills") List<Integer> skillsIds , RedirectAttributes redirectAttributes, Model model){
+    public String updateInfo(@ModelAttribute("member") Member newMember, @RequestParam(value = "skills", required = false) List<Integer> skillsIds , RedirectAttributes redirectAttributes, Model model){
         // Member currentMember = getCurrentMember(userId);
 
         String currentUsername = MemberUtils.getMemberFromSpringSecurity();
 
         Member currentMember = memberService.loadMemberByUsername(currentUsername);
 
+        if (skillsIds!=null) {
+            if (skillsIds.size()>0) {
+                List<Skill> skillList = new ArrayList<>();
+                for (int i = 0; i < skillsIds.size(); i++) {
+                    Skill skill = skillService.findSkillById(Long.valueOf(skillsIds.get(i)));
+                    MySkill mySkill = new MySkill();
+                    if (mySkillService.findMySkillByMemberAndSkill(currentMember, skill) == null){
+                        mySkill.setSkill(skill);
+                        mySkill.setMember(currentMember);
+                        mySkillService.save(mySkill);
+                        if(currentMember.getMySkills()==null){
+                            currentMember.setMySkills(new ArrayList<MySkill>());
+                            currentMember.getMySkills().add(mySkill);
+                        } else {
+                            currentMember.getMySkills().add(mySkill);
+                        };
+                    }
 
-        if (skillsIds.size()>0) {
-            List<Skill> skillList = new ArrayList<>();
-            for (int i = 0; i < skillsIds.size(); i++) {
-                Skill skill = skillService.findSkillById(Long.valueOf(skillsIds.get(i)));
-                MySkill mySkill = new MySkill();
-                if (mySkillService.findMySkillByMemberAndSkill(currentMember, skill) == null){
-                    mySkill.setSkill(skill);
-                    mySkill.setMember(currentMember);
-                    mySkillService.save(mySkill);
-                    currentMember.getMySkills().add(mySkill);
                 }
-
             }
         }
+
 
 
         if (newMember!=null) {

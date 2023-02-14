@@ -27,6 +27,7 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
+    @Transactional
     public Member createMember(Member member) {
 
         Member memberInDb = memberRepository.findMemberByUsername(member.getUsername()).orElse(null);
@@ -70,6 +71,7 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
+    @Transactional
     public Boolean deleteMember(Long id) {
         // TODO Auto-generated method stub
 
