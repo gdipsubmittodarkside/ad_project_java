@@ -1,36 +1,37 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head th:replace="fragments/layout.html :: html_head"/>
 <body>
 <div th:replace="fragments/layout.html :: menu"/>
 <head>
-    <script type="text/javascript" src="jquery-3.5.1.min.js">
-        $(document).ready(function(){
-            $("#most_popular").click(sortByPopularity);
-        });
+<!--    <script type="text/javascript" src="jquery-3.5.1.min.js">-->
+<!--        $(document).ready(function(){-->
+<!--            $("#most_popular").click(sortByPopularity);-->
+<!--        });-->
 
-        function sortByPopularity(){
+<!--        function sortByPopularity(){-->
 
-            var $tbody = $('#table_displayCourses tbody')
+<!--            var $tbody = $('#table_displayCourses tbody')-->
 
-            $tbody.find('tr').sort(sortBy_popular).appendTo($tbody);
-        }
+<!--            $tbody.find('tr').sort(sortBy_popular).appendTo($tbody);-->
+<!--        }-->
 
-        function sortBy_popular(a, b){
-            var data1 = $(a).attr('popularity');
-            var data2 = $(b).attr('popularity');
+<!--        function sortBy_popular(a, b){-->
+<!--            var data1 = $(a).attr('popularity');-->
+<!--            var data2 = $(b).attr('popularity');-->
 
-            return data1 > data2 ? 1 : data1 < data2 ? -1 : 0;
-        }
+<!--            return data1 > data2 ? 1 : data1 < data2 ? -1 : 0;-->
+<!--        }-->
 
-        var listItems = document.getElementsClassName("saved");
-        for(var i = 0; i < listItems.length; i += 1){
-            listItems[i].addEventListener('click', function (e) {
-                // e.target.style.visibility = 'hidden';
-                e.target.outerText= 'saved';
-            });
-        }
-    </script>
+<!--        var listItems = document.getElementsClassName("saved");-->
+<!--        for(var i = 0; i < listItems.length; i += 1){-->
+<!--            listItems[i].addEventListener('click', function (e) {-->
+<!--                // e.target.style.visibility = 'hidden';-->
+<!--                e.target.outerText= 'saved';-->
+<!--            });-->
+<!--        }-->
+<!--    </script>-->
+
 </head>
 <body>
 <div th:if="${#lists.isEmpty(courseList)}">
@@ -48,9 +49,9 @@
                         <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                        <li><a class="dropdown-item" href="#">1 - 2 hours</a></li>
-                        <li><a class="dropdown-item" href="#">2 - 3 hours</a></li>
-                        <li><a class="dropdown-item" href="#">3+ hours</a></li>
+                        <li><a class="dropdown-item" href="#" onclick="sortByDuration(1);">1 - 2 hours</a></li>
+                        <li><a class="dropdown-item" href="#" onclick="sortByDuration(2);">2 - 3 hours</a></li>
+                        <li><a class="dropdown-item" href="#" onclick="sortByDuration(3);">3+ hours</a></li>
                     </ul>
                 </div>
             </td>
@@ -64,8 +65,8 @@
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                         <li id="best_match"><a class="dropdown-item" th:href="@{'/courses/recommend?query='+ ${entered}}">Best Match</a></li>
-                        <li id="most_popular"><a class="dropdown-item" th:href="@{/sort/popular}">Most Popular</a></li>
-                        <li id="most_recent"><a class="dropdown-item" th:href="@{/sort/time}">Most Recent</a></li>
+                        <li id="most_popular"><a class="dropdown-item" href="#" onclick="sortByLikes();" >Most Popular</a></li>
+                        <li id="most_recent"><a class="dropdown-item" href="#" onclick="sortByDate();">Most Recent</a></li>
                     </ul>
                 </div>
             </td>
@@ -79,28 +80,30 @@
         </table>
 
         <!-- LIST OF COURSES -->
-        <table class="table table-striped" th:each="course : ${courseList}" id="table_displayCourses">
-            <tr th:attr="popularity=${course.views}">
-                <td width="30%">
-                    <a th:href="@{'/courses/watchCourse/' + ${course.courseId}}"> <img src="/images/placeholder/placeholderCourse1.jpg" width="320" height="180"></a>
-                </td>
-                <td class="course" width="50%" style="vertical-align: middle">
-                    <a th:href="@{'/courses/watchCourse/' + ${course.courseId}}"><p class="text-uppercase"><b><span th:text="${course.courseTitle}"></span></b></p></a>
-                    <div style="padding: 5px; display: inline-block;" th:text="${course.views} + ' views &nbsp; &nbsp;| '"></div>
-                    <div style="padding: 5px; display: inline-block;" th:text="${course.likes} + ' likes &nbsp; &nbsp;| '"></div>
-                    <div style="padding: 5px; display: inline-block;" th:text="${course.subscribers} + ' subscribers'"></div>
-                </td>
-                <td width="20%" style="vertical-align: middle">
+        <div id="courseList">
+        <table class="table table-striped" th:each="course : ${courseList}"  id="table_displayCourses">
 
-                    <div sec:authorize="isAuthenticated()">
+                <tr  th:attr="data-id=${course.getCourseId()}, data-date=${course.getDate()}, data-likes=${course.getLikes()}, data-hours=${course.getDurationHours()}">
+                    <td width="30%">
+                        <a th:href="@{'/courses/watchCourse/' + ${course.courseId}}"> <img src="/images/placeholder/placeholderCourse1.jpg" width="320" height="180"></a>
+                    </td>
 
-                        <a class="btn btn-secondary saved" id="myBtn" role="button" th:data-name="${course.courseId}" th:onclick="SaveCourse(this.getAttribute('data-name'))"><i class="bi bi-bookmarks"></i></i> Save</a>
+                    <td class="course" width="50%" style="vertical-align: middle">
+                        <a th:href="@{'/courses/watchCourse/' + ${course.courseId}}"><p class="text-uppercase"><b><span th:text="${course.courseTitle}"></span></b></p></a>
+                        <div  style="padding: 5px; display: inline-block;" th:text="${course.views} + ' views &nbsp; &nbsp;| '" ></div>
+                        <div  style="padding: 5px; display: inline-block;" th:text="${course.likes} + ' likes &nbsp; &nbsp;| '" ></div>
+                        <div style="padding: 5px; display: inline-block;" th:text="${course.subscribers} + ' subscribers'"></div>
+                    </td>
 
-                    </div>
+                    <td width="20%" style="vertical-align: middle">
+                        <div sec:authorize="isAuthenticated()">
+                            <a class="btn btn-secondary saved" id="myBtn" role="button" th:data-name="${course.courseId}" th:onclick="SaveCourse(this.getAttribute('data-name'))"><i class="bi bi-bookmarks"></i></i> Save</a>
+                        </div>
+                    </td>
+                </tr>
 
-                </td>
-            </tr>
         </table>
+        </div>
 
         <table th:if="${totalPages > 1}">
         </table>
@@ -150,17 +153,112 @@
     </script>
 
     <script>
+        const tables = document.getElementById("courseList");
 
-        function sortByDuration() {
+
+        function sortByDuration(hours){
+            let i;
+            let ListOfTable = tables.getElementsByTagName("table")
+
+            for (i = 0; i < (ListOfTable.length - 1); i++) {
+                let tr = ListOfTable[i].getElementsByTagName("tr")[0];
+                let dh = tr.getAttribute("data-hours");
+                console.log(dh)
+                if (hours == 1) {
+                    if (dh < 2) {
+                        ListOfTable[i].style.display = "";
+                    } else {
+                        ListOfTable[i].style.display = "none";
+                    }
+                }
+                if (hours == 2) {
+
+                    if (dh >= 2 && dh < 3) {
+                        ListOfTable[i].style.display = "";
+                    } else {
+                        ListOfTable[i].style.display = "none";
+                    }
+
+                }
+                if (hours == 3) {
+
+                    if (dh >= 3) {
+                        ListOfTable[i].style.display = "";
+                    } else {
+                        ListOfTable[i].style.display = "none";
+                    }
+
+                }
+
+            }
 
         }
 
         function sortByLikes() {
 
+            let x, y, i, switching, shouldSwitch, rows;
+            switching = true;
+            while (switching) {
+                switching = false;
+                rows = tables.getElementsByTagName("table");
+                for ( i = 0; i < (rows.length - 1); i++ ) {
+                    shouldSwitch = false;
+                    x = rows[i].getElementsByTagName("tr")[0].getAttribute("data-likes");
+                    console.log(x);
+                    y = rows[i+1].getElementsByTagName("tr")[0].getAttribute("data-likes");
+                    console.log(y);
+                    if (x < y) {
+                        shouldSwitch = true;
+                        break;
+                    }
+                }
+                if (shouldSwitch) {
+                    rows[i].parentNode.insertBefore(rows[i+1], rows[i]);
+                    switching = true;
+                }
+            }
+
         }
 
-        function sortBy
 
+        function sortByDate() {
+
+            let rows, switching, i, x, y, shouldSwitch;
+            switching = true;
+
+            while (switching) {
+                switching = false;
+                rows = tables.getElementsByTagName("table");
+
+                for(i = 0; i < (rows.length - 1); i++) {
+                    shouldSwitch = false;
+                    x = rows[i].getElementsByTagName("tr")[0].getAttribute("data-date");
+                    x = convertDate(x)
+                    console.log(x);
+                    y = rows[i+1].getElementsByTagName("tr")[0].getAttribute("data-date");
+                    y = convertDate(y);
+                    console.log(y);
+
+                    if (x < y) {
+                        shouldSwitch = true;
+                        break;
+                    }
+                }
+
+                if (shouldSwitch) {
+                    rows[i].parentNode.insertBefore(rows[i+1], rows[i])
+                    switching = true;
+                }
+            }
+
+        }
+
+        function convertDate(d) {
+            let myDate = new Date(d);
+            console.log(myDate.toDateString());
+            return myDate;
+
+        }
     </script>
 </body>
 <footer>
