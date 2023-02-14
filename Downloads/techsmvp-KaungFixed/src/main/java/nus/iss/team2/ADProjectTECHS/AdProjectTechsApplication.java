@@ -59,7 +59,6 @@ public class AdProjectTechsApplication {
 							   SkillRepository sRepo) {
 		return (args) -> {
 			
-
 		};
 
 

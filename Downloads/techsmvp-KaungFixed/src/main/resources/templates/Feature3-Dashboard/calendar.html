@@ -189,7 +189,8 @@
 
 
     selectCourse.addEventListener("change", function () {
-        course.value = selectCourse.value;
+        txtNote.value = selectCourse.value;
+        txtNote.innerHTML = selectCourse.value;
     })
 
     saveBtn.addEventListener("click", function () {

@@ -3,10 +3,9 @@ package nus.iss.team2.ADProjectTECHS.Controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -60,6 +59,24 @@ public class DashboardController {
         
         if (currentMember == null) throw new RuntimeException("cannot find current member");
 
+        //check all the schedule events
+        List<ScheduleEvent> events = scheduleEventService.findScheduleEventByMemberId(currentMember.getMemberId());
+
+
+        JSONArray jsonArray = new JSONArray();
+
+        for(int i=0; i<events.size();i++){
+            JSONObject jo = new JSONObject();
+            jo.put("s", events.get(i).getStartDate());
+            jo.put("e", events.get(i).getEndDate());
+            jo.put("t", events.get(i).getNotes());
+            jo.put("c", events.get(i).getTxtColor());
+            jo.put("b", events.get(i).getBgColor());
+            jo.put("course", events.get(i).getMyCourse().getMyCourseTitle());
+            jo.put("id",events.get(i).getScheduleId());
+            jsonArray.put(jo);
+        }
+
         //check if member have dream job or not 
         Job memberDreamJob = currentMember.getDreamJob();       
         if (memberDreamJob==null){
@@ -86,7 +103,8 @@ public class DashboardController {
         if(dreamJob.isEmpty()|| dreamJob==null){
           dreamJob = "EMPTY";
         }
-       
+        
+         model.addAttribute("events", jsonArray);
          model.addAttribute("member", currentMember);
          model.addAttribute("skillTitles", skillTitles);
          model.addAttribute("myCourses", myCourses);
