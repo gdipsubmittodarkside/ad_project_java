@@ -8,7 +8,11 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -255,6 +259,15 @@ public class SettingController {
         currentMember.setAvatar(visitPath);
         memberService.save(currentMember);
 
+        if (!setAvatar(visitPath)){
+            setAuth2Avatar(visitPath);
+        }
+
+
+
+
+
+
         return "redirect:/settings";
     }
 
@@ -443,5 +456,31 @@ public class SettingController {
 //    public Member getCurrentMember(Long id) {
 //        return memberService.findById(id);
 //    }
+    public Boolean setAuth2Avatar(String visitPath) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        try{
+            nus.iss.team2.ADProjectTECHS.security.CustomOAuth2User userDetails = (nus.iss.team2.ADProjectTECHS.security.CustomOAuth2User) authentication.getPrincipal();
+            userDetails.setAvatar(visitPath);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+
+    public Boolean setAvatar(String visitPath) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        try{
+            nus.iss.team2.ADProjectTECHS.security.User userDetails = (nus.iss.team2.ADProjectTECHS.security.User) authentication.getPrincipal();
+            userDetails.setAvatar(visitPath);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
 
 }

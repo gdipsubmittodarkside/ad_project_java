@@ -87,6 +87,8 @@ public class MemberController {
         String currentUsername = MemberUtils.getMemberFromSpringSecurity();
         Member currentMember = memberService.loadMemberByUsername(currentUsername);
 
+        newMember.setAvatar("/images/avatar/defaultAvatar.jpeg");
+
         if (currentMember!=null) {
             newMember.setUsername(currentMember.getUsername());
             newMember.setEmail(currentMember.getEmail());

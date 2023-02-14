@@ -7,6 +7,8 @@ import java.util.Collection;
 import java.util.Map;
 
 public class CustomOAuth2User implements OAuth2User {
+
+    private String avatar;
     private OAuth2User oAuth2User;
 
     public CustomOAuth2User(OAuth2User oAuth2User) {
@@ -30,6 +32,19 @@ public class CustomOAuth2User implements OAuth2User {
 
     public String getEmail() {
         return oAuth2User.<String>getAttribute("email");
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    public String getAvatar() {
+        if (this.avatar == null){
+            return "/images/avatar/defaultAvatar.jpeg";
+        } else {
+            return this.avatar;
+        }
+
     }
 
 }

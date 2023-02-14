@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<head th:fragment="html_head" id="html_head" >
+<head th:fragment="html_head" id="html_head" xmlns:sec="http://www.w3.org/1999/xhtml">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>TECHS</title>
@@ -87,10 +87,10 @@
                                 <tr>
                                     <td>
                                         <!-- icon -->
-                                        <a th:href="@{/dashboard}" class="navbar-brand"><img src="/images/Jt.png" width="50" height="50"></a> <br>
+                                        <a th:href="@{/dashboard}" class="navbar-brand"><img th:src="${#authentication.getPrincipal().getAvatar()}" width="50" height="50"></a> <br>
                                     </td>
                                     <td>
-                                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Me</a>
+                                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" ><span th:sec:authentication= "name"></span></a>
                                         <div class="dropdown-menu dropdown-menu-end">
                                             <a th:href="@{/dashboard}" class="dropdown-item">Dashboard</a>
                                             <a th:href="@{/settings}" class="dropdown-item setting" data-modal="modalTwo">Settings</a>

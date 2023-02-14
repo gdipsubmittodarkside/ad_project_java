@@ -7,6 +7,8 @@ import javax.transaction.Transactional;
 
 import lombok.AllArgsConstructor;
 import nus.iss.team2.ADProjectTECHS.Repository.MemberRepository;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -49,6 +51,10 @@ public class MemberServiceImpl implements MemberService{
             newMember.setEmail(email);
             memberRepository.save(newMember);
             return false;
+        } else {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            nus.iss.team2.ADProjectTECHS.security.CustomOAuth2User userDetails = (nus.iss.team2.ADProjectTECHS.security.CustomOAuth2User) authentication.getPrincipal();
+            userDetails.setAvatar(existMember.getAvatar());
         }
 
         return true;
