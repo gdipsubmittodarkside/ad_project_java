@@ -5,7 +5,7 @@
     <div th:replace="fragments/layout.html :: menu"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
     <link th:href="@{/css/js-calendar-dashboard.css}" rel="stylesheet">
-    <script defer th:src="@{/js/js-calendar.js}"></script> 
+    <script defer th:src="@{/js/js-calendar-dashboard.js}"></script> 
 <head>
 </head>
 <body style="background-color: #ebebeb">
@@ -127,12 +127,13 @@
                                 <td style="position:sticky">
                                       <div id="calHead">
                                         <div id="calPeriod" style="width:550px;">
-                                          <input id="calBack" type="button" class="mi">
+                                          <!-- <input id="calBack" type="button" class="mi"> -->
                                           <select id="calMonth"></select>
                                           <input id="calYear" type="number">
-                                          <input id="calNext" type="button" class="mi">
+                                          <!-- <input id="calNext" type="button" class="mi"> -->
                                         </div>
-                                        <input id="calAdd" type="button" class="mi">
+                                        <!-- <input id="calAdd" type="button" class="mi"> -->
+                                        <input type="hidden" id="events" class="events" th:value="${events}">
                                       </div>
                                   
                                       <!-- (B) CALENDAR WRAPPER -->
@@ -141,36 +142,7 @@
                                         <div id="calBody"></div>
                                       </div>
                                   
-                                        <!-- (C) EVENT FORM -->
-                                        <dialog id="calForm"><form method="dialog">
-                                            <div id="evtCX" class="mi">X</div>
-                                            <h5 class="evt100">ADD EVENT</h5>
-                                            <div class="evt50">
-                                            <label>Start</label>
-                                            <input id="evtStart" type="datetime-local" required>
-                                            </div>
-                                            <div class="evt50">
-                                            <label>End</label>
-                                            <input id="evtEnd" type="datetime-local" required>
-                                            </div>
-                                            <div class="evt50">
-                                            <label>Text Color</label>
-                                            <input id="evtColor" type="color" value="#000000" required>
-                                            </div>
-                                            <div class="evt50">
-                                            <label>Background Color</label>
-                                            <input id="evtBG" type="color" value="#ffdbdb" required>
-                                            </div>
-                                            <div class="evt100">
-                                            <label>Event</label>
-                                            <input id="evtTxt" type="text" required>
-                                            </div>
-                                            <div class="evt100">
-                                            <input type="hidden" id="evtID">
-                                            <input type="button" id="evtDel" class="mi" value="DELETE">
-                                            <input type="submit" id="evtSave" class="mi" value="SAVE">
-                                            </div>
-                                        </form></dialog> 
+                                        
                                 </td>
                             </tr>
                         </table>

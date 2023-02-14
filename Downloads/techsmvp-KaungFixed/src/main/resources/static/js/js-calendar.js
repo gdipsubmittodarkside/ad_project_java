@@ -113,7 +113,7 @@ var cal = {
     cal.schedule_id = document.getElementById("schedule_id");
     cal.myCoursesS = document.getElementById("myCourseS");
 
-
+    cal.iTX().clear();
     console.log(events.value);
     var eventsArr = JSON.parse(events.value);
     for(let i=0; i<eventsArr.length;i++){

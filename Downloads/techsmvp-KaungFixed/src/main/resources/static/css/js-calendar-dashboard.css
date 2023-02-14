@@ -132,3 +132,15 @@
   color: #fff; background: var(--bg-color-c);
   cursor: pointer; font-size:14px;
 }
+
+select{
+  width: auto !important;
+  /* text-overflow: ellipsis; */
+  max-width: 420px;
+}
+
+option{
+  width: auto !important;
+  /* text-overflow: ellipsis; */
+  max-width: 420px;
+}
