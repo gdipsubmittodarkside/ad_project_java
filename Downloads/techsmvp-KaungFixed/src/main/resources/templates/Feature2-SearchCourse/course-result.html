@@ -84,7 +84,7 @@
                 <td width="30%">
                     <a th:href="@{'/courses/watchCourse/' + ${course.courseId}}"> <img src="/images/placeholder/placeholderCourse1.jpg" width="320" height="180"></a>
                 </td>
-                <td width="50%" style="vertical-align: middle">
+                <td class="course" width="50%" style="vertical-align: middle">
                     <a th:href="@{'/courses/watchCourse/' + ${course.courseId}}"><p class="text-uppercase"><b><span th:text="${course.courseTitle}"></span></b></p></a>
                     <div style="padding: 5px; display: inline-block;" th:text="${course.views} + ' views &nbsp; &nbsp;| '"></div>
                     <div style="padding: 5px; display: inline-block;" th:text="${course.likes} + ' likes &nbsp; &nbsp;| '"></div>
@@ -149,7 +149,17 @@
 
     </script>
 
-    <script th:inline="javascript">
+    <script>
+
+        function sortByDuration() {
+
+        }
+
+        function sortByLikes() {
+
+        }
+
+        function sortBy
 
     </script>
 </body>
