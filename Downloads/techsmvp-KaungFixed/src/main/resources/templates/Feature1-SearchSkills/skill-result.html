@@ -25,25 +25,17 @@
         </blockquote>
     </figure>
 
+    <nav class="nav nav-pills flex-column flex-sm-row">
+        <td th:each="skill : ${skillList}">
+        <a type="button" class="flex-sm-fill text-sm-center button-tab"  aria-current="page" th:data-name="${skill.skillId}" th:onclick="WatchCourseIntro(this.getAttribute('data-name'))"><span th:text="${skill.skillTitle}"></span></a>
+    </td>
+</nav>
 
-    <div>
-        <table size="100%">
-            <tr >
-
-                <td th:each="skill : ${skillList}">
-                    <button type="submit"  class="btn btn-primary" th:data-name="${skill.skillId}" th:onclick="WatchCourseIntro(this.getAttribute('data-name'))"> <span th:text="${skill.skillTitle}"> </span></button>
-                </td>
-            </tr>
-        </table>
-
-    </div>
-
-    </div>
+     </nav>
    
 
     <div>
         <table class='table table-borderless' style="background-color:#f7f5f5">
-            <!-- <tbody id="imageId"> </tbody> -->
 
             <tbody id="skillTitleId"> </tbody>
 
@@ -58,6 +50,11 @@
 
         </table>
     </div>
+
+    <br>
+
+
+
 
 </div>
 
@@ -95,7 +92,7 @@
                 //inserting data into html
                 // $('#imageId').append("<td Align = Middle>\<img src='/images/java.png' width='100' height='100'>\</td>");
                 $('#skillTitleId').empty().append("<tr>\<td Align = Middle>\<b>What is "+result[0]+"?<b>\</td>\</tr>");
-                $('#descriptionId').empty().append("<tr>\<td Align = Middle>\<b>"+result[1]+"<b>\</td>\</tr>");
+                $('#descriptionId').empty().append("<tr>\<td Align = Middle>"+result[1]+"</td>\</tr>");
                 $('#introId').empty().append("<tr>\<td colspan='2'><p class='text-center'>\<b>Introduction to "+result[0]+"<b>\</p>\</td>\</tr>");
                 $('#videoId').empty().append("<tr>\<td><center><iframe width='800' height='450' src="+result[2]+" title='YouTube video player' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share' allowfullscreen>\</iframe>\</center>\</td>\</tr>");
                 $('#startLearningId').empty().append("<tr>\<td><center><a class='btn btn-secondary' href='/skills/searchIntro/"+skillId+"  'role='button'>\<i class='bi bi-book'>\</i> Start Learning</a>\</center>");

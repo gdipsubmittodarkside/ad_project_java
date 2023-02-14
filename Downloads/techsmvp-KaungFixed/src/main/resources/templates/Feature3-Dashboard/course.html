@@ -52,7 +52,7 @@
 
                     <div id="In Progress" class="course" style="display:none">
                         <div th:if="${#lists.isEmpty(inProgressList)}">
-                            <span><b>You have no In Progress Courses. Start to add your new one.</b> </span>
+                            <span><b><center>You have no course in progress.</center></b></span>
                         </div>
                         <div id="content-wrapper">
                             <table class="table table-striped">    
@@ -68,7 +68,7 @@
 
                     <div id="Completed" class="course" style="display:none">
                         <div th:if="${#lists.isEmpty(completedLlist)}">
-                            <span><b> You have no Completed Course yet. Start Learning a new one.</b></span>
+                            <span><b><center> You have no completed course.</center></b></span>
                         </div>
                         <div id="content-wrapper">
                             <table class="table table-striped">      
@@ -90,9 +90,9 @@
                                        
                                         <form  th:action="@{/myCourses/updateProgress/}+${course.myCourseId}" method="GET">
                                          
-                                            <input type="number" th:value="${course.progress}" name="updatedProgress" min="1" max="100" style="width:5rem;height:1.5rem;"/>
+                                            <input type="number" th:value="${course.progress}" name="updatedProgress" min="1" max="100" class="progress-input"/>
                              
-                                            <button class="btn btn-info btn-sm" type="submit" style="font-size:12px;height: 2.5em;" >SAVE</button>
+                                            <button class="btn btn-secondary" type="submit" style="font-size:12px;height: 2.5em;" >UPDATE</button>
                                         
                                         </form>
                                      

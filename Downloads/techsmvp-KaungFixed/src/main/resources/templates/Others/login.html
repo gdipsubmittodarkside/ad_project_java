@@ -43,10 +43,10 @@
                         <div>Username
                             <p><input type="username" name="username" required class="form-control signup-input" ></p>
                             Password
-                            <p><input  type="password" name="password" required class="form-control"></p>
+                            <p><input  type="password" name="password" required class="form-control signup-input"></p>
                             <button class="button-1" role="button" >Sign In</button>
                             <p class="hr-lines"> or </p>
-                            <p><a th:href="@{/oauth2/authorization/google}">Sign In with GOOGLE</a></p>
+                            <p><a  class="button-2" th:href="@{/oauth2/authorization/google}">Sign In with GOOGLE</a></p>
                             <p><a class="button-2" th:href="@{/members/register}">New to <b>TECHS</b>? Sign Up</a></p>
                         </div>
                     </form>

@@ -1,7 +1,6 @@
 package nus.iss.team2.ADProjectTECHS;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 import nus.iss.team2.ADProjectTECHS.Model.Enums.Gender;
@@ -48,21 +47,53 @@ public class AdProjectTechsApplication {
 		return new BCryptPasswordEncoder();
 		
 	}
-    @Bean
+
+	// PUT IN YOUR OWN COMMAND LINE RUNNER 
+	// TO SET MEMBER CORRECTLY VIA SPRING SECURITY --> USE MemberService.createMember()
+
+	@Bean
 	CommandLineRunner loadData(CourseCrawledRepository ccRepo,
-							   MemberService mRepo,
-							   ScheduleEventRepository seRepo,
-							   JobSkillRepository jsRepo,
-							   JobRepository jRepo,
-							   MySkillRepository msRepo,
-							   MyCourseRepository mcRepo,
-							   SkillRepository sRepo) {
+			MemberService mService,
+			ScheduleEventRepository seRepo,
+			JobSkillRepository jsRepo,
+			JobRepository jRepo,
+			MySkillRepository msRepo,
+			MyCourseRepository mcRepo,
+			SkillRepository sRepo) {
 		return (args) -> {
-			
+
+			//  List<String> skillList = DeveloperController.skillList;
+			// List<String> skillDesList = DeveloperController.skillDescList;
+			// List<String> skillUrlList = DeveloperController.skillURLList;
+
+			// for(int i =0; i<skillList.size(); i++){
+			// 	Skill skill = new Skill();
+			// 	skill.setSkillTitle(skillList.get(i));
+			// 	skill.setSkillDescription(skillDesList.get(i));
+			// 	skill.setUrlLink(skillUrlList.get(i));
+			// 	sRepo.save(skill);
+			// }
+
+			// Member m1 = new Member();
+			// m1.setUsername("techs");
+			// m1.setPassword("techs");
+			// m1.setEmail("coolcool@gmail.com");
+			// m1.setGender(Gender.MALE);
+			// m1.setBirthday(LocalDate.of(1983, 5, 22));
+			// m1.setCourseTaken("Java");
+			// m1.setCurrentCity("Singapore");
+			// m1.setEducation(Education.OTHERS);
+			// m1.setShortBio("I am cool!");
+			// m1.setCurrentJobTitle("Tax Accountant");
+			// m1.setAvatar("https://robohash.org/reiciendisrerumin.png?size=50x50&set=set1");
+
+			// mService.createMember(m1);
+		
 		};
+	}
 
 
-	}}
+}
 
 
 
