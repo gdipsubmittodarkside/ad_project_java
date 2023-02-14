@@ -1,6 +1,7 @@
 package nus.iss.team2.ADProjectTECHS.Controller.RestController;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,7 +19,12 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import nus.iss.team2.ADProjectTECHS.Model.CourseCrawled;
+import nus.iss.team2.ADProjectTECHS.Model.Member;
 import nus.iss.team2.ADProjectTECHS.Model.MyCourse;
+import nus.iss.team2.ADProjectTECHS.Model.Skill;
+import nus.iss.team2.ADProjectTECHS.Service.CourseCrawledService;
+import nus.iss.team2.ADProjectTECHS.Service.MemberService;
 import nus.iss.team2.ADProjectTECHS.Service.MyCourseService;
 
 @RestController
@@ -27,49 +33,100 @@ public class RMyCourseController {
 
     @Autowired
     private MyCourseService myCourseService;
-    @ApiResponses(value = {
+
+        @Autowired
+        private MemberService memberService;
+
+        @Autowired 
+        private CourseCrawledService courseCrawledService;
+
+
+        @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "${api.response-codes.ok.desc}"),
         @ApiResponse(responseCode = "400", description = "${api.response-codes.badRequest.desc}", content = {
                 @Content(examples = { @ExampleObject(value = "") }) }),
         @ApiResponse(responseCode = "404", description = "${api.response-codes.notFound.desc}", content = {
                 @Content(examples = { @ExampleObject(value = "") }) }) })
-    @GetMapping("/myCourses")
-    public ResponseEntity<List<MyCourse>> getAllMyCourses() {
+        @GetMapping("/myCourses")
+        public ResponseEntity<List<MyCourse>> getAllMyCourses() {
 
-        try {
-            List<MyCourse> myCourses = myCourseService.getAllMyCourses();
-            if (myCourses.isEmpty()) {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            try {
+                List<MyCourse> myCourses = myCourseService.getAllMyCourses();
+                if (myCourses.isEmpty()) {
+                    return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+                }
+                return new ResponseEntity<>(myCourses, HttpStatus.OK);
+
+            } catch (Exception e) {
+                return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
             }
-            return new ResponseEntity<>(myCourses, HttpStatus.OK);
 
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-    }
 
-    @PostMapping("/myCourses")
-    public ResponseEntity<MyCourse> saveMyCourse(@RequestBody MyCourse mycourse) {
-        try {
-            MyCourse course = myCourseService.createMyCourse(mycourse);
-            return new ResponseEntity<>(course, HttpStatus.OK);
-        } catch (Exception e) {
+        @PostMapping("saveMyCourse/{member_id}/{courseCrawled_id}")
+        public ResponseEntity<Boolean> saveMyCourse(@PathVariable(value="member_id") Long member_id, 
+                                                    @PathVariable(value="courseCrawled_id") Long course_id){
 
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            Member member = memberService.findById(member_id);
+            CourseCrawled courseCrawled = courseCrawledService.findCourseCrawledById(course_id);
+
+            if (member == null || courseCrawled == null){
+                return new ResponseEntity<>(false, HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+
+            String courseTitle = courseCrawled.getCourseTitle();
+            Skill courseSkill = courseCrawled.getSkill();
+            long skill_id = courseSkill.getSkillId();
+            String courseUrl = courseCrawled.getUrlLink();
+    
+            MyCourse my_course = new MyCourse();
+            my_course.setMyCourseTitle(courseTitle);
+            my_course.setSkill(skill_id);
+            my_course.setProgress(0);
+            my_course.setCourseUrl(courseUrl);
+            my_course.setMember(member);
+
+            myCourseService.createMyCourse(my_course);
+
+            return new ResponseEntity<>(true, HttpStatus.OK);
+       }
+
+       @GetMapping("/myCourses/{member_id}")
+        public ResponseEntity<List<CourseCrawled>> getMyCourseByMemberId(@PathVariable("member_id") Long member_id) {
+            
+            // should add json ignore for fields scheduleEvent and member for MyCourse entity, such that there won't be nested json.
+            /* 
+            currently this is not so important as we are not returning a list of MyCourse.
+            this is because mobile side need to display all the fields of course crawled for saved course page
+            */ 
+            List<MyCourse> myCourseList = myCourseService.getMyCoursesByMemberId(member_id);
+            
+            List<CourseCrawled> listOfCClinkedToMyCourses = myCourseList.stream()
+                            .map(c -> courseCrawledService.findCourseCrawledByUrl(c.getCourseUrl()))
+                            .collect(Collectors.toList());
+
+            try {
+                if(listOfCClinkedToMyCourses == null || listOfCClinkedToMyCourses.size() == 0){
+                    return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+                }
+                return new ResponseEntity<>(listOfCClinkedToMyCourses, HttpStatus.OK);
+
+            } catch (Exception e) {
+                return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            }
         }
-    }
 
-    @PutMapping("/myCourses")
-    public ResponseEntity<MyCourse> updateMyCourse(@RequestBody MyCourse mycourse) {
+        // @PutMapping("/myCourses")
+        // public ResponseEntity<MyCourse> updateMyCourse(@RequestBody MyCourse mycourse) {
 
-        try {
-            MyCourse course = myCourseService.updateMyCourse(mycourse, mycourse.getMyCourseId());
-            return new ResponseEntity<>(course, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
+        //     try {
+        //         MyCourse course = myCourseService.updateMyCourse(mycourse, mycourse.getMyCourseId());
+        //         return new ResponseEntity<>(course, HttpStatus.OK);
+        //     } catch (Exception e) {
+        //         return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        //     }
+        // }
 
     @DeleteMapping("/myCourses/{id}")
     public ResponseEntity<Long> deleteMyCourse(@PathVariable("id") Long id) {
@@ -80,19 +137,6 @@ public class RMyCourseController {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
             return new ResponseEntity<>(id, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    @GetMapping("/myCourses/{id}")
-    public ResponseEntity<MyCourse> getMyCourseById(@PathVariable("id") Long id) {
-        try {
-            MyCourse course = myCourseService.findMyCourseById(id);
-            if(course == null){
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
-            return new ResponseEntity<>(course, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }

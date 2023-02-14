@@ -1,6 +1,7 @@
 package nus.iss.team2.ADProjectTECHS.Controller.RestController;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,16 +16,39 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import lombok.RequiredArgsConstructor;
 import nus.iss.team2.ADProjectTECHS.Model.Job;
 import nus.iss.team2.ADProjectTECHS.Model.JobSkill;
 import nus.iss.team2.ADProjectTECHS.Model.Skill;
+import nus.iss.team2.ADProjectTECHS.Service.JobService;
 import nus.iss.team2.ADProjectTECHS.Service.JobSkillService;
 @RestController
 @RequestMapping("api/")
 public class RJobSkillController {
     @Autowired
     private JobSkillService jobSkillService;
+
+    @Autowired
+    private JobService jobService;
+
+    @GetMapping("/jobskills/{jobTitle}")
+    public ResponseEntity<List<Skill>> getSkillsByJobTitle(@PathVariable("jobTitle") String jobTitle){
+        jobTitle = jobTitle.toLowerCase();
+
+        Job job = jobService.findJobByJobTitle(jobTitle);
+        
+        List<JobSkill> jobSkills = jobSkillService.findJobSkillByJob(job);
+        List<Skill> skillsRequired = new ArrayList<>();
+        for (JobSkill js : jobSkills){
+            skillsRequired.add(js.getSkill());
+        }
+        
+        try{
+            return new ResponseEntity<>(skillsRequired, HttpStatus.OK);
+        }catch (Exception e) {
+
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
     @GetMapping("/jobSkills")
     public ResponseEntity<List<Skill>> getAllJobSkills(){

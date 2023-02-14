@@ -23,4 +23,6 @@ public interface JobSkillRepository extends JpaRepository<JobSkill,Long>{
 
     @Query("select js from JobSkill js where js.job.jobId= :jobId")
     List<JobSkill> findSkillsByJobId(@Param("jobId") Long jobId);
+
+    List<JobSkill> findByJob(Job job);
 }

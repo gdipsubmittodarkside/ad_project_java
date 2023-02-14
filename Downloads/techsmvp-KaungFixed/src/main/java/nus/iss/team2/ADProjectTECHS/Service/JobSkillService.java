@@ -19,7 +19,7 @@ public interface JobSkillService {
 
     List<Skill> findSkillsReq(Long jobId);
 
-
+    List<JobSkill> findJobSkillByJob(Job job);
 
 
 

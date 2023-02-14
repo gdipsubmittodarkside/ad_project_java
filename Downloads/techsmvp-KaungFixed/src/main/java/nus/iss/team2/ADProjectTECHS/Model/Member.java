@@ -82,6 +82,11 @@ public class Member {
     @Column(name = "current_city")
     private String currentCity;
 
+    public Member (String username, String password){
+        this.username = username;
+        this.password = password;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o)

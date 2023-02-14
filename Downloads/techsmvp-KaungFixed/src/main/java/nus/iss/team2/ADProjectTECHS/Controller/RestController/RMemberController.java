@@ -26,63 +26,19 @@ public class RMemberController {
     @Autowired
     private MemberService memberService;
 
+    @GetMapping("createMemberFromMobile/{username}")
+    public ResponseEntity<Long> createMember(@PathVariable(value="username") String username){
+        
+        Member new_member = memberService.createMember(new Member(username, "mobileuser"));
+        long member_id = 0;
 
-    @GetMapping("/members")
-    public ResponseEntity<List<Member>> getAllMembers(){
+        if (new_member.getUsername().equals(username)){
+            member_id = new_member.getMemberId();
+        }
 
-
-        return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);   
+        return new ResponseEntity<>(Long.valueOf(member_id), HttpStatus.OK);
         
     }
-
-    @PostMapping("/members")
-    public ResponseEntity<Member> saveMember(@RequestBody Member member){
-
-
-        return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);   
-        
-    }
-
-
-    @PutMapping("/members")
-    public ResponseEntity<Member> updateMember(@RequestBody Member member){
-
-        return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR); 
-    }
-
-    @DeleteMapping("/members/{id}")
-    public ResponseEntity<Long> deleteMember(@PathVariable("id") Long id){
-
-
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-
-    @GetMapping("/members/{id}")
-    public ResponseEntity<Member> getMemberById(@PathVariable("id")Long id){
-
-        return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-
-    }
-
-
-    @GetMapping("/members/name")
-    public ResponseEntity<List<Member>> getMemberByName(@RequestParam String name){
-        return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-
-    }
-
-      
-    @GetMapping("/members/email/{email}")
-	public ResponseEntity<Optional<Member>> getMemberByEmail(@PathVariable String email) {
-		return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-
-
-
-    @GetMapping("/members/name/{name}")
-	public ResponseEntity<List<Member>> getMemberByNameContaining(@PathVariable String name) {
-		return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-	}
 
 
 }
