@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/layout.html :: html_head"/>
+<body>
+<div th:replace="fragments/layout.html :: menu"/>
+    <div th:if="${message!=null}">
+        <p class="text-danger" th:text="${message}"></p>
+    </div>
+    
+
+    <body>
+        <div class="m-2">
+            <div class="row d-flex h-100">
+                <table>
+                    <tr>
+                        <td width="10%">
+                        </td>
+                        <td width="70%">
+                            <table>
+                                <tr>
+                                    <h1 style="color:#ad2eb3;">Settings</h1>
+                                    <div class = "tabinator">
+                                        <input type = "radio" id = "tab1" name = "tabs" checked>
+                                        <label for = "tab1" onclick="openSetting('Profile');">Profile</label>
+                                        <input type = "radio" id = "tab2" name = "tabs">
+                                        <label for = "tab2" onclick="openSetting('Information');">Additional Information</label>
+                                        <input type = "radio" id = "tab3" name = "tabs">
+                                        <label for = "tab3" onclick="openSetting('Password');">Password</label>
+                                    </div>
+                                </tr>
+                            </table>
+                            <div id="Profile" class="setting">
+                                <table class="table table-borderless">
+                                        <tr>
+                                            <td>
+                                                <table class="table table-borderless" >
+                                                    <tr>
+                                                        <td width="20%">
+
+                                                        </td>
+                                                        <td>
+                                                            <div width="30%">
+                                                                <div class="form-input">
+                                                                    <div class="preview">
+                                                                        <img th:src="@{|${currentAvatar}|}" id="file-ip-1-preview">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td style= vertical-align:middle>
+                                                            <div width="30%">
+                                                                <form enctype="multipart/form-data" th:action="@{/settings/image}" method="post">
+                                                                    <input class="input2" type="file" accept="image/*" name="image" onchange="showPreview(event)">
+                                                                    <p><input class="button-upload" type="submit" value="Upload Avatar"></p>
+                                                                </form>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                </table>
+
+                                <table class="table table-borderless">
+                                    <form th:action="@{/settings/profile}" th:object="${member}" method="post">
+                                        <tr>
+                                            <td width="50%">
+                                                <b>Username</b>
+                                                <p><input class="fname input1" type="text" th:placeholder="${currentMember.getUsername()}" th:field="*{username}" disabled></p>
+                                            </td>
+                                            <td width="50%">
+                                                <b>Email Address</b>
+                                                <p><input class="fname input1" type="email" th:placeholder="${currentMember.getEmail()}" th:field="*{email}"</p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td width="50%">
+                                                <b>Current Role</b>
+                                                <p><input class="fname input1" type="text" th:placeholder="${currentMember.getCurrentJobTitle()}" th:field="*{currentJobTitle}"></p>
+                                            </td>
+                                            <td width="50%">
+                                                <b>Year of Birth</b>
+                                                <p><input class="fname input1" type="date" th:field="*{birthday}"></p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td width="50%">
+                                                <b>Bio</b>
+                                                <p><textarea class="textarea1" name="shortBio" th:placeholder="${currentMember.getShortBio()}" th:text="${member.shortBio}" rows="2"></textarea></p>
+                                            </td>
+                                            <td width="50%">
+                                                <b>Dream Job</b>
+                                                <!-- need a if else statement (if list is empty...) -->
+                                                <!-- <p><span> Current : </span><span  th:text="${currentMember.getDreamJob().getJobTitle()}"></span></p> -->
+                                                <p><select class="select" th:field="*{dreamJob}">
+                                                    <option th:each="job : ${jobList}" th:value="${job.getJobId()}" th:text="${job.getJobTitle()}"></option>
+                                                </select></p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class= "btn-group">
+                                                    <input class="button-submit" type="submit" value="Submit">
+                                                    <input class="button-reset" type="reset" value="Reset">
+                                                 </div>
+    
+                                            </td>
+
+                                        </tr>
+                                    </form>
+                                </table>
+                            </div>
+                            <div id="Information" class="setting" style="display: none">
+                                    <table class="table table-borderless">
+                                            <form th:action="@{/settings/information}" th:object="${member}" method="post">
+                                                <tr>
+                                                    <td width="50%">
+                                                        <p><b>Gender</b></p>
+                                                        <p><span> Current : </span><span  th:text="${currentMember.getGender()}"></span></p>
+                                                        <p><select class="select" th:field="*{gender}">
+                                                            <option th:each="gender : ${T(nus.iss.team2.ADProjectTECHS.Model.Enums.Gender).values()}" th:value="${gender}" th:text="${gender}"></option>
+                                                        </select></p>        
+                                                    </td>
+                                                    <td width="50%">
+                                                        <p><b>Education Level</b></p>
+                                                        <p><span> Current : </span><span  th:text="${currentMember.getEducation()}"></span></p>
+                                                        <p><select class="select" th:field="*{education}">
+                                                            <option th:each="level : ${T(nus.iss.team2.ADProjectTECHS.Model.Enums.Education).values()}" th:value="${level}" th:text="${level}"></option>
+                                                        </select></p>
+                                                    </td>
+
+                                                </tr>
+                                                <tr>
+                                                    <td width="50%">
+                                                        <p><b>My Skills</b></p>
+                                                        <!-- need a if else statement (if list is empty...) -->
+                                                        <!-- <p><span> Current : <div style="display:inline-block" th:each="mk : ${currentMember.getMySkills()}"> </span><span  th:text="'&nbsp' + ${mk.getSkill().getSkillTitle()} + '.'"></span></p></div> -->
+                                                        <p><select name="skills" class="selectm"  multiple="multiple">
+                                                            <option th:each="skill : ${skillList}" th:value="${skill.getSkillId()}" th:text="${skill.getSkillTitle()}"></option>
+                                                        </select></p>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div class= "btn-group">
+                                                            <input class="button-submit" type="submit" value="Submit">
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                </table>
+                                            </form>
+                            </div>
+                            <div id="Password" class="setting" style="display: none" >
+                                <table class="table table-borderless">
+                                    <form th:action="@{/settings/password}" method="post" >
+                                                    <p><b>Current Password</b></p>
+                                                    <p><input class="fname input1" type="password" name="curPwd" required></p>
+                                                    <p><b>New Password</b></p>
+                                                    <p><input class="fname input1" type="password"  name="newPwd" id="newPassword" required></p>
+                                                    <p><b>Confirm new password</b></p>
+                                                    <p><input class="fname input1" type="password"  required oninput="checkPasswordMatch(this);"/></p>
+                                                    <div class= "btn-group">
+                                                        <input class="button-submit" type="submit" value="Submit">
+                                                        <input class="button-reset" type="reset" value="Reset">
+                                                    </div>
+                                    </form>
+                                </table>
+                        
+                            </div>
+                        </td>
+                        <td width="10%">
+        
+                        </td>
+
+                    </tr>
+
+                </table>
+        
+            </div>
+        </div>
+    </body>
+        
+        <!-- <footer>
+            <div th:replace="fragments/layout.html :: footer" />
+        </footer> -->
+
+    <script>
+        function openSetting(settingtype) {
+            var i;
+            var x = document.getElementsByClassName("setting");
+            for (i = 0; i < x.length; i++) {
+                x[i].style.display = "none";
+            }
+            document.getElementById(settingtype).style.display = "block";
+        }
+
+        // this is for previewing the file selected
+        function showPreview(event){
+            if(event.target.files.length > 0){
+                var src = URL.createObjectURL(event.target.files[0]);
+                var preview = document.getElementById("file-ip-1-preview");
+                preview.src = src;
+                preview.style.display = "block";
+            }
+        }
+
+        function checkPasswordMatch(fieldConfirmPassword) {
+            if (fieldConfirmPassword.value != $("#newPassword").val()) {
+                fieldConfirmPassword.setCustomValidity("Passwords do not match!");
+            } else {
+                fieldConfirmPassword.setCustomValidity("");
+            }
+        }
+    </script>
+
+</html>
