@@ -2,7 +2,7 @@ var cal = {
   // (A) PROPERTIES
   // (A1) FLAGS & DATA
   mon : false, // monday first
-  events : null, // events data for current month/year
+  events : "", // events data for current month/year
   sMth : 0, // selected month
   sYear : 0, // selected year
   sDIM : 0, // number of days in selected month
@@ -13,17 +13,17 @@ var cal = {
   ready : 0, // to track loading
 
   // (A2) HTML ELEMENTS
-  hMth : null, hYear : null, // month & year
-  hCD : null, hCB : null, // calendar days & body
-  hFormWrap : null, hForm : null, // event form
-  hfID : null, hfStart : null, // event form fields
-  hfEnd : null, hfTxt : null,
-  hfColor : null, hfBG : null,
-  hfDel : null,
+  hMth : "", hYear : "", // month & year
+  hCD : "", hCB : "", // calendar days & body
+  hFormWrap : "", hForm : "", // event form
+  hfID : "", hfStart : "", // event form fields
+  hfEnd : "", hfTxt : "",
+  hfColor : "", hfBG : "",
+  hfDel : "",
 
   // (A3) INDEXED DB
   iName : "JSCalendar",
-  iDB : null, iTX : null, // idb object & transaction
+  iDB : "", iTX : "", // idb object & transaction
 
   // (A4) HELPER FUNCTIONS
   toDate : date => parseInt(date.replace(/-|T|:/g, "")),
@@ -257,7 +257,7 @@ var cal = {
     let now = new Date(), // current date
         nowMth = now.getMonth()+1, // current month
         nowYear = parseInt(now.getFullYear()), // current year
-        nowDay = cal.sMth==nowMth && cal.sYear==nowYear ? now.getDate() : null ;
+        nowDay = cal.sMth==nowMth && cal.sYear==nowYear ? now.getDate() : "" ;
 
     // (G2) DRAW CALENDAR ROWS & CELLS
     // (G2-1) INIT + HELPER FUNCTIONS
@@ -282,8 +282,8 @@ var cal = {
           rowB.appendChild(cell);
           cell = document.createElement("div");
           cell.className = "calCell";
-          if (day===undefined) { cell.classList.add("calBlank"); }
-          if (day!==undefined && day==nowDay) { cell.classList.add("calToday"); }
+          if (day==="") { cell.classList.add("calBlank"); }
+          if (day!=="" && day==nowDay) { cell.classList.add("calToday"); }
           rowC.appendChild(cell);
         };
     cal.hCB.innerHTML = ""; rower();
@@ -412,7 +412,11 @@ var cal = {
       alert("Start date cannot be later than end date!");
       return false;
     }
-    // CHECK Course
+    // CHECK Empty
+    if(data.s===""||data.e===""||data.t===""||data.c===""||data.b===""||data.course===""){
+      // alert("Fill in All Column");
+      return false;
+    }
 
 
 

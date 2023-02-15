@@ -113,7 +113,8 @@ public class CalendarController {
                                       @RequestParam("b") String bgColor,
                                       @RequestParam("t") String txtNote
     ){
-
+        courseTitle = courseTitle.replace("^", "&");
+        txtNote = txtNote.replace("^", "&");
         String currentUsername = MemberUtils.getMemberFromSpringSecurity();
 
         Member currentMember = memberService.loadMemberByUsername(currentUsername);
@@ -163,7 +164,8 @@ public class CalendarController {
                                       @RequestParam("b") String bgColor,
                                       @RequestParam("t") String txtNote
     ){
-
+        courseTitle = courseTitle.replace("^", "&");
+        txtNote = txtNote.replace("^", "&");
         String currentUsername = MemberUtils.getMemberFromSpringSecurity();
 
         Member currentMember = memberService.loadMemberByUsername(currentUsername);
