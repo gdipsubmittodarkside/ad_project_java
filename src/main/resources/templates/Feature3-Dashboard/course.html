@@ -86,16 +86,20 @@
                         <table class="table table-borderless" > 
                             <tr th:each="course : ${myCourseList}">
                                 <td>
-                                    <div class="text-uppercase"><b th:text="${course.myCourseTitle}"></b> <div class="btn" role="button">
-                                       
-                                        <form  th:action="@{/myCourses/updateProgress/}+${course.myCourseId}" method="GET">
-                                         
-                                            <input type="number" th:value="${course.progress}" name="updatedProgress" min="1" max="100" class="progress-input"/>
-                             
-                                            <button class="btn btn-secondary" type="submit" style="font-size:12px;height: 2.5em;" >UPDATE</button>
+                                    <div class="text-uppercase"><b th:text="${course.myCourseTitle}"></b> 
                                         
-                                        </form>
-                                     
+                                        <div class="btn" role="button">
+                                       
+                                            <form  th:action="@{/myCourses/updateProgress/}+${course.myCourseId}" method="GET">
+                                            
+                                                <input type="number" th:value="${course.progress}" name="updatedProgress" min="1" max="100" class="progress-input"/>
+                                
+                                                <button class="btn btn-secondary" type="submit" style="font-size:12px;height: 2.5em;" >UPDATE</button>
+                                            
+                                            </form>
+                                        </div>
+                                       <!-- <button class="btn btn-secondary" th:onclick="|window.location.href='/myCourses/deleteCourse/?id=' +${course.myCourseId}|" style="font-size:12px;height: 2.5em;" >Delete</button> -->
+                                       <button class="btn btn-secondary" th:data-courseid="${course.myCourseId}" onclick="deleteCourse(this.getAttribute('data-courseId'));" style="font-size:12px;height: 2.5em;" >Delete</button>
                                     <!-- <a th:href="@{/myCourses/edit/}+${course.myCourseId}" class="btn btn-info"><span
                                             th:text="Save"></span></a> -->
                                     
@@ -103,8 +107,10 @@
 
                                     <div>
                            
-                                    <div class="progress">
-                                        <div class="progress-bar" role="progressbar" th:style="'width:' + (${course.progress}) + '%;'"  aria-valuenow="'width:' + (${course.progress}) + '%;'"  aria-valuemin="0" aria-valuemax="100" th:text="${course.progress}+'%'"></div>
+                                        <div class="progress">
+                                            <div class="progress-bar" role="progressbar" th:style="'width:' + (${course.progress}) + '%;'"  aria-valuenow="'width:' + (${course.progress}) + '%;'"  aria-valuemin="0" aria-valuemax="100" th:text="${course.progress}+'%'">
+
+                                            </div>
                                     </div>
                                 </td>
                             </tr>
@@ -132,4 +138,24 @@
     }
     document.getElementById(coursetype).style.display = "block"; 
   }
+
+  function deleteCourse(id){
+    let text = "Do you want to delete the course!!! \n Warning::There is no going back!!!";
+    let url = "/myCourses/deleteCourse/" + id;
+    let xhr = new XMLHttpRequest();
+  if (confirm(text) == true) {
+    window.location.href = url;
+    // xhr.open("POST", url, true);
+    // xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    // xhr.send();
+    // xhr.onreadystatechange=function(){
+    //     if(xhr.readyState == 4 && xhr.status == 200){
+            
+
+    //     }
+    // }
+  } 
+
+  }
+
   </script>

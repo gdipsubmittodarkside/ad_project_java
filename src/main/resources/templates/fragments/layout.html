@@ -67,6 +67,7 @@
                                 <form autocomplete="off" style="width:300px;" th:action="@{/search/fragment}" method="POST">
                                     <span class="autocomplete form-outline input-group">
                                         <input id="myInput" type="text" name="query" placeholder="Search by skills or job" class="form-control">
+                                        <input type="hidden" name="sort" value="default">
                                         <button class="btn btn-secondary" role="button"> <i class="bi-search"></i></button>
                                     </span>
                                 </form>

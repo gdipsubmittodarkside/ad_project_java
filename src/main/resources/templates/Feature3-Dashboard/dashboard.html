@@ -59,7 +59,7 @@
                             <tr>
                                 <td width="70%">
                                     <ul>
-                                        <li th:each="sk : ${skills}" > <a th:href="@{/search/courses/result(skill=${sk.skillTitle})}" th:text="${sk.skillTitle}">element</a></li>
+                                        <li th:each="sk : ${skills}" > <a th:href="@{'/search/courses/result?skill=' + ${sk.skillTitle} + '&sort=default'}" th:text="${sk.skillTitle}">element</a></li>
                                     </ul>
                                 </td>
                             </tr>

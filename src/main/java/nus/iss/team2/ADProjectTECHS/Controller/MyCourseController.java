@@ -208,7 +208,14 @@ public class MyCourseController {
         return "redirect:/myCourses/manageProgress";
     }
 
+    @GetMapping("/deleteCourse/{id}")
+    public String deleteMyCourse(@PathVariable Long id){
 
+        myCourseService.deleteMyCourse(id);
+
+        return "redirect:/myCourses/manageProgress";
+        
+    }
 
     
 

@@ -135,13 +135,14 @@ public class SearchController {
     }
 
     @PostMapping("/fragment")
-    public String getSearchResultFromHeader(@RequestParam(value="query") String query, RedirectAttributes redirectAttributes){
+    public String getSearchResultFromHeader(@RequestParam(value="query") String query,@RequestParam(value="sort") String sort, RedirectAttributes redirectAttributes){
         
         Skill skill = skillService.findSkillByTitle(query);
         Job job = jobService.findJobByJobTitle(query);
 
         if (skill != null){
             redirectAttributes.addAttribute("skill", query);
+            redirectAttributes.addAttribute("sort", sort);
            return "redirect:/courses/result";
         }
         if (job != null){
