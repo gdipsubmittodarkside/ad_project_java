@@ -130,6 +130,11 @@ public class CourseCrawledServiceImpl implements CourseCrawledService {
         return courseCrawledRepository.findCourseCrawledByUrl(url);
     }
 
+    @Override
+    public CourseCrawled findCourseCrawledByUrlAndSkillId(String url, Long skill_id){
+        return courseCrawledRepository.findCourseCrawledByUrlLinkAndSkillId(url, skill_id);
+    }
+
     // FOR COURSE RECOMMENDATION API CALLING
     @Override
     public List<CourseCrawled> recommend_best_match(String query, List<MyCourse> myCourses) {

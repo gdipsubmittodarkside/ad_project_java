@@ -39,7 +39,7 @@
                         <div id="content-wrapper">
                         <table class="table table-striped" >      
                             <tr  th:each="course : ${myCourseList}">
-                              <td><a th:href="@{/myCourses/watchCourse/}+${course.myCourseId}"> <img src="/images/placeholder/placeholderCourse1.jpg" width="160px" height="90px"></a> </td>
+                              <td><a th:href="@{/myCourses/watchCourse/}+${course.myCourseId}"> <img th:src="@{${course.thumbnail}}" width="160px" height="90px"></a> </td>
                               <td><a th:href="@{/myCourses/watchCourse/}+${course.myCourseId}"><p class="link-primary text-uppercase" th:text="${course.myCourseTitle}"></p></a><p class="fw-light"></p></td>
                             </tr>
                         </table>
@@ -57,7 +57,7 @@
                         <div id="content-wrapper">
                             <table class="table table-striped">    
                                 <tr th:each="course : ${inProgressList}">
-                                <td><a th:href="@{/myCourses/watchCourse/}+${course.myCourseId}"> <img src="/images/placeholder/placeholderCourse5.jpg" width="160px" height="90px"></a> </td>
+                                <td><a th:href="@{/myCourses/watchCourse/}+${course.myCourseId}"> <img th:src="@{${course.thumbnail}}" width="160px" height="90px"></a> </td>
                                 <td><a th:href="@{/myCourses/watchCourse/}+${course.myCourseId}"><p class="link-primary text-uppercase" th:text="${course.myCourseTitle}"></p></a><p class="fw-light"></p>
                                 </tr>
                             </table>

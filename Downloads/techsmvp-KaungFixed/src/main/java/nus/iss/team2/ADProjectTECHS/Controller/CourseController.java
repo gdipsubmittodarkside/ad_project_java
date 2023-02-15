@@ -106,12 +106,14 @@ public class CourseController {
             Skill courseSkill = course.getSkill();
             long skill_id = courseSkill.getSkillId();
             String courseUrl = course.getUrlLink();
+            String thumbnail = course.getThumbnail();
     
             MyCourse my_course = new MyCourse();
             my_course.setMyCourseTitle(courseTitle);
             my_course.setSkill(skill_id);
             my_course.setProgress(0);
             my_course.setCourseUrl(courseUrl);
+            my_course.setThumbnail(thumbnail);
     
             //get member from Httpsession, current hardcoded for member m1
             String currentUsername = "";

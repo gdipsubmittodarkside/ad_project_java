@@ -48,4 +48,7 @@ public interface CourseCrawledRepository extends JpaRepository<CourseCrawled, Lo
 
     @Query("select c from CourseCrawled c where c.urlLink = :urlLink")
     CourseCrawled findCourseCrawledByUrl(@Param("urlLink")String urlLink);
+
+    @Query("select c from CourseCrawled c where c.skill.skillId = :skillId and c.urlLink = :urlLink")
+    CourseCrawled findCourseCrawledByUrlLinkAndSkillId(@Param("urlLink") String urlLink, @Param("skillId") Long skill_id);
 }

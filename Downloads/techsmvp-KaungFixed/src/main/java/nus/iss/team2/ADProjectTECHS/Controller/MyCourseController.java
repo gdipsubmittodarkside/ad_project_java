@@ -158,8 +158,8 @@ public class MyCourseController {
 
 
         //find channel_name, descrioption and date from courseCrawled table
-        CourseCrawled currentCourse = courseCrawledService.findCourseCrawledByUrl(url);
-        //if(currentCourse == null) throw new RuntimeException("cannot find current course");
+        // CourseCrawled currentCourse = courseCrawledService.findCourseCrawledByUrl(url);
+        CourseCrawled currentCourse = courseCrawledService.findCourseCrawledByUrlAndSkillId(url, course.getSkill());
 
         //model.addAttribute("Mycourse", course);
         model.addAttribute("urlQuery",urlQuery);

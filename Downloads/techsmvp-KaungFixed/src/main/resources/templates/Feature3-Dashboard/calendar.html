@@ -40,7 +40,7 @@
                                 <td colspan="2"> No Scheduled Course Available </td>
                             </tr>
                             <tr  id="myCourseS" th:each="course : ${scheduledCourseList}">
-                                <td><a th:href="@{/myCourses/watchCourse/}+${course.myCourseId}"> <img th:src="@{|${course.getThumbnail()}|}" width="160px" height="90px"></a> </td>
+                                <td><a th:href="@{/myCourses/watchCourse/}+${course.myCourseId}"> <img th:src="@{${course.thumbnail}}" width="160px" height="90px"></a> </td>
                                 <td><a th:href="@{/myCourses/watchCourse/}+${course.myCourseId}"><p class="link-primary text-uppercase" th:text="${course.getMyCourseTitle()}"></p></a><p class="fw-light" th:text="${course.getSkill()}"></p></td>
                             </tr>
                         </table>
@@ -55,7 +55,7 @@
                                 <td colspan="2"> No Scheduled Course Available </td>
                             </tr>
                             <tr th:each="course : ${unscheduledCourseList}">
-                                <td><a th:href="@{/myCourses/watchCourse/}+${course.myCourseId}"> <img src="@{|${course.getThumbnail()}|}" width="160px" height="90px"></a> </td>
+                                <td><a th:href="@{/myCourses/watchCourse/}+${course.myCourseId}"> <img th:src="@{${course.thumbnail}}" width="160px" height="90px"></a> </td>
                                 <td><a th:href="@{/myCourses/watchCourse/}+${course.myCourseId}"><p class="link-primary text-uppercase" th:text="${course.getMyCourseTitle()}"></p></a><p class="fw-light" th:text="${course.getSkill()}"></p></td>
                             </tr>
                         </table>

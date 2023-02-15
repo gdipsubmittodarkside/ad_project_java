@@ -103,7 +103,7 @@ public class RMyCourseController {
             List<MyCourse> myCourseList = myCourseService.getMyCoursesByMemberId(member_id);
             
             List<CourseCrawled> listOfCClinkedToMyCourses = myCourseList.stream()
-                            .map(c -> courseCrawledService.findCourseCrawledByUrl(c.getCourseUrl()))
+                            .map(c -> courseCrawledService.findCourseCrawledByUrlAndSkillId(c.getCourseUrl(), c.getSkill()))
                             .collect(Collectors.toList());
 
             try {
