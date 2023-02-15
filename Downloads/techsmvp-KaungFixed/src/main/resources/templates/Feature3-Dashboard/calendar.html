@@ -196,23 +196,32 @@
     saveBtn.addEventListener("click", function () {
 
         let xhr = new XMLHttpRequest();
-        let data = "s=" + start.value + "&"+ "e="+end.value + "&" + "c="+ course.value +"&" +
-            "cx="+txtColor.value +"&" +"b="+bgColor.value + "&"+"t="+txtNote.value ;
-        xhr.open("POST", "/calendar/create", true);
-        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-        xhr.send(data)
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState == 4 && xhr.status == 200) {
+        const temp = selectCourse.value.replace("&","^");
+        const txt = txtNote.value.replace("&","^");
+        let data = "s=" + start.value + "&e="+end.value + "&c="+ temp +"&cx="+txtColor.value +"&" +"b="+bgColor.value + "&"+"t="+ txt ;
+        if(start.value===""||end.value===""||selectCourse.value===""||bgColor.value===""||txtColor.value===""||txtNote.value===""){
+        alert("fill all columns")
+        
+        }
+        if(start.value!==""&&end.value!==""&&selectCourse.value!==""&&bgColor.value!==""&&txtColor.value!==""&&txtNote.value!=="")
+        {
+            xhr.open("POST", "/calendar/create", true);
+            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            xhr.send(data)
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
 
-                console.log(data)
+                    console.log(data)
+                }
             }
         }
     })
 
     deleteBtn.addEventListener("click", function (){
         let xhr = new XMLHttpRequest();
-        let data = "s=" + start.value + "&"+ "e="+end.value + "&" + "c="+ course.value +"&" +
-            "cx="+txtColor.value +"&" +"b="+bgColor.value + "&"+"t="+txtNote.value ;
+        const temp = selectCourse.value.replace("&","^");
+        const txt = txtNote.value.replace("&","^");
+        let data = "s=" + start.value + "&e="+end.value + "&c="+ temp +"&cx="+txtColor.value +"&" +"b="+bgColor.value + "&"+"t="+ txt ;
         xhr.open("POST", "/calendar/delete", true);
         xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
         xhr.send(data)
