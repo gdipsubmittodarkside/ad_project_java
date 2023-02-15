@@ -53,6 +53,7 @@ public class Scheduler {
     }
 
     @Scheduled(cron="0 0 0 * * ?")
+    // @Scheduled(cron = "*/10 * * * * *") FOR TESTING 
     public void cronSendEmail() {
         // List<UserDetails> principals = sessionRegistry.getAllPrincipals()
         // .stream()
@@ -67,19 +68,20 @@ public class Scheduler {
 
                 List<ScheduleEvent> scheduleEvents = scheduleEventService
                         .findScheduleEventByMemberId(member.getMemberId());
-                String msgBody = "HERE ARE THE SCHEDULE EVENTS: " + "\n";
+                String msgBody = "Hi " + member.getUsername() + ", you scheduled the below course(s) for today:" + "\n\n";
 
                 for (ScheduleEvent se : scheduleEvents) {
-                    // if (se.getStartDate().isBefore(LocalDateTime.now()) &&
-                    // LocalDateTime.now().isBefore(se.getEndDate())) {
-                    msgBody += se.getMyCourse().getMyCourseTitle() + "\n";
-                    // }
+
+                    if (se.getStartDate().isBefore(LocalDateTime.now()) &&
+                    LocalDateTime.now().isBefore(se.getEndDate())) {
+                    msgBody += se.getMyCourse().getMyCourseTitle() + "\n\n";
+                    }
                 }
 
                 EmailDetails ed = new EmailDetails();
-                ed.setSubject("Schedule Events Reminder");
+                ed.setSubject("TECHS - Schedule Events Reminder");
                 ed.setRecipient(member.getEmail());
-                ed.setMsgBody(msgBody + "http://localhost:8080/calendar");
+                ed.setMsgBody(msgBody + "Click on this link to find out more: http://localhost:8080/calendar");
                 String status = emailService.sendSimpleMail(ed);
                 System.out.println(status);
 
