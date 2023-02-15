@@ -50,6 +50,9 @@ public class SecurityConfig {
     private static final String[] INGORE_PATH = {
             "/",
             "/DataTable/**",
+            "/sendMail",
+            "/sendMailWithAttachment",
+            "schedule",
             "/js/**",
             "/css/**",
             "/images/**",
