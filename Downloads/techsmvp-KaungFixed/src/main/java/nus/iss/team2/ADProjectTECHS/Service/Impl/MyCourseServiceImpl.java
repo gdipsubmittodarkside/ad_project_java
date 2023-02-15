@@ -2,6 +2,8 @@ package nus.iss.team2.ADProjectTECHS.Service.Impl;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +37,7 @@ public class MyCourseServiceImpl implements MyCourseService{
     }
 
     @Override
+    @Transactional
     public Boolean deleteMyCourse(Long id) {
         MyCourse course = mcRepo.findById(id).get();
         if(course != null){

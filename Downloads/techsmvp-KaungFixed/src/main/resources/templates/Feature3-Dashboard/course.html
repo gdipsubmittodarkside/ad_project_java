@@ -100,6 +100,7 @@
                                             th:text="Save"></span></a> -->
                                     
                                     </div>
+                                    <button class="btn btn-secondary" th:data-courseid="${course.myCourseId}" onclick="deleteCourse(this.getAttribute('data-courseId'));" style="font-size:12px;height: 2.5em;" >Delete</button>
 
                                     <div>
                            
@@ -131,5 +132,15 @@
       x[i].style.display = "none";  
     }
     document.getElementById(coursetype).style.display = "block"; 
+  }
+
+  function deleteCourse(id){
+    let text = "Do you want to delete the course!!! \n Warning::There is no going back!!!";
+    let url = "/myCourses/deleteCourse/" + id;
+    let xhr = new XMLHttpRequest();
+  if (confirm(text) == true) {
+    window.location.href = url;
+  } 
+
   }
   </script>
