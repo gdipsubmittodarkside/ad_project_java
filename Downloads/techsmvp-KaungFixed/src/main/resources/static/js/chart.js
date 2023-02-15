@@ -32,12 +32,12 @@ $(document).ready(function() {
             machineLabels: ["active", "progress", "expired", "never"],
             datasets: [{
                 borderWidth: 0,
-                backgroundColor: [
-                    '#76b82a',
-                    '#ea5b1b',
-                    '#ffcc33',
-                    '#cc3333',
-                ],
+                backgroundColor: 'rgba(173, 46, 179, 0.2)',
+                borderColor: 'rgb(173, 46, 179)',
+                pointBackgroundColor: 'rgb(173, 46, 179)',
+                pointBorderColor: '#fff',
+                pointHoverBackgroundColor: '#fff',
+                pointHoverBorderColor: 'rgb(173, 46, 179)',
                 data: chartData_y
             }]
         }
