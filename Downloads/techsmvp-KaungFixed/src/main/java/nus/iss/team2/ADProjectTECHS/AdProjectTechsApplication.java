@@ -4,7 +4,10 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -19,6 +22,7 @@ import nus.iss.team2.ADProjectTECHS.Service.MemberService;
 
 @SpringBootApplication
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
+@EnableScheduling
 public class AdProjectTechsApplication {
 
 	public static void main(String[] args) {
@@ -30,6 +34,11 @@ public class AdProjectTechsApplication {
 		return new BCryptPasswordEncoder();
 		
 	}
+	@Bean
+    public SessionRegistry sessionRegistry() {
+        return new SessionRegistryImpl();
+
+    }
 
 	// PUT IN YOUR OWN COMMAND LINE RUNNER 
 	// TO SET MEMBER CORRECTLY VIA SPRING SECURITY --> USE MemberService.createMember()
