@@ -67,6 +67,9 @@
 
                     <td class="course" width="50%" style="vertical-align: middle">
                         <a th:href="@{'/courses/watchCourse/' + ${course.courseId}}"><p class="text-uppercase"><b><span th:text="${course.courseTitle}"></span></b></p></a>
+                        <span style="padding: 5px; display: inline-block;" th:text=" 'Duration: '+${course.getCourseDuration()}+' &nbsp; &nbsp;| '"></span>
+                        <span style="padding: 5px; display: inline-block;" th:text=" 'Channel Name: '+${course.channelName}+' &nbsp; &nbsp;| '"></span>
+                        <span style="padding: 5px; display: inline-block;" th:text=" 'Date: '+${course.date}+' &nbsp; &nbsp;| '"></span>
                         <div  style="padding: 5px; display: inline-block;" th:text="${course.views} + ' views &nbsp; &nbsp;| '" ></div>
                         <div  style="padding: 5px; display: inline-block;" th:text="${course.likes} + ' likes &nbsp; &nbsp;| '" ></div>
                         <div style="padding: 5px; display: inline-block;" th:text="${course.subscribers} + ' subscribers'"></div>
@@ -134,111 +137,109 @@
         const tables = document.getElementById("courseList");
 
 
-        function sortByDuration(hours){
-            let i;
-            let ListOfTable = tables.getElementsByTagName("table")
+function sortByDuration(hours){
+    let i;
+    let ListOfTable = tables.getElementsByTagName("table");
 
-            for (i = 0; i < (ListOfTable.length - 1); i++) {
-                let tr = ListOfTable[i].getElementsByTagName("tr")[0];
-                let dh = tr.getAttribute("data-hours");
-                console.log(dh)
-                if (hours == 1) {
-                    if (dh < 2) {
-                        ListOfTable[i].style.display = "";
-                    } else {
-                        ListOfTable[i].style.display = "none";
-                    }
-                }
-                if (hours == 2) {
+    for (i = 0; i < (ListOfTable.length - 1); i++) {
+        let tr = ListOfTable[i].getElementsByTagName("tr")[0];
+        let dh = tr.getAttribute("data-hours");
+        console.log(dh)
+        if (hours == 1) {
+            if (dh < 2) {
+                ListOfTable[i].style.display = "";
+            } else {
+                ListOfTable[i].style.display = "none";
+            }
+        }
+        if (hours == 2) {
 
-                    if (dh >= 2 && dh < 3) {
-                        ListOfTable[i].style.display = "";
-                    } else {
-                        ListOfTable[i].style.display = "none";
-                    }
+            if (dh >= 2 && dh < 3) {
+                ListOfTable[i].style.display = "";
+            } else {
+                ListOfTable[i].style.display = "none";
+            }
 
-                }
-                if (hours == 3) {
+        }
+        if (hours == 3) {
 
-                    if (dh >= 3) {
-                        ListOfTable[i].style.display = "";
-                    } else {
-                        ListOfTable[i].style.display = "none";
-                    }
-
-                }
-
+            if (dh >= 3) {
+                ListOfTable[i].style.display = "";
+            } else {
+                ListOfTable[i].style.display = "none";
             }
 
         }
 
-        function sortByLikes() {
+    }
 
-            let x, y, i, switching, shouldSwitch, rows;
+}
+
+    function sortByLikes() {
+
+        let x, y, i, switching, shouldSwitch, rows;
+        switching = true;
+        while (switching) {
+            switching = false;
+            rows = tables.getElementsByTagName("table");
+            for ( i = 0; i < (rows.length - 1); i++ ) {
+                shouldSwitch = false;
+                x = rows[i].getElementsByTagName("tr")[0].getAttribute("data-likes");
+
+                y = rows[i+1].getElementsByTagName("tr")[0].getAttribute("data-likes");
+
+                if (Number(x) < Number(y)) {
+                    shouldSwitch = true;
+                    break;
+                }
+            }
+            if (shouldSwitch) {
+                rows[i].parentNode.insertBefore(rows[i+1], rows[i]);
+                switching = true;
+            }
+        }
+
+    }
+
+
+    function sortByDate() {
+
+    let rows, switching, i, x, y, shouldSwitch;
+    switching = true;
+
+    while (switching) {
+        switching = false;
+        rows = tables.getElementsByTagName("table");
+
+        for(i = 0; i < (rows.length - 1); i++) {
+            shouldSwitch = false;
+            x = rows[i].getElementsByTagName("tr")[0].getAttribute("data-date");
+            x = convertDate(x)
+
+            y = rows[i+1].getElementsByTagName("tr")[0].getAttribute("data-date");
+            y = convertDate(y);
+
+
+            if (x < y) {
+                shouldSwitch = true;
+                break;
+            }
+        }
+
+        if (shouldSwitch) {
+            rows[i].parentNode.insertBefore(rows[i+1], rows[i])
             switching = true;
-            while (switching) {
-                switching = false;
-                rows = tables.getElementsByTagName("table");
-                for ( i = 0; i < (rows.length - 1); i++ ) {
-                    shouldSwitch = false;
-                    x = rows[i].getElementsByTagName("tr")[0].getAttribute("data-likes");
-                    console.log(x);
-                    y = rows[i+1].getElementsByTagName("tr")[0].getAttribute("data-likes");
-                    console.log(y);
-                    if (x < y) {
-                        shouldSwitch = true;
-                        break;
-                    }
-                }
-                if (shouldSwitch) {
-                    rows[i].parentNode.insertBefore(rows[i+1], rows[i]);
-                    switching = true;
-                }
-            }
-
         }
+    }
 
+    }
 
-        function sortByDate() {
+    function convertDate(d) {
+    let myDate = new Date(d);
+    return myDate;
 
-            let rows, switching, i, x, y, shouldSwitch;
-            switching = true;
-
-            while (switching) {
-                switching = false;
-                rows = tables.getElementsByTagName("table");
-
-                for(i = 0; i < (rows.length - 1); i++) {
-                    shouldSwitch = false;
-                    x = rows[i].getElementsByTagName("tr")[0].getAttribute("data-date");
-                    x = convertDate(x)
-                    console.log(x);
-                    y = rows[i+1].getElementsByTagName("tr")[0].getAttribute("data-date");
-                    y = convertDate(y);
-                    console.log(y);
-
-                    if (x < y) {
-                        shouldSwitch = true;
-                        break;
-                    }
-                }
-
-                if (shouldSwitch) {
-                    rows[i].parentNode.insertBefore(rows[i+1], rows[i])
-                    switching = true;
-                }
-            }
-
-        }
-
-        function convertDate(d) {
-            let myDate = new Date(d);
-            console.log(myDate.toDateString());
-            return myDate;
-
-        }
+    }
     </script>
-<!-- joey added </div> -->
 </div>
 </body>
 

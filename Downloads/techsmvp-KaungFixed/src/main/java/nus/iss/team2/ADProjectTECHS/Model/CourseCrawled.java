@@ -104,4 +104,11 @@ public class CourseCrawled {
         }
 
     }
+
+    public String getCourseDuration(){
+        String duration = this.getDuration();
+
+        return duration.replace("PT","").replace("H","hr ").replace("M","min ").replace("S","sec");
+    }
+
 }
