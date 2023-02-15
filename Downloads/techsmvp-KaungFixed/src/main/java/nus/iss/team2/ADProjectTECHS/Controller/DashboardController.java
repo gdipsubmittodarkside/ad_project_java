@@ -134,6 +134,14 @@ public class DashboardController {
             if(count==0){
                 chartData.setY_data(count);
             }
+            for(MySkill ms : mySkills){
+                Long msSkillId = ms.getSkill().getSkillId();
+                if(msSkillId == sk.getSkillId()){
+                    chartData.setY_data(100);
+                }
+
+            }
+
             chartDatas.add(chartData);
          }
          

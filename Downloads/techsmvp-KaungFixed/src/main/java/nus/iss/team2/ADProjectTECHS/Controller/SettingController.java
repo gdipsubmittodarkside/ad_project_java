@@ -70,7 +70,12 @@ public class SettingController {
 
         Member currentMember = memberService.loadMemberByUsername(currentUsername);
         model.addAttribute("currentAvatar", currentMember.getAvatar());
-        model.addAttribute("currentMember", currentMember);
+        model.addAttribute("currentMember", currentMember); 
+
+        if(currentMember.getDreamJob() == null){
+            String dj = "nodj";
+            model.addAttribute("dj", dj);
+        }
 
 
         if (currentMember == null) throw new RuntimeException("cannot find current member");

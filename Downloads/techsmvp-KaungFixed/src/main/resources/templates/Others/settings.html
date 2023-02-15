@@ -8,7 +8,7 @@
     </div>
     
 
-    <body>
+    <body  onload="checkdj()" > 
         <div class="m-2">
             <div class="row d-flex h-100">
                 <table>
@@ -179,6 +179,7 @@
         
             </div>
         </div>
+        <input type="hidden" th:value="${dj}" id="dj"/>
     </body>
         
         <!-- <footer>
@@ -210,6 +211,13 @@
                 fieldConfirmPassword.setCustomValidity("Passwords do not match!");
             } else {
                 fieldConfirmPassword.setCustomValidity("");
+            }
+        }
+
+        function checkdj(){
+            var dj = document.getElementById("dj").value
+            if(dj == "nodj"){
+                alert("Please fill up setting and choose your dream job to access to the Dashboard!!!")
             }
         }
     </script>
