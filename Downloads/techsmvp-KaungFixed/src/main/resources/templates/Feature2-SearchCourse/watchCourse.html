@@ -8,7 +8,6 @@
 </head>
 <style>
     p{
-        font-weight: bold;
         text-transform: uppercase;
     }
 </style>
@@ -29,9 +28,9 @@
                     <td>
                         <main>
                             <div class="slide-read-more">
-                                <p th:text="*{courseTitle}">Couse Title</p>
-                                <span th:text="'By ' + *{channelName} + ' on ' + *{date}">By Harvard on 18 July 2021</span>
-                                <p th:text="*{description}">
+                                <p style="font-weight: bold;" th:text="*{courseTitle}">Couse Title</p>
+                                <p th:text="'By ' + *{channelName} + ' on ' + *{date}">By Harvard on 18 July 2021</p>
+                                <span th:text="*{description}">
                                     Java is a programming language famous for its ability to compile to platform-independent bytecode.
                                     It powers enterprise web apps, big data pipelines, and android mobile apps.
 
@@ -61,7 +60,7 @@
                                     - Java vs C
                                     - How to compile Java
                                     - Overview of JVM, JRE, & JDK
-                                </p>
+                                </span>
                             </div>
                             <div class="slide-read-more-button read-more-button">Read More</div>
                             <div class="slide-read-more-button">Read Less</div>

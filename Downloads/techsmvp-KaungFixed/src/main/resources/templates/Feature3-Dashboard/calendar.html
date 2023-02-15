@@ -43,27 +43,6 @@
                                 <td><a th:href="@{/myCourses/watchCourse/}+${course.myCourseId}"> <img th:src="@{|${course.getThumbnail()}|}" width="160px" height="90px"></a> </td>
                                 <td><a th:href="@{/myCourses/watchCourse/}+${course.myCourseId}"><p class="link-primary text-uppercase" th:text="${course.getMyCourseTitle()}"></p></a><p class="fw-light" th:text="${course.getSkill()}"></p></td>
                             </tr>
-
-                            <!--                            <tr>-->
-                            <!--                              <td><a href="https://www.Youtube.com/"> <img src="/images/placeholder/placeholderCourse1.jpg" width="160px" height="90px"></a> </td>-->
-                            <!--                              <td><a href="https://www.Youtube.com/"><p class="link-primary text-uppercase">Full Introduction to JAVA</p></a><p class="fw-light">By Harvard</p></td>-->
-                            <!--                            </tr>-->
-                            <!--                            <tr>-->
-                            <!--                              <td><a href="https://www.Youtube.com/"> <img src="/images/placeholder/placeholderCourse2.jpg" width="160px" height="90px"></a> </td>-->
-                            <!--                              <td><a href="https://www.Youtube.com/"><p class="link-primary text-uppercase">Learn java from the best industry expert so that you can be a pro</p></a><p class="fw-light">By Harvard</p></td>-->
-                            <!--                            </tr>-->
-                            <!--                            <tr>-->
-                            <!--                                <td><a href="https://www.Youtube.com/"> <img src="/images/placeholder/placeholderCourse3.jpg" width="160px" height="90px"></a> </td>-->
-                            <!--                                <td><a href="https://www.Youtube.com/"><p class="link-primary text-uppercase">Full Introduction to JAVA</p></a><p class="fw-light">By Harvard</p></td>-->
-                            <!--                            </tr>-->
-                            <!--                            <tr>-->
-                            <!--                                <td><a href="https://www.Youtube.com/"> <img src="/images/placeholder/placeholderCourse4.jpg" width="160px" height="90px"></a> </td>-->
-                            <!--                                <td><a href="https://www.Youtube.com/"><p class="link-primary text-uppercase">Full Introduction to JAVA</p></a><p class="fw-light">By Harvard</p></td>-->
-                            <!--                              </tr>-->
-                            <!--                              <tr>-->
-                            <!--                                  <td><a href="https://www.Youtube.com/"> <img src="/images/placeholder/placeholderCourse5.jpg" width="160px" height="90px"></a> </td>-->
-                            <!--                                  <td><a href="https://www.Youtube.com/"><p class="link-primary text-uppercase">Full Introduction to JAVA</p></a><p class="fw-light">By Harvard</p></td>-->
-                            <!--                              </tr>-->
                         </table>
                     </div>
 
@@ -79,21 +58,6 @@
                                 <td><a th:href="@{/myCourses/watchCourse/}+${course.myCourseId}"> <img src="@{|${course.getThumbnail()}|}" width="160px" height="90px"></a> </td>
                                 <td><a th:href="@{/myCourses/watchCourse/}+${course.myCourseId}"><p class="link-primary text-uppercase" th:text="${course.getMyCourseTitle()}"></p></a><p class="fw-light" th:text="${course.getSkill()}"></p></td>
                             </tr>
-                            <!--                                <tr>-->
-                            <!--                                <td><a href="https://www.Youtube.com/"> <img src="/images/placeholder/placeholderCourse5.jpg" width="160px" height="90px"></a> </td>-->
-                            <!--                                <td><a href="https://www.Youtube.com/"><p class="link-primary text-uppercase">From Zero to Hero in Python</p></a><p class="fw-light">By Harvard</p>-->
-                            <!--                                <a class="btn btn-secondary" role="button"> Add to Calendar</a></td>-->
-                            <!--                                </tr>-->
-                            <!--                                <tr>-->
-                            <!--                                <td><a href="https://www.Youtube.com/"> <img src="/images/placeholder/placeholderCourse4.jpg" width="160px" height="90px"></a> </td>-->
-                            <!--                                <td><a href="https://www.Youtube.com/"><p class="link-primary text-uppercase">From Zero to Hero in Python</p></a><p class="fw-light">By Harvard</p>-->
-                            <!--                                <a class="btn btn-secondary" role="button"> Add to Calendar</a></td>-->
-                            <!--                                </tr>-->
-                            <!--                                <tr>-->
-                            <!--                                    <td><a href="https://www.Youtube.com/"> <img src="/images/placeholder/placeholderCourse3.jpg" width="160px" height="90px"></a> </td>-->
-                            <!--                                    <td><a href="https://www.Youtube.com/"><p class="link-primary text-uppercase">From Zero to Hero in Python</p></a><p class="fw-light">By Harvard</p>-->
-                            <!--                                    <a class="btn btn-secondary" role="button"> Add to Calendar</a></td>-->
-                            <!--                                </tr>-->
                         </table>
                     </div>
                 </div>
@@ -140,13 +104,12 @@
                         <input id="evtBG" type="color" value="#ffdbdb" required>
                     </div>
                     <div class="evt100">
-                        <label>Event</label>
-                        <input id="evtTxt" type="text">
-
-                        <select id="select" name="selectList">
+                        <label>Event Title</label>
+                        <input id="evtTxt" class="select" type="text">
+                        <label>Choose the Unscheduled Course</label>
+                        <select id="select" class="select" name="selectList">
                             <option th:each="course: ${unscheduledCourseList}" th:text="${course.getMyCourseTitle()}" th:value="${course.getMyCourseTitle()}"></option>
                         </select>
-
                     </div>
                     <div class="evt100">
                         <input type="hidden" id="evtID">
@@ -196,7 +159,7 @@
     saveBtn.addEventListener("click", function () {
 
         let xhr = new XMLHttpRequest();
-        let data = "s=" + start.value + "&"+ "e="+end.value + "&" + "c="+ course.value +"&" +
+        let data = "s=" + start.value + "&"+ "e="+end.value + "&" + "c="+ selectCourse.value +"&" +
             "cx="+txtColor.value +"&" +"b="+bgColor.value + "&"+"t="+txtNote.value ;
         xhr.open("POST", "/calendar/create", true);
         xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');

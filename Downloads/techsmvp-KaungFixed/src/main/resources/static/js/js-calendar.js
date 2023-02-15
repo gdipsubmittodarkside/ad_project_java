@@ -115,6 +115,7 @@ var cal = {
 
 
     console.log(events.value);
+    cal.iTX().clear();
     var eventsArr = JSON.parse(events.value);
     for(let i=0; i<eventsArr.length;i++){
       // (I1) COLLECT DATA

@@ -10,9 +10,9 @@
 <div th:if="${#lists.isEmpty(courseList)}">
     <h4 align="center">There is no course available for <i><b><span th:text="${entered}">skillEntered</span></b></i></h4>
 </div>
-
-<div class="m-5" th:if="${not #lists.isEmpty(courseList)}">
-    <div class="m-5" th:if="${not #lists.isEmpty(courseList)}">
+<!-- joey updated from m-5 to m-4 -->
+<div class="m-4" th:if="${not #lists.isEmpty(courseList)}">
+    <div class="m-4" th:if="${not #lists.isEmpty(courseList)}">
         <table class="table">
             <td width="20%" style="text-align: left">
                 <!-- FILTER BY DURATION -->
@@ -46,7 +46,11 @@
 
             <td width="60%" style="text-align: right">
                 <div sec:authorize="isAuthenticated()">
-                    <a th:href="@{/myCourses}" class="btn btn-secondary">View My Courses</a>
+                    <a th:href="@{/myCourses/manageProgress}" class="btn btn-secondary">View My Courses</a>
+                </div>
+                <!-- joey updated this -->
+                <div sec:authorize="!isAuthenticated()">
+                    <a th:href="@{/login}" class="btn btn-secondary">To save course, please log in or sign up</a>
                 </div>
             </td>
 
@@ -76,6 +80,7 @@
                 </tr>
 
         </table>
+        <br>
         </div>
 
         <table th:if="${totalPages > 1}">
@@ -233,7 +238,10 @@
 
         }
     </script>
+<!-- joey added </div> -->
+</div>
 </body>
+
 <footer>
     <div th:replace="fragments/layout.html :: footer" />
 </footer>
