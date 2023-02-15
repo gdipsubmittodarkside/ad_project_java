@@ -25,18 +25,21 @@
 
                     </td>
                     <td>
-                        <form autocomplete="off" style="width: 800px;" th:action="@{/search/skills/result}" method="GET">
+                        <form id="myForm" autocomplete="off" style="width: 800px;" th:action="@{/search/skills/result}" method="GET">
                                 <span class="autocomplete form-outline input-group">
                                 <input id="job" type="text" name="job" placeholder="Enter your dream role" class="form-control">
-                                <button class="btn btn-secondary"  role="button"> <i class="bi-search"></i></button>
+                                    <a class="btn btn-secondary" href="#" onclick="validateJobTitle();" role="button"> <i class="bi-search"></i></a>
+                        </form>
+                    <td>
+                <tr>
+                    <td colspan="2">
+                        <center><p id="message"></p></center>
+                    </td>
+                </tr>
+
+            </table>
         </div>
-        <!-- <input type="submit"> -->
-        </form>
-        </td>
-        </tr>
-        </table>
     </div>
-</div>
 </div>
 
 <script th:inline="javascript">
@@ -115,7 +118,36 @@
 
     /*[/]*/
 
-    autocomplete(document.getElementById("job"), jobList);
+        autocomplete(document.getElementById("job"), jobList);
+    const message = document.getElementById("message");
+    message.style.display="none"
+
+    function validateJobTitle() {
+        message.style.display="none"
+
+        const input = document.getElementById("job");
+        let shouldSumbit = true;
+
+        let inputValue = input.value;
+        if ((inputValue.trim()=="")||(inputValue==null)){
+            shouldSumbit = false
+            message.style.display=""
+            message.innerHTML="Please enter your query"
+            message.style.color="red"
+        } else {
+            if(!jobList.includes(inputValue)) {
+                shouldSumbit = false
+                message.style.display = ""
+                message.innerHTML = "Please select from the dropdown list"
+                message.style.color = "red"
+            }
+        }
+
+        if (shouldSumbit) {
+            document.getElementById("myForm").submit();
+        }
+
+    }
 </script>
 </body>
 

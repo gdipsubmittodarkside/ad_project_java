@@ -51,6 +51,7 @@
                                                             <div width="30%">
                                                                 <form enctype="multipart/form-data" th:action="@{/settings/image}" method="post">
                                                                     <input class="input2" type="file" accept="image/*" name="image" onchange="showPreview(event)">
+                                                                    <div style="font-size: small;"><i>Note: Maximum image size is 10MB</i></div>
                                                                     <p><input class="button-upload" type="submit" value="Upload Avatar"></p>
                                                                 </form>
                                                             </div>
@@ -157,7 +158,7 @@
                                                     <p><input class="fname input1" type="password" name="curPwd" required></p>
                                                     <p><b>New Password</b></p>
                                                     <p><input class="fname input1" type="password"  name="newPwd" id="newPassword" required></p>
-                                                    <p><b>Confirm new password</b></p>
+                                                    <p><b>Confirm New Password</b></p>
                                                     <p><input class="fname input1" type="password"  required oninput="checkPasswordMatch(this);"/></p>
                                                     <div class= "btn-group">
                                                         <input class="button-submit" type="submit" value="Submit">

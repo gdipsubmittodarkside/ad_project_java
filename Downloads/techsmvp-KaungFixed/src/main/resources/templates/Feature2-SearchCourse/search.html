@@ -25,19 +25,21 @@
 
                     </td>
                     <td>
-                        <td>
-                            <form autocomplete="off" style="width:800px;" th:action="@{/search/courses/result}" method="get">
+                            <form id="myForm" autocomplete="off" style="width:800px;" th:action="@{/search/courses/result}" method="get">
                                 <span class="autocomplete form-outline input-group">
                                 <input id="skill" type="text" name="skill" placeholder="Enter the skill you wish to be equipped with" class="form-control">
-                                <button class="btn btn-secondary" role="button"> <i class="bi-search"></i></button>
-                                </div>
-                                <!-- <input type="submit"> -->
+                                <a class="btn btn-secondary" href="#" role="button" onclick="validateSkillTitle();"> <i class="bi-search"></i></a>
                             </form>
-                        </td>
-                    </tr>
-                </table>
-            </div>
+                    </td>
+                <tr>
+                    <td colspan="2">
+                        <center><p id="message"></p></center>
+                    </td>
+                </tr>
+
+            </table>
         </div>
+      </div>
     </div>
 
     <script th:inline="javascript">
@@ -118,6 +120,36 @@
         /*[/]*/
 
         autocomplete(document.getElementById("skill"), skillList);
+
+        const message = document.getElementById("message");
+        message.style.display="none"
+
+        function validateSkillTitle() {
+            message.style.display="none"
+
+            const input = document.getElementById("skill");
+            let shouldSumbit = true;
+
+            let inputValue = input.value;
+            if ((inputValue.trim()=="")||(inputValue==null)){
+                shouldSumbit = false
+                message.style.display=""
+                message.innerHTML="Please enter your query"
+                message.style.color="red"
+            } else {
+                if(!skillList.includes(inputValue)) {
+                    shouldSumbit = false
+                    message.style.display = ""
+                    message.innerHTML = "Please select from the dropdown list"
+                    message.style.color = "red"
+                }
+            }
+
+            if (shouldSumbit) {
+                document.getElementById("myForm").submit();
+            }
+
+        }
     </script>
 </body>
 

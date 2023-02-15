@@ -64,11 +64,12 @@
                     <li class="nav-item">
                         <!-- <form class="d-flex"> -->
                             <div class="input-group">
-                                <form autocomplete="off" style="width:300px;" th:action="@{/search/fragment}" method="POST">
+                                <form id="myForm1" autocomplete="off" style="width:300px;" th:action="@{/search/fragment}" method="POST">
                                     <span class="autocomplete form-outline input-group">
                                         <input id="myInput" type="text" name="query" placeholder="Search by skills or job" class="form-control">
-                                        <button class="btn btn-secondary" role="button"> <i class="bi-search"></i></button>
+                                        <a class="btn btn-secondary" role="button"  onclick="validateForm();" > <i class="bi-search"></i></a>
                                     </span>
+                                    <p id="message1"></p>
                                 </form>
                             </div>
                         <!-- </form> -->
@@ -105,140 +106,6 @@
                         <!-- below is /div for security -->
                     </div>
                 </ul>
-
-                <!-- Settings Start -->
-
-                <!-- <div id="modalTwo" class="modal" style="position:fixed">
-                    <div class="modal-content">
-                        <div class="contact-form">
-                            <span class="close">x</span>
-                            <form class="form1" action="/">
-                                <h2>Settings</h2>
-                                <table>
-                                    <div class = "tabinator">
-                                        <input type = "radio" id = "tab4" name = "tabs" checked>
-                                        <label for = "tab4" onclick="openSetting('Profile');">Profile</label>
-                                        <input type = "radio" id = "tab5" name = "tabs">
-                                        <label for = "tab5" onclick="openSetting('Information');">Information</label>
-                                        <input type = "radio" id = "tab6" name = "tabs">
-                                        <label for = "tab6" onclick="openSetting('Password');">Password</label>
-                                    </div>
-                                    </td>
-                                </table>
-
-                                <div id="Profile" class="setting">
-                                    <table class="table table-borderless">
-                                        <tr>
-                                            <td>
-                                                <span>Username</span>
-                                                <input class="fname input1" type="text" placeholder=" " />
-                                            </td>
-                                            <td>
-                                                <span>Email Address</span>
-                                                <input class="input1" type="text" placeholder=" " />
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <span>Dream Job</span>
-                                                <input class="input1" type="text" placeholder=" " />
-                                            </td>
-                                            <td>
-                                                <span>Current Role</span>
-                                                <input class="input1" type="text" placeholder=" " />
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <span>Year of Birth</span>
-                                                <input class="input1" type="text" placeholder=" " />
-                                            </td>
-                                            <td>
-                                                <div>Bio</div>
-                                                <textarea class="textarea1" rows="2" placeholder=" "></textarea>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <a class="btn btn-secondary" href="/" role="button"> Save</i></a>
-                                            </td>
-                                        </tr>
-
-                                    </table>
-                                </div>
-
-                                <div id="Information" class="setting" style="display:none">
-                                    <table class="table table-borderless">
-                                        <tr>
-                                            <td>
-                                                <span>Gender</span>
-                                                <select name='options' class="select">
-                                                    <option value='option-1'>Male</option>
-                                                    <option value='option-2'>Female</option>
-                                                    <option value='option-3'>Prefer Not To Say</option>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <span>Education Level</span>
-                                                <select name='options' class="select">
-                                                    <option value='option-1'>Doctoral</option>
-                                                    <option value='option-2'>Master's</option>
-                                                    <option value='option-3'>Degree</option>
-                                                    <option value='option-4'>Diploma</option>
-                                                    <option value='option-5'>College</option>
-                                                    <option value='option-6'>High School</option>
-                                                </select>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <span>Add More Skills</span>
-                                                <select name='options' class="select">
-                                                    <option value='option-1'>R</option>
-                                                    <option value='option-2'>Java</option>
-                                                    <option value='option-3'>Degree</option>
-                                                    <option value='option-4'>Diploma</option>
-                                                    <option value='option-5'>College</option>
-                                                    <option value='option-6'>High School</option>
-                                                </select>
-                                            </td>
-                                        </tr>
-                                        <td>
-                                            <a class="btn btn-secondary" href="/" role="button"> Save</i></a>
-                                        </td>
-                                        </tr>
-
-
-                                    </table>
-                                </div>
-
-                                <div id="Password" class="setting" style="display:none">
-                                    <table class="table table-borderless">
-                                        <tr>
-                                            <td>
-                                                <span>Current Password</span>
-                                                <input class="fname input1" type="text" placeholder="Current Password" />
-                                            </td>
-                                            <td>
-                                                <span>New Password</span>
-                                                <input class="input1" type="text" placeholder="New Password (min 8 char)" />
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <a class="btn btn-secondary" href="/" role="button"> Save</i></a>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </div>
-
-                            </form>
-                        </div>
-                    </div>
-                </div> -->
-
-
-                <!-- ends -->
             </div>
         </div>
     </nav>
@@ -360,6 +227,34 @@
             document.getElementById(settingtype).style.display = "block";
         }
 
+        const message1 = document.getElementById("message1")
+        message1.style.display="none"
+
+        function validateForm() {
+            message1.style.display="none"
+
+            const input = document.getElementById("myInput");
+            let shouldSumbit = true;
+
+            let inputValue = input.value;
+            if ((inputValue.trim()=="")||(inputValue==null)){
+                shouldSumbit = false
+                message1.style.display=""
+                message1.innerHTML="Please input a query"
+                message1.style.color="red"
+            } else {
+                if(!jobskill.includes(inputValue)) {
+                    shouldSumbit = false
+                    message1.style.display = ""
+                    message1.innerHTML = "Please choose from the dropdown list"
+                    message1.style.color = "red"
+                }
+            }
+
+            if (shouldSumbit) {
+                document.getElementById("myForm1").submit()
+            }
+        }
 
     </script>
 
