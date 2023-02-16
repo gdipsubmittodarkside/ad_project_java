@@ -67,10 +67,12 @@ public class SettingController {
 
         //find member
         String currentUsername = MemberUtils.getMemberFromSpringSecurity();
-
+        // kaung2.0
         Member currentMember = memberService.loadMemberByUsername(currentUsername);
+        String notistatus = currentMember.getNotification();
         model.addAttribute("currentAvatar", currentMember.getAvatar());
         model.addAttribute("currentMember", currentMember); 
+        model.addAttribute("notistatus", notistatus);
 
         if(currentMember.getDreamJob() == null){
             String dj = "nodj";

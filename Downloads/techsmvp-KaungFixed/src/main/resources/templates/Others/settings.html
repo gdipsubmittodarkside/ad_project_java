@@ -103,13 +103,21 @@
                                                 <div class= "btn-group">
                                                     <input class="button-submit" type="submit" value="Submit">
                                                     <input class="button-reset" type="reset" value="Reset">
+
                                                  </div>
     
                                             </td>
 
                                         </tr>
                                     </form>
+                                    
+                                    
                                 </table>
+                                <!-- kaung2.0 -->
+                                <button class="btn btn-secondary" th:onclick="|window.location.href='/members/notification'|" style="font-size:12px;height: 2.5em;" >
+                                    <span th:if="${currentMember.notification == 'on'}">Unsubscribe Email Notification</span>
+                                    <span th:if="${currentMember.notification == 'off'}">Subscribe Email Notification</span>
+                                </button>
                             </div>
                             <div id="Information" class="setting" style="display: none">
                                     <table class="table table-borderless">
@@ -163,10 +171,15 @@
                                                     <div class= "btn-group">
                                                         <input class="button-submit" type="submit" value="Submit">
                                                         <input class="button-reset" type="reset" value="Reset">
+                                                        
                                                     </div>
                                     </form>
+                                    
                                 </table>
-                        
+                                
+                                
+                                
+
                             </div>
                         </td>
                         <td width="10%">
@@ -179,6 +192,8 @@
         
             </div>
         </div>
+        
+        
         <input type="hidden" th:value="${dj}" id="dj"/>
     </body>
         
@@ -187,6 +202,7 @@
         </footer> -->
 
     <script>
+
         function openSetting(settingtype) {
             var i;
             var x = document.getElementsByClassName("setting");
