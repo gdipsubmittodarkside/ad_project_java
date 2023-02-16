@@ -170,10 +170,22 @@ padding:10px;
 }
 
 #content-wrapper {
-width: 465px;
+  width: 465px;
+  height:60vh;
+  overflow-y: scroll;
+  }
+  
+#wrap {
+width: 100%;
 height:60vh;
 overflow-y: scroll;
 }
+
+#wrapforcalendar {
+  width: 465px;
+  height:50vh;
+  overflow-y: scroll;
+  }
 
 #content-wrapper-progress {
 width: 100%;

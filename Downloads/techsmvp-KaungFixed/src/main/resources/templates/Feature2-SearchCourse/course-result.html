@@ -37,7 +37,9 @@
                         <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        <div sec:authorize="isAuthenticated()">
                         <li id="best_match"><a class="dropdown-item" th:href="@{'/courses/recommend?query='+ ${entered}}">Best Match</a></li>
+                        </div>
                         <li id="most_popular"><a class="dropdown-item" href="#" onclick="sortByLikes();" >Most Popular</a></li>
                         <li id="most_recent"><a class="dropdown-item" href="#" onclick="sortByDate();">Most Recent</a></li>
                     </ul>
@@ -62,14 +64,14 @@
 
                 <tr  th:attr="data-id=${course.getCourseId()}, data-date=${course.getDate()}, data-likes=${course.getLikes()}, data-hours=${course.getDurationHours()}">
                     <td width="30%">
-                        <a th:href="@{'/courses/watchCourse/' + ${course.courseId}}"> <img src="/images/placeholder/placeholderCourse1.jpg" width="320" height="180"></a>
+                        <a th:href="@{'/courses/watchCourse/' + ${course.courseId}}"> <img th:src="@{${course.thumbnail}}" width="320" height="180"></a>
                     </td>
 
                     <td class="course" width="50%" style="vertical-align: middle">
                         <a th:href="@{'/courses/watchCourse/' + ${course.courseId}}"><p class="text-uppercase"><b><span th:text="${course.courseTitle}"></span></b></p></a>
-                        <span style="padding: 5px; display: inline-block;" th:text=" 'Duration: '+${course.getCourseDuration()}+' &nbsp; &nbsp;| '"></span>
-                        <span style="padding: 5px; display: inline-block;" th:text=" 'Channel Name: '+${course.channelName}+' &nbsp; &nbsp;| '"></span>
-                        <span style="padding: 5px; display: inline-block;" th:text=" 'Date: '+${course.date}+' &nbsp; &nbsp;| '"></span>
+                        <span style="padding: 5px; display: inline-block;" th:text=" 'by ' + ${course.channelName} + ' on ' + ${course.date} + ' &nbsp; &nbsp;|'"></span>
+                        <span style="padding: 5px; display: inline-block;" th:text="${course.getCourseDuration()}"></span>
+                        <br>
                         <div  style="padding: 5px; display: inline-block;" th:text="${course.views} + ' views &nbsp; &nbsp;| '" ></div>
                         <div  style="padding: 5px; display: inline-block;" th:text="${course.likes} + ' likes &nbsp; &nbsp;| '" ></div>
                         <div style="padding: 5px; display: inline-block;" th:text="${course.subscribers} + ' subscribers'"></div>

@@ -73,7 +73,7 @@
                         <div id="content-wrapper">
                             <table class="table table-striped">      
                                 <tr th:each="course : ${completedLlist}">
-                                <td><a th:href="@{/myCourses/watchCourse/}+${course.myCourseId}"> <img src="/images/placeholder/placeholderCourse3.jpg" width="160px" height="90px"></a> </td>
+                                <td><a th:href="@{/myCourses/watchCourse/}+${course.myCourseId}"> <img th:src="@{${course.thumbnail}}" width="160px" height="90px"></a> </td>
                                 <td><a th:href="@{/myCourses/watchCourse/}+${course.myCourseId}"><p class="link-primary text-uppercase" th:text="${course.myCourseTitle}"></p></a><p class="fw-light"></p></td>
                                 </tr>
                             </table>
@@ -82,7 +82,7 @@
                     </td>
                     <!-- NEED FILTER BY ALPHABETICAL AND PROGRESS RATE -->
                     <td width="72%" style="position:static">
-                        <div id="content-wrapper-progress">
+                        <div id="wrap">
                         <table class="table table-borderless" > 
                             <tr th:each="course : ${myCourseList}">
                                 <td>
