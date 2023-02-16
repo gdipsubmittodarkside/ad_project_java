@@ -5,7 +5,11 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
@@ -24,6 +28,7 @@ import nus.iss.team2.ADProjectTECHS.Model.MyCourse;
 import nus.iss.team2.ADProjectTECHS.Model.Skill;
 import nus.iss.team2.ADProjectTECHS.Model.Data.CourseData;
 import nus.iss.team2.ADProjectTECHS.Repository.CourseCrawledRepository;
+import nus.iss.team2.ADProjectTECHS.Repository.SkillRepository;
 import nus.iss.team2.ADProjectTECHS.Service.CourseCrawledService;
 
 
@@ -32,6 +37,9 @@ public class CourseCrawledServiceImpl implements CourseCrawledService {
     
     @Autowired
     private CourseCrawledRepository courseCrawledRepository;
+
+    @Autowired
+    private SkillRepository skillRepository;
     @Override
     public List<CourseCrawled> findCoursesSortedBySubscribers() {
         return courseCrawledRepository.findCoursesSortedBySubscribers();
@@ -134,25 +142,30 @@ public class CourseCrawledServiceImpl implements CourseCrawledService {
     public CourseCrawled findCourseCrawledByUrlAndSkillId(String url, Long skill_id){
         return courseCrawledRepository.findCourseCrawledByUrlLinkAndSkillId(url, skill_id);
     }
-
+    
     // FOR COURSE RECOMMENDATION API CALLING
     @Override
     public List<CourseCrawled> recommend_best_match(String query, List<MyCourse> myCourses) {
 
-        List<String> myCoursesIdList = myCourses
-                .stream()
-                .map(x -> x.getCourseUrl().substring(x.getCourseUrl().length() - 11)).toList();
-
         String API;
 
         try {
-            if (!myCourses.isEmpty()) {
+
+            List<MyCourse> relevantCourse =  myCourses.stream().
+            filter(mc -> skillRepository.findById(mc.getSkill()).get().getSkillTitle() == query)
+            .toList();
+
+            List<String> myCoursesIdList = relevantCourse
+                .stream()
+                .map(x -> x.getCourseUrl().substring(x.getCourseUrl().length() - 11)).toList();
+            
+            if (!myCourses.isEmpty()&& relevantCourse.size() != 0) {
                 API = "http://localhost:8089/recommend?query=" + query;
                 for (String str : myCoursesIdList) {
-                    API = API + "&" + str;
+                    API = API + "&liked_list=" + str;
                 }
             } else {
-                API = "http://localhost:8089/recommend?query=" + query;
+                API = "http://localhost:8089/search?query=" + query;
             }
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder()
@@ -172,9 +185,17 @@ public class CourseCrawledServiceImpl implements CourseCrawledService {
 
             List<CourseCrawled> courseCrawleds = courses
                     .stream()
-                    .map(course -> courseCrawledRepository.findCourseCrawledByURL(course.getCourseId()))
+                    .map(course -> courseCrawledRepository.findCourseCrawledByURL(course.   getCourseId()))
                     .flatMap(Collection::stream)
-                    .collect(Collectors.toList());
+                    .collect(Collectors.toList())
+                    .stream()
+                    .collect(Collectors.toMap(CourseCrawled::getUrlLink, Function.identity()))
+                    .values()
+                    .stream()
+                    .toList()
+            ;
+            
+            
 
             return courseCrawleds;
 
@@ -185,6 +206,14 @@ public class CourseCrawledServiceImpl implements CourseCrawledService {
         return null;
 
     }
+
+    public static <T> Predicate<T> distinctByKey(Function<? super T, Object> keyExtractor) 
+{
+    Map<Object, Boolean> map = new ConcurrentHashMap<>();
+    return t -> map.putIfAbsent(keyExtractor.apply(t), Boolean.TRUE) == null;
+}
+
+    
 
 
 
