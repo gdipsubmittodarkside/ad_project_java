@@ -88,6 +88,7 @@ public class MemberController {
         Member currentMember = memberService.loadMemberByUsername(currentUsername);
 
         newMember.setAvatar("/images/avatar/defaultAvatar.jpeg");
+        newMember.setNotification("on");
 
         if (currentMember!=null) {
             newMember.setUsername(currentMember.getUsername());
@@ -165,6 +166,27 @@ public class MemberController {
         memberService.save(currentMember);
 
     }
+
+
+    //kaung2.0
+    @GetMapping("/notification")
+    public String updateNoti(){
+        String currentUsername = MemberUtils.getMemberFromSpringSecurity();
+
+        Member currentMember = memberService.loadMemberByUsername(currentUsername);
+
+        if(currentMember.getNotification().equalsIgnoreCase("on")){
+            currentMember.setNotification("off");
+        }else{
+            currentMember.setNotification("on");
+        }
+        
+        memberService.updateCurrentMember(currentMember);
+
+        return "redirect:/settings";
+
+    }
+
 
 
 

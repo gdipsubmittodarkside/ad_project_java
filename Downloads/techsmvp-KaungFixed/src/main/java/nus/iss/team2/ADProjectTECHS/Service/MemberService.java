@@ -9,6 +9,7 @@ public interface MemberService {
     Member findById(Long id);
     Member createMember(Member member);
     Boolean updateMember(Member member);
+    Boolean updateCurrentMember(Member member);
     Boolean deleteMember(Long id);
     List<Member> getAllMembers();
 

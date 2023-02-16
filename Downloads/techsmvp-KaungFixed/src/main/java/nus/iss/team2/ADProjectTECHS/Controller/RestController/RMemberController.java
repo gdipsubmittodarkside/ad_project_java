@@ -31,6 +31,7 @@ public class RMemberController {
         
         Member new_member = memberService.createMember(new Member(username, "mobileuser"));
         long member_id = 0;
+        new_member.setNotification("on");
 
         if (new_member.getUsername().equals(username)){
             member_id = new_member.getMemberId();
