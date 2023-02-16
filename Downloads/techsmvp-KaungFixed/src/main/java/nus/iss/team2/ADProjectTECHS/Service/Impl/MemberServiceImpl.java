@@ -73,7 +73,16 @@ public class MemberServiceImpl implements MemberService{
         memberRepository.saveAndFlush(member);
 
         
-        return null;
+        return true;
+    }
+
+    // kaung2.0
+    @Override
+    public Boolean updateCurrentMember(Member member){
+
+        memberRepository.saveAndFlush(member);
+
+        return true;
     }
 
     @Override

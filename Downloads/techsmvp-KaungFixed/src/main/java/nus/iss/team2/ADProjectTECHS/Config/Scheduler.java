@@ -64,7 +64,7 @@ public class Scheduler {
 
         for (Member member : members) {
 
-            if (member.getScheduleEvents() != null) {
+            if (member.getScheduleEvents() != null && member.getNotification().equals("on") ) {
 
                 List<ScheduleEvent> scheduleEvents = scheduleEventService
                         .findScheduleEventByMemberId(member.getMemberId());

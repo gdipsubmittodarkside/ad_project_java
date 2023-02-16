@@ -82,6 +82,9 @@ public class Member {
     @Column(name = "current_city")
     private String currentCity;
 
+    @Column(name = "notification")
+    private String notification;
+
     public Member (String username, String password){
         this.username = username;
         this.password = password;
