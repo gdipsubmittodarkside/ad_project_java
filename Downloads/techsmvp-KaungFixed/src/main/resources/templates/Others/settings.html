@@ -113,11 +113,7 @@
                                     
                                     
                                 </table>
-                                <!-- kaung2.0 -->
-                                <button class="btn btn-secondary" th:onclick="|window.location.href='/members/notification'|" style="font-size:12px;height: 2.5em;" >
-                                    <span th:if="${currentMember.notification == 'on'}">Unsubscribe Email Notification</span>
-                                    <span th:if="${currentMember.notification == 'off'}">Subscribe Email Notification</span>
-                                </button>
+                                
                             </div>
                             <div id="Information" class="setting" style="display: none">
                                     <table class="table table-borderless">
@@ -147,6 +143,17 @@
                                                         <p><select name="skills" class="selectm"  multiple="multiple">
                                                             <option th:each="skill : ${skillList}" th:value="${skill.getSkillId()}" th:text="${skill.getSkillTitle()}"></option>
                                                         </select></p>
+                                                    </td>
+
+                                                    <td width="50%">
+                                                        <p><b>Email Notification for Scheduled Events</b></p>
+                                                        <!-- subscribe to/unsubscribe from email -->
+                                                        <p th:if="${currentMember.notification == 'on'}">You are currently subscribed.</p>
+                                                        <p th:if="${currentMember.notification == 'off'}">You are currently unsubscribed.</p>
+                                                        <button class="btn btn-secondary" th:onclick="|window.location.href='/members/notification'|" style="font-size:12px;height: 2.5em;" >
+                                                            <span th:if="${currentMember.notification == 'on'}">Unsubscribe from Email Notification</span>
+                                                            <span th:if="${currentMember.notification == 'off'}">Subscribe to Email Notification</span>
+                                                        </button>
                                                     </td>
                                                 </tr>
                                                 <tr>
