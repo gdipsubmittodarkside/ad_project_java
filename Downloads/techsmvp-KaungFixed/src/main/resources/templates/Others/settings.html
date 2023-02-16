@@ -8,7 +8,7 @@
     </div>
     
 
-    <body  onload="checkdj()" > 
+    <body onload="checkdj()">
         <div class="m-2">
             <div class="row d-flex h-100">
                 <table>
@@ -49,9 +49,9 @@
                                                         </td>
                                                         <td style= vertical-align:middle>
                                                             <div width="30%">
-                                                                <form enctype="multipart/form-data" th:action="@{/settings/image}" method="post">
+                                                                <form id="imageForm" enctype="multipart/form-data" onsubmit="return validateImage(this);" th:action="@{/settings/image}" method="post">
                                                                     <input class="input2" type="file" accept="image/*" name="image" onchange="showPreview(event)">
-                                                                    <div style="font-size: small;"><i>Note: Maximum image size is 10MB</i></div>
+                                                                    <div style="font-size: small;"><i>Note: Maximum image size is 1MB</i></div>
                                                                     <p><input class="button-upload" type="submit" value="Upload Avatar"></p>
                                                                 </form>
                                                             </div>
@@ -62,7 +62,7 @@
                                         </tr>
                                 </table>
 
-                                <table class="table table-borderless">
+                                <table   class="table table-borderless">
                                     <form th:action="@{/settings/profile}" th:object="${member}" method="post">
                                         <tr>
                                             <td width="50%">
@@ -91,8 +91,6 @@
                                             </td>
                                             <td width="50%">
                                                 <b>Dream Job</b>
-                                                <!-- need a if else statement (if list is empty...) -->
-                                                <!-- <p><span> Current : </span><span  th:text="${currentMember.getDreamJob().getJobTitle()}"></span></p> -->
                                                 <p><select class="select" th:field="*{dreamJob}">
                                                     <option th:each="job : ${jobList}" th:value="${job.getJobId()}" th:text="${job.getJobTitle()}"></option>
                                                 </select></p>
@@ -103,17 +101,13 @@
                                                 <div class= "btn-group">
                                                     <input class="button-submit" type="submit" value="Submit">
                                                     <input class="button-reset" type="reset" value="Reset">
-
                                                  </div>
     
                                             </td>
 
                                         </tr>
                                     </form>
-                                    
-                                    
                                 </table>
-                                
                             </div>
                             <div id="Information" class="setting" style="display: none">
                                     <table class="table table-borderless">
@@ -178,15 +172,10 @@
                                                     <div class= "btn-group">
                                                         <input class="button-submit" type="submit" value="Submit">
                                                         <input class="button-reset" type="reset" value="Reset">
-                                                        
                                                     </div>
                                     </form>
-                                    
                                 </table>
-                                
-                                
-                                
-
+                        
                             </div>
                         </td>
                         <td width="10%">
@@ -199,8 +188,6 @@
         
             </div>
         </div>
-        
-        
         <input type="hidden" th:value="${dj}" id="dj"/>
     </body>
         
@@ -209,7 +196,6 @@
         </footer> -->
 
     <script>
-
         function openSetting(settingtype) {
             var i;
             var x = document.getElementsByClassName("setting");
@@ -219,13 +205,21 @@
             document.getElementById(settingtype).style.display = "block";
         }
 
+        let shouldUploadImage = true
+
         // this is for previewing the file selected
         function showPreview(event){
             if(event.target.files.length > 0){
+                let file = event.target.files[0]
                 var src = URL.createObjectURL(event.target.files[0]);
                 var preview = document.getElementById("file-ip-1-preview");
                 preview.src = src;
                 preview.style.display = "block";
+                if (file.size > 1024 * 1024) {
+                    shouldUploadImage = false
+                } else {
+                    shouldUploadImage = true
+                }
             }
         }
 
@@ -242,6 +236,16 @@
             if(dj == "nodj"){
                 alert("Please fill up setting and choose your dream job to access to the Dashboard!!!")
             }
+        }
+
+        function validateImage() {
+            console.log(shouldUploadImage)
+            if(!shouldUploadImage) {
+                alert("File too Big, please select a file less than 1mb");
+            } else {
+                document.getElementById("imageForm").submit();
+            }
+            return shouldUploadImage;
         }
     </script>
 
