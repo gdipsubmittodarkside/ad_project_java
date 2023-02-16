@@ -1,7 +1,5 @@
 package nus.iss.team2.ADProjectTECHS.security;
 
-
-
 import java.io.IOException;
 import java.util.Arrays;
 
@@ -103,7 +101,7 @@ public class SecurityConfig {
                         CustomOAuth2User oAuth2User = (CustomOAuth2User) authentication.getPrincipal();
 
                         if(!memberService.processOAuthPostLogin(oAuth2User.getName(), oAuth2User.getEmail())){
-                            response.sendRedirect("/members/register");
+                            response.sendRedirect("/settings");
                         } else{
                             response.sendRedirect("/search/skills/home");
                         }

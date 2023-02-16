@@ -23,14 +23,19 @@
                         <!-- One "tab" for each step in the form: -->
                         <div class="tab"><b>Email</b>
                             <p><input name="email" type="email" th:field="*{email}" th:placeholder="${currentEmail}" class="signup-input"></p>
+                            <p class="message" id="erroremail"></p>
                             <b>Password</b> (8 or more characters)
                             <p><input name="password" type="password" th:field="*{password}" class="signup-input" required></p>
+                            <p class="message" id="errorpassword"></p>
                             <b>Username</b>
                             <p><input name="username" type="text" th:placeholder="${currentUsername}" th:field="*{username}" class="signup-input"></p>
-                            <b>Date of Birth</b>
+                            <p class="message" id="errorusername"></p>
+                            <b>Year of Birth</b>
                             <p><input name="birthday" type="date" th:field="*{birthday}" class="signup-input" required></p>
+                            <p class="message" id="errorbirthday"></p>
                             <p><b>Current Role</b></p>
                             <p><input name="currentJobTitle" input type="text" th:field="*{currentJobTitle}" class="signup-input" required></p>
+                            <p class="message" id="errorcurrentJobTitle"></p>
                         </div>
                         <div class="tab">
                             <p><b>Gender</b></p>
@@ -57,8 +62,8 @@
                             <div></div>
                             <p><b>Your Skills</b></p>
                             <select style="margin-bottom:30px;" name="skills" class="selectm" multiple>
-                               </fieldset>
-                                    <option th:each="skill : ${skillList}" th:value="${skill.getSkillId()}" th:text="${skill.getSkillTitle()}"></option>
+                                </fieldset>
+                                <option th:each="skill : ${skillList}" th:value="${skill.getSkillId()}" th:text="${skill.getSkillTitle()}"></option>
                                 </fieldset>
                             </select>
                             <br>
@@ -79,7 +84,7 @@
                             <span class="step"></span>
                         </div>
                     </form>
-                    <div id="message"></div>
+
 
                 </td>
                 <td width="50%">
@@ -100,8 +105,8 @@
 </body>
 
 <script>
-    const message = document.getElementById("message");
-    message.style.display="none";
+
+    const messages = document.getElementsByClassName("message");
     var currentTab = 0; // Current tab is set to be the first tab (0)
     showTab(currentTab); // Display the current tab
 
@@ -126,16 +131,18 @@
 
     function nextPrev(n) {
 
-        while(message.hasChildNodes()) {
-            message.removeChild(message.firstChild)
+        for (let i = 0; i < messages.length; i++) {
+            messages[i].innerHTML="";
+            messages[i].style.display = "none";
         }
+
         // This function will figure out which tab to display
         var x = document.getElementsByClassName("tab");
         // Exit the function if any field in the current tab is invalid:
         if (n == 1 && !validateForm()) return false;
         if (n == 2 && !validateSecondForm()) return false;
         if (n == 3 && !validateThirdForm()) return false;
-         // Hide the current tab:
+        // Hide the current tab:
         x[currentTab].style.display = "none";
         // Increase or decrease the current tab by 1:
         currentTab = currentTab + n;
@@ -158,37 +165,42 @@
         for (i = 0; i < y.length; i++) {
             // If a field is empty...
             if (!y[i].disabled) {
-                if (y[i].value == "") {
+                if (y[i].value.trim() == "") {
                     // add an "invalid" class to the field:
                     y[i].className += "invalid";
                     // and set the current valid status to false
+                    let message = document.getElementById("error"+y[i].id)
+                    let id = y[i].id.toString();
+                    let firstLetter = id.charAt(0)
+                    firstLetter = firstLetter.toUpperCase()
+                    id = id.slice(1)
+                    id = firstLetter+id
+                    message.innerHTML = id + " cannot be blank";
+                    message.style.display = "";
+                    message.style.color="red";
                     valid = false;
-                    const node = document.createElement("li");
-                    const textNode = document.createTextNode(y[i].id + "cannot be blank");
-                    node.appendChild(textNode);
-                    message.appendChild(node);
-                    message.style.display="";
                 }
             }
 
         }
+        const emailAddress = document.getElementById("email");
+        const password = document.getElementById("password");
 
-        if (!validateEmail()) {
+        if ((emailAddress.value.trim()!="")&&(emailAddress.value!=null)&&(!validateEmail())) {
             valid = false;
-            const node = document.createElement("li");
-            const textNode = document.createTextNode("Input correct email");
-            node.appendChild(textNode);
-            message.appendChild(node);
-            message.style.display="";
+            let message = document.getElementById("erroremail")
+            message.innerHTML="Input correct email"
+            message.style.display=""
+            message.style.color="red"
+
         }
-        if(!validatePassword()) {
+        if((password.value.trim()!="")&&(password.value!=null)&&(!validatePassword())) {
             valid = false;
-            valid = false;
-            const node = document.createElement("li");
-            const textNode = document.createTextNode("Input correct password");
-            node.appendChild(textNode);
-            message.appendChild(node);
-            message.style.display="";
+            let message = document.getElementById("errorpassword")
+            message.innerHTML="Password length must be 8 or more than 8 character"
+            message.style.display=""
+            message.style.color="red"
+
         }
         // If the valid status is true, mark the step as finished and valid:
         if (valid) {
