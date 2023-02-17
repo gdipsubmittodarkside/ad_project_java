@@ -37,7 +37,7 @@
                     <div id="wrapforcalendar">
                         <table class="table table-striped" >
                             <tr th:if="${scheduledCourseList.empty}">
-                                <td colspan="2"> No Scheduled Course Available </td>
+                                <td colspan="2"> No course has been scheduled </td>
                             </tr>
                             <tr  id="myCourseS" th:each="course : ${scheduledCourseList}">
                                 <td><a th:href="@{/myCourses/watchCourse/}+${course.myCourseId}"> <img th:src="@{${course.thumbnail}}" width="160px" height="90px"></a> </td>
@@ -52,7 +52,7 @@
                     <div id="content-wrapper">
                         <table class="table table-striped">
                             <tr th:if="${unscheduledCourseList.empty}">
-                                <td colspan="2"> No Scheduled Course Available </td>
+                                <td colspan="2"> No course available </td>
                             </tr>
                             <tr th:each="course : ${unscheduledCourseList}">
                                 <td><a th:href="@{/myCourses/watchCourse/}+${course.myCourseId}"> <img th:src="@{${course.thumbnail}}" width="160px" height="90px"></a> </td>

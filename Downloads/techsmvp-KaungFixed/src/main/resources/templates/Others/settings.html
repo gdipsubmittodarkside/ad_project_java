@@ -77,7 +77,8 @@
                                         <tr>
                                             <td width="50%">
                                                 <b>Current Role</b>
-                                                <p><input class="fname input1" type="text" th:placeholder="${currentMember.getCurrentJobTitle()}" th:field="*{currentJobTitle}"></p>
+                                                <p><input class="fname input1" type="text" th:placeholder="${currentMember.getCurrentJobTitle()}" 
+                                                th:field="*{currentJobTitle}"></p>
                                             </td>
                                             <td width="50%">
                                                 <b>Year of Birth</b>
@@ -87,12 +88,16 @@
                                         <tr>
                                             <td width="50%">
                                                 <b>Bio</b>
-                                                <p><textarea class="textarea1" name="shortBio" th:placeholder="${currentMember.getShortBio()}" th:text="${member.shortBio}" rows="2"></textarea></p>
+                                                <p><textarea class="textarea1" name="shortBio" th:placeholder="${currentMember.getShortBio()}" th:text="${currentMember.shortBio}" rows="2"></textarea></p>
                                             </td>
                                             <td width="50%">
                                                 <b>Dream Job</b>
                                                 <p><select class="select" th:field="*{dreamJob}">
-                                                    <option th:each="job : ${jobList}" th:value="${job.getJobId()}" th:text="${job.getJobTitle()}"></option>
+                                                    
+                                                    <option th:if="${currentMember.dreamJob!=null}" value="${currentMember.dreamJob}"
+                                                    th:text="${currentMember.dreamJob.JobTitle}"
+                                                    selected></option>
+                                                    <option th:each="job : ${jobList}" th:value="${job.JobId}" th:text="${job.JobTitle}"></option>
                                                 </select></p>
                                             </td>
                                         </tr>
@@ -115,14 +120,14 @@
                                                 <tr>
                                                     <td width="50%">
                                                         <p><b>Gender</b></p>
-                                                        <p><span> Current : </span><span  th:text="${currentMember.getGender()}"></span></p>
+                                                        <p><span th:if="${currentMember.getGender() != null}"> Current : </span><span  th:text="${currentMember.getGender()}"></span></p>
                                                         <p><select class="select" th:field="*{gender}">
                                                             <option th:each="gender : ${T(nus.iss.team2.ADProjectTECHS.Model.Enums.Gender).values()}" th:value="${gender}" th:text="${gender}"></option>
                                                         </select></p>        
                                                     </td>
                                                     <td width="50%">
                                                         <p><b>Education Level</b></p>
-                                                        <p><span> Current : </span><span  th:text="${currentMember.getEducation()}"></span></p>
+                                                        <p><span th:if="${currentMember.getEducation() != null}"> Current : </span><span  th:text="${currentMember.getEducation()}"></span></p>
                                                         <p><select class="select" th:field="*{education}">
                                                             <option th:each="level : ${T(nus.iss.team2.ADProjectTECHS.Model.Enums.Education).values()}" th:value="${level}" th:text="${level}"></option>
                                                         </select></p>
@@ -133,7 +138,7 @@
                                                     <td width="50%">
                                                         <p><b>My Skills</b></p>
                                                         <!-- need a if else statement (if list is empty...) -->
-                                                        <!-- <p><span> Current : <div style="display:inline-block" th:each="mk : ${currentMember.getMySkills()}"> </span><span  th:text="'&nbsp' + ${mk.getSkill().getSkillTitle()} + '.'"></span></p></div> -->
+                                                        <p th:if="${currentMember.getMySkills().size != 0}"><span> Current : <div style="display:inline-block" th:each="mk : ${currentMember.getMySkills()}"> </span><span  th:text="'&nbsp' + ${mk.getSkill().getSkillTitle()} + '.'"></span></div></p>
                                                         <p><select name="skills" class="selectm"  multiple="multiple">
                                                             <option th:each="skill : ${skillList}" th:value="${skill.getSkillId()}" th:text="${skill.getSkillTitle()}"></option>
                                                         </select></p>

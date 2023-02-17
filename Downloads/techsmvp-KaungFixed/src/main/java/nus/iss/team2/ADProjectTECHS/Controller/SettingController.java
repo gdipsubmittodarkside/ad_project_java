@@ -70,26 +70,34 @@ public class SettingController {
         // kaung2.0
         Member currentMember = memberService.loadMemberByUsername(currentUsername);
         String notistatus = currentMember.getNotification();
-        model.addAttribute("currentAvatar", currentMember.getAvatar());
-        model.addAttribute("currentMember", currentMember); 
-        model.addAttribute("notistatus", notistatus);
-
-        if(currentMember.getDreamJob() == null){
-            String dj = "nodj";
-            model.addAttribute("dj", dj);
-        }
+        Job dreamJob = currentMember.getDreamJob();
 
 
-        if (currentMember == null) throw new RuntimeException("cannot find current member");
+        
+
+
+        if (currentMember == null) 
+            throw new RuntimeException("cannot find current member");
 
 
         model.addAttribute("member", new Member());
-        List<Job> jobList = jobService.findAll();
-        model.addAttribute("jobList", jobList);
 
+        List<Job> jobList = jobService.findAll();
+       
+        if(dreamJob == null){
+            String dj = "nodj";
+            model.addAttribute("dj", dj);
+            model.addAttribute("jobList", jobList);
+        }else{
+            jobList.remove(dreamJob);
+            model.addAttribute("jobList",jobList);
+        }
+        
         List<Skill> skillList = skillService.findAll();
         model.addAttribute("skillList", skillList);
-
+        model.addAttribute("currentAvatar", currentMember.getAvatar());
+        model.addAttribute("currentMember", currentMember); 
+        model.addAttribute("notistatus", notistatus);
         return "Others/settings";
     }
 

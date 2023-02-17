@@ -61,7 +61,7 @@
   position: relative;
   width: 100%;
 }
-/* .calRow { min-height: 100px;} */
+.calRow { min-height: 50px;}
 .calRowHead, .calRowEvt { z-index: 2; }
 .calRowBack {
   position: absolute;
