@@ -40,7 +40,7 @@ public class CustomOAuth2User implements OAuth2User {
 
     public String getAvatar() {
         if (this.avatar == null){
-            return "/images/avatar/defaultAvatar.jpeg";
+            return "images/defaultAvatar.JPEG";
         } else {
             return this.avatar;
         }

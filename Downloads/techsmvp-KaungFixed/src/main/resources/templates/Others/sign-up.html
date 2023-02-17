@@ -43,7 +43,6 @@
                                 <option value="" disabled selected hidden>Choose one...</option>
                                 <option value='MALE' th:text="MALE"></option>
                                 <option value='FEMALE'th:text="FEMALE"></option>
-                                <!-- <option value='option-3'>Prefer Not To Say</option> -->
                             </select>
                             <p><b>Education Level</b></p>
                             <select class="select" th:field="*{education}" required>
@@ -100,6 +99,7 @@
                 </td>
             </tr>
         </table>
+    </div>
 
     </div>
 </body>
@@ -197,7 +197,7 @@
         if((password.value.trim()!="")&&(password.value!=null)&&(!validatePassword())) {
             valid = false;
             let message = document.getElementById("errorpassword")
-            message.innerHTML="Password length must be 8 or more than 8 character"
+            message.innerHTML="Password length must be 8 or more characters"
             message.style.display=""
             message.style.color="red"
 

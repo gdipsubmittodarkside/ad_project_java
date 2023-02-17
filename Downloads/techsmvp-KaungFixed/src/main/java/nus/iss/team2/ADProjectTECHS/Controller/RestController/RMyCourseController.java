@@ -117,16 +117,6 @@ public class RMyCourseController {
             }
         }
 
-        // @PutMapping("/myCourses")
-        // public ResponseEntity<MyCourse> updateMyCourse(@RequestBody MyCourse mycourse) {
-
-        //     try {
-        //         MyCourse course = myCourseService.updateMyCourse(mycourse, mycourse.getMyCourseId());
-        //         return new ResponseEntity<>(course, HttpStatus.OK);
-        //     } catch (Exception e) {
-        //         return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        //     }
-        // }
 
     @DeleteMapping("/myCourses/{id}")
     public ResponseEntity<Long> deleteMyCourse(@PathVariable("id") Long id) {

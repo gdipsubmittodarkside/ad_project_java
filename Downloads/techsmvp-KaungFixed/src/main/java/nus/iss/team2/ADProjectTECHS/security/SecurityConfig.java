@@ -86,7 +86,7 @@ public class SecurityConfig {
 
         http.formLogin()
                 .loginPage("/login")
-                .defaultSuccessUrl("/search/skills/home")
+                .defaultSuccessUrl("/")
                 .permitAll();
         http.oauth2Login().loginPage("/login")
                 .userInfoEndpoint()
@@ -103,12 +103,12 @@ public class SecurityConfig {
                         if(!memberService.processOAuthPostLogin(oAuth2User.getName(), oAuth2User.getEmail())){
                             response.sendRedirect("/settings");
                         } else{
-                            response.sendRedirect("/search/skills/home");
+                            response.sendRedirect("/");
                         }
                     };
                 });
 
-        http.logout().logoutSuccessUrl("/search/skills/home").permitAll();
+        http.logout().logoutSuccessUrl("/").permitAll();
 
         return http.build();
     }

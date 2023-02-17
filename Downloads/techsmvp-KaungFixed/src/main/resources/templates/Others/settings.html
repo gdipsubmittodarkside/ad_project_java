@@ -142,6 +142,7 @@
                                                     <td width="50%">
                                                         <p><b>Email Notification for Scheduled Events</b></p>
                                                         <!-- subscribe to/unsubscribe from email -->
+                                                        <p style="font-size: small;"><i>An email reminder will be sent to you at 12am on the day of scheduled event</i></p>
                                                         <p th:if="${currentMember.notification == 'on'}">You are currently subscribed.</p>
                                                         <p th:if="${currentMember.notification == 'off'}">You are currently unsubscribed.</p>
                                                         <button class="btn btn-secondary" th:onclick="|window.location.href='/members/notification'|" style="font-size:12px;height: 2.5em;" >
@@ -234,14 +235,14 @@
         function checkdj(){
             var dj = document.getElementById("dj").value
             if(dj == "nodj"){
-                alert("Please fill up setting and choose your dream job to access to the Dashboard!!!")
+                alert("Please set up your profile to access to the Dashboard!")
             }
         }
 
         function validateImage() {
             console.log(shouldUploadImage)
             if(!shouldUploadImage) {
-                alert("File too Big, please select a file less than 1mb");
+                alert("File size exceeded limit, please select a file that is less than 1mb");
             } else {
                 document.getElementById("imageForm").submit();
             }
