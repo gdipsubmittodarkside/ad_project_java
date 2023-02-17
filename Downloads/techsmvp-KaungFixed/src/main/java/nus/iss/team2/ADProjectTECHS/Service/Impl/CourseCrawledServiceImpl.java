@@ -189,9 +189,7 @@ public class CourseCrawledServiceImpl implements CourseCrawledService {
                     .flatMap(Collection::stream)
                     .collect(Collectors.toList())
                     .stream()
-                    .collect(Collectors.toMap(CourseCrawled::getUrlLink, Function.identity()))
-                    .values()
-                    .stream()
+                    .filter(distinctByKey(CourseCrawled::getUrlLink))
                     .toList()
             ;
             

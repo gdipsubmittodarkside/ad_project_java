@@ -13,7 +13,7 @@
 
     <div class="shadow p-0.5 mb-5 bg-white rounded" sec:authorize="isAuthenticated()">
         <table class="table table-borderless">
-            <td Align = Middle> <img th:src=${member.avatar} width="80" height="80"> </td>
+            <td Align = Middle> <img th:src="${#authentication.getPrincipal().getAvatar()}" width="80" height="80"> </td>
             <td style="vertical-align:middle;"><h5 th:text="${member.username} + ', your career goal is to be a ' +${searchedjob}  +'.'" style="color:#ad2eb3;"><span style="color:#ad2eb3;"><b ></b></span></h5></td>
             <td class="text-center align-middle"><a class="btn btn-secondary" id="settinggoal" role="button"  th:data-name="${job1.jobId}" th:onclick="savedDreamJob(this.getAttribute('data-name'))" ><i class="bi bi-pencil"></i> Set Goal</a></td>
             

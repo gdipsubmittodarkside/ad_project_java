@@ -377,13 +377,13 @@ var cal = {
       cal.hfDel.style.display = "none";
       cal.course.disabled=false;
 
-      // for(let i=0; i<cal.course.options.length;i++){
-      //   console.log(cal.course.options[i].value.toString());
-      //   console.log(cal.myCoursesS.outerText.toString());
-      //   if(cal.myCoursesS.innerHTML.indexOf(cal.course.options[i].value) !== -1){
-      //     cal.course.options[i].disabled=true;
-      //   }
-      // }
+      for(let i=0; i<cal.course.options.length;i++){
+        console.log(cal.course.options[i].value.toString());
+        console.log(cal.myCoursesS.outerText.toString());
+        if(cal.myCoursesS.innerHTML.indexOf(cal.course.options[i].value) !== -1){
+          cal.course.options[i].disabled=true;
+        }
+      }
 
 
     }

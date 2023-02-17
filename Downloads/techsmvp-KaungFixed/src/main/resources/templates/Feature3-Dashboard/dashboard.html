@@ -44,7 +44,7 @@
                         <table>
                             <tr >
                                 <td>
-                                    <canvas id="courseChart" style="width:150%; height:320px"></canvas>
+                                    <canvas id="courseChart" style="width:150%; height:400px"></canvas>
                                 </td>
                             </tr>
                         </table>
@@ -64,7 +64,7 @@
                                 </tr>
                             </table>
                             <table class="coursesTable">
-                                <div th:if="${#lists.isEmpty(inProgressList)}">
+                                <div th:if="${#lists.isEmpty(myCourses)}">
                                     <span><center>You have no course in progress.</center></span></div>
 
                                 <tr th:each="course : ${myCourses}">
