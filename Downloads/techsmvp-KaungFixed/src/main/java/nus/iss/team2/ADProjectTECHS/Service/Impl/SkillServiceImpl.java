@@ -2,22 +2,20 @@ package nus.iss.team2.ADProjectTECHS.Service.Impl;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
-import nus.iss.team2.ADProjectTECHS.Model.Job;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import nus.iss.team2.ADProjectTECHS.Model.Job;
 import nus.iss.team2.ADProjectTECHS.Model.Skill;
 import nus.iss.team2.ADProjectTECHS.Repository.SkillRepository;
 import nus.iss.team2.ADProjectTECHS.Service.SkillService;
 
 @Service
-public class SkillServiceImpl implements SkillService{
+public class SkillServiceImpl implements SkillService {
 
     @Autowired
     private SkillRepository skillRepo;
-
 
     @Override
     public Skill findSkillById(Long id) {
@@ -34,7 +32,12 @@ public class SkillServiceImpl implements SkillService{
     @Override
     public Skill updateSkill(Skill skill, Long id) {
         // TODO Auto-generated method stub
-        return null;
+        Skill s = skillRepo.findById(id).get();
+        s.setSkillDescription(skill.getSkillDescription());
+        s.setSkillTitle(skill.getSkillTitle());
+        s.setUrlLink(skill.getUrlLink());
+
+        return skillRepo.save(s);
     }
 
     @Override

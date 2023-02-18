@@ -7,8 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import nus.iss.team2.ADProjectTECHS.Model.Job;
-import nus.iss.team2.ADProjectTECHS.Model.JobSkill;
-import nus.iss.team2.ADProjectTECHS.Model.Skill;
 import nus.iss.team2.ADProjectTECHS.Repository.JobRepository;
 import nus.iss.team2.ADProjectTECHS.Service.JobService;
 

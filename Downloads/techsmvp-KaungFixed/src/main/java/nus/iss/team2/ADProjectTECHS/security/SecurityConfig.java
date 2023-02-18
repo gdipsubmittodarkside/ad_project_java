@@ -15,7 +15,6 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.web.cors.CorsConfiguration;
@@ -29,21 +28,16 @@ import nus.iss.team2.ADProjectTECHS.Service.MemberService;
 @EnableWebSecurity
 public class SecurityConfig {
 
-
-    @Autowired
-    private UserDetailsService userDetailsService;
-
     @Autowired
     private MemberService memberService;
 
     @Autowired
     private CustomOAuth2UserService customOAuth2UserService;
 
-
     /*
      * visitor - home, login, search , viewCourses
      * member - dashboard
-     * */
+     */
 
     private static final String[] INGORE_PATH = {
             "/",
@@ -67,7 +61,7 @@ public class SecurityConfig {
             "/skills/**/**",
             "/skills/**",
             "/courses/**/**",
-            "/courses/**","/myCourses/**","/myCourses/**/**"
+            "/courses/**", "/myCourses/**", "/myCourses/**/**"
     };
     @Autowired
     private MemberRepository memberRepository;
@@ -95,14 +89,14 @@ public class SecurityConfig {
                 .successHandler(new AuthenticationSuccessHandler() {
                     @Override
                     public void onAuthenticationSuccess(HttpServletRequest request,
-                                                        HttpServletResponse response, Authentication authentication)
+                            HttpServletResponse response, Authentication authentication)
                             throws IOException, ServletException {
 
                         CustomOAuth2User oAuth2User = (CustomOAuth2User) authentication.getPrincipal();
 
-                        if(!memberService.processOAuthPostLogin(oAuth2User.getName(), oAuth2User.getEmail())){
+                        if (!memberService.processOAuthPostLogin(oAuth2User.getName(), oAuth2User.getEmail())) {
                             response.sendRedirect("/settings");
-                        } else{
+                        } else {
                             response.sendRedirect("/");
                         }
                     };
@@ -118,9 +112,8 @@ public class SecurityConfig {
         return authConfig.getAuthenticationManager();
     }
 
-
-        @Bean
-    public CorsConfigurationSource corsConfigurationSource(){
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         // allow post 5000
         configuration.setAllowedOrigins(Arrays.asList("http://localhost:5000"));
@@ -130,10 +123,5 @@ public class SecurityConfig {
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
-
-
-
-
-
 
 }

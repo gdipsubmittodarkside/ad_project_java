@@ -1,6 +1,5 @@
 package nus.iss.team2.ADProjectTECHS.Service.Impl;
 
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,6 @@ import nus.iss.team2.ADProjectTECHS.Repository.CourseCrawledRepository;
 import nus.iss.team2.ADProjectTECHS.Service.CourseService;
 import reactor.core.publisher.Flux;
 
-
 @Service
 public class CourseServiceImpl implements CourseService {
 
@@ -29,12 +27,9 @@ public class CourseServiceImpl implements CourseService {
                 .build();
     }
 
-
-
-
     @CrossOrigin(origins = "http://localhost:5000")
     public List<CourseCrawled> getAndSaveCrawledCourses() {
-        Flux<CourseCrawled>  coursesCrawledFlux =  webClient.get()
+        Flux<CourseCrawled> coursesCrawledFlux = webClient.get()
                 .uri("/courses")
                 .accept(MediaType.APPLICATION_JSON)
                 .exchangeToFlux(response -> {
@@ -45,16 +40,13 @@ public class CourseServiceImpl implements CourseService {
                     }
                 });
 
-        List<CourseCrawled> courseCrawledsList =  coursesCrawledFlux.collectList().block();
+        List<CourseCrawled> courseCrawledsList = coursesCrawledFlux.collectList().block();
 
-        if(courseCrawledsList.size() > 0) {
+        if (courseCrawledsList.size() > 0) {
             courseCrawledRepository.deleteAll();
             courseCrawledRepository.saveAllAndFlush(courseCrawledsList);
         }
         return courseCrawledsList;
     }
-
-
-
 
 }

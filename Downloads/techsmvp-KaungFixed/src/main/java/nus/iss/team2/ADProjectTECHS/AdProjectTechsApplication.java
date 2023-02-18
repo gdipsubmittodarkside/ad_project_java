@@ -32,16 +32,18 @@ public class AdProjectTechsApplication {
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
-		
+
 	}
+
 	@Bean
-    public SessionRegistry sessionRegistry() {
-        return new SessionRegistryImpl();
+	public SessionRegistry sessionRegistry() {
+		return new SessionRegistryImpl();
 
-    }
+	}
 
-	// PUT IN YOUR OWN COMMAND LINE RUNNER 
-	// TO SET MEMBER CORRECTLY VIA SPRING SECURITY --> USE MemberService.createMember()
+	// PUT IN YOUR OWN COMMAND LINE RUNNER
+	// TO SET MEMBER CORRECTLY VIA SPRING SECURITY --> USE
+	// MemberService.createMember()
 
 	@Bean
 	CommandLineRunner loadData(CourseCrawledRepository ccRepo,
@@ -54,16 +56,16 @@ public class AdProjectTechsApplication {
 			SkillRepository sRepo) {
 		return (args) -> {
 
-			//  List<String> skillList = DeveloperController.skillList;
+			// List<String> skillList = DeveloperController.skillList;
 			// List<String> skillDesList = DeveloperController.skillDescList;
 			// List<String> skillUrlList = DeveloperController.skillURLList;
 
 			// for(int i =0; i<skillList.size(); i++){
-			// 	Skill skill = new Skill();
-			// 	skill.setSkillTitle(skillList.get(i));
-			// 	skill.setSkillDescription(skillDesList.get(i));
-			// 	skill.setUrlLink(skillUrlList.get(i));
-			// 	sRepo.save(skill);
+			// Skill skill = new Skill();
+			// skill.setSkillTitle(skillList.get(i));
+			// skill.setSkillDescription(skillDesList.get(i));
+			// skill.setUrlLink(skillUrlList.get(i));
+			// sRepo.save(skill);
 			// }
 
 			// Member m1 = new Member();
@@ -80,14 +82,8 @@ public class AdProjectTechsApplication {
 			// m1.setAvatar("https://robohash.org/reiciendisrerumin.png?size=50x50&set=set1");
 
 			// mService.createMember(m1);
-		
+
 		};
 	}
 
-
 }
-
-
-
-
-

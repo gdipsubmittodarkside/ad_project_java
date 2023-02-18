@@ -1,26 +1,24 @@
 package nus.iss.team2.ADProjectTECHS.Service.Impl;
 
 import java.util.List;
-import java.util.Optional;
 
 import javax.transaction.Transactional;
 
-import lombok.AllArgsConstructor;
-import nus.iss.team2.ADProjectTECHS.Repository.MemberRepository;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import lombok.AllArgsConstructor;
 import nus.iss.team2.ADProjectTECHS.Model.Member;
+import nus.iss.team2.ADProjectTECHS.Repository.MemberRepository;
 import nus.iss.team2.ADProjectTECHS.Service.MemberService;
 
 @Service
 @AllArgsConstructor
-public class MemberServiceImpl implements MemberService{
+public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
     private PasswordEncoder encoder;
-
 
     @Override
     public Member findById(Long id) {
@@ -33,7 +31,8 @@ public class MemberServiceImpl implements MemberService{
     public Member createMember(Member member) {
 
         Member memberInDb = memberRepository.findMemberByUsername(member.getUsername()).orElse(null);
-        if (memberInDb != null) throw new RuntimeException("User with username :" + memberInDb.getUsername() + " already exist");
+        if (memberInDb != null)
+            throw new RuntimeException("User with username :" + memberInDb.getUsername() + " already exist");
 
         String encodedPassword = encoder.encode(member.getPassword());
         member.setPassword(encodedPassword);
@@ -41,7 +40,7 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
-    public Boolean processOAuthPostLogin(String username,String email) {
+    public Boolean processOAuthPostLogin(String username, String email) {
 
         Member existMember = memberRepository.findMemberByUsername(username).orElse(null);
 
@@ -53,7 +52,8 @@ public class MemberServiceImpl implements MemberService{
             return false;
         } else {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            nus.iss.team2.ADProjectTECHS.security.CustomOAuth2User userDetails = (nus.iss.team2.ADProjectTECHS.security.CustomOAuth2User) authentication.getPrincipal();
+            nus.iss.team2.ADProjectTECHS.security.CustomOAuth2User userDetails = (nus.iss.team2.ADProjectTECHS.security.CustomOAuth2User) authentication
+                    .getPrincipal();
             userDetails.setAvatar(existMember.getAvatar());
         }
 
@@ -65,20 +65,21 @@ public class MemberServiceImpl implements MemberService{
     public Boolean updateMember(Member member) {
         // TODO Auto-generated method stub
         Member memberInDb = memberRepository.findMemberByMemberId(member.getMemberId()).orElse(null);
-        if (memberInDb == null) throw new RuntimeException("cannot find member");
+        if (memberInDb == null)
+            throw new RuntimeException("cannot find member");
 
         Member member1 = loadMemberByUsername(member.getUsername());
-        if (member1 != null) throw new RuntimeException("username has exits");
+        if (member1 != null)
+            throw new RuntimeException("username has exits");
 
         memberRepository.saveAndFlush(member);
 
-        
         return true;
     }
 
     // kaung2.0
     @Override
-    public Boolean updateCurrentMember(Member member){
+    public Boolean updateCurrentMember(Member member) {
 
         memberRepository.saveAndFlush(member);
 
@@ -112,7 +113,7 @@ public class MemberServiceImpl implements MemberService{
 
     @Override
     @Transactional
-    public void save(Member member){
+    public void save(Member member) {
         memberRepository.save(member);
     }
 

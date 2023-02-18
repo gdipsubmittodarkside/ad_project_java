@@ -439,7 +439,4 @@ var cal = {
 };
 window.onload = cal.init;
 
-// function f() {
-//   XMLHttpRequest
-// }
 

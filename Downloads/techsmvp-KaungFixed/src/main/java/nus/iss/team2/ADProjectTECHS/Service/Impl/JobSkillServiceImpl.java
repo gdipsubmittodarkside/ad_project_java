@@ -13,21 +13,21 @@ import nus.iss.team2.ADProjectTECHS.Repository.JobSkillRepository;
 import nus.iss.team2.ADProjectTECHS.Service.JobSkillService;
 
 @Service
-public class JobSkillServiceImpl implements JobSkillService{
+public class JobSkillServiceImpl implements JobSkillService {
 
     @Autowired
     private JobSkillRepository jsRepo;
 
     @Override
-    public List<JobSkill> findSkillsByJobId(Long jobId){
+    public List<JobSkill> findSkillsByJobId(Long jobId) {
         return jsRepo.findSkillsByJobId(jobId);
     }
 
     @Override
-    public List<Skill> findSkillsReq(Long jobId){
+    public List<Skill> findSkillsReq(Long jobId) {
         List<Skill> skills = new ArrayList<>();
         List<JobSkill> jobSkills = findSkillsByJobId(jobId);
-        for(JobSkill jsk: jobSkills){
+        for (JobSkill jsk : jobSkills) {
             Skill sk = jsk.getSkill();
             skills.add(sk);
         }
@@ -36,38 +36,49 @@ public class JobSkillServiceImpl implements JobSkillService{
     };
 
     @Override
-    public List<JobSkill> findJobSkillByJob(Job job){
+    public List<JobSkill> findJobSkillByJob(Job job) {
         return jsRepo.findByJob(job);
     }
 
     @Override
     public JobSkill findJobSkillById(Long id) {
         // TODO Auto-generated method stub
-        return null;
+        return jsRepo.findById(id).get();
     }
 
     @Override
     public JobSkill createJobSkill(JobSkill jobSkill) {
         // TODO Auto-generated method stub
-        return  jsRepo.save(jobSkill);
+        return jsRepo.save(jobSkill);
     }
 
     @Override
     public JobSkill updateJobSkill(JobSkill jobSkill, Long id) {
         // TODO Auto-generated method stub
-        return null;
+        JobSkill js = jsRepo.findById(id).get();
+        js.setJob(jobSkill.getJob());
+        js.setJobSkillId(jobSkill.getJobSkillId());
+        js.setLastUpdatedDate(jobSkill.getLastUpdatedDate());
+        js.setSkill(jobSkill.getSkill());
+
+        return jsRepo.save(js);
     }
 
     @Override
     public Boolean deleteJobSkill(Long id) {
         // TODO Auto-generated method stub
-        return null;
+        JobSkill js = jsRepo.findById(id).get();
+        if (js != null) {
+            jsRepo.delete(js);
+            return true;
+        }
+        return false;
     }
 
     @Override
     public List<JobSkill> getAllJobSkill() {
         // TODO Auto-generated method stub
-        return null;
+        return jsRepo.findAll();
     }
-    
+
 }

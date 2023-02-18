@@ -1,12 +1,13 @@
 package nus.iss.team2.ADProjectTECHS.Service;
+
 import java.util.List;
 import java.util.Optional;
+
+import org.springframework.data.domain.Page;
 
 import nus.iss.team2.ADProjectTECHS.Model.CourseCrawled;
 import nus.iss.team2.ADProjectTECHS.Model.MyCourse;
 import nus.iss.team2.ADProjectTECHS.Model.Skill;
-import org.springframework.data.domain.Page;
-
 
 public interface CourseCrawledService {
     List<CourseCrawled> findCoursesSortedBySubscribers();

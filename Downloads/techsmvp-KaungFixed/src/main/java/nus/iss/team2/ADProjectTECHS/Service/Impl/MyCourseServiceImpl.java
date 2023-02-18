@@ -11,17 +11,14 @@ import nus.iss.team2.ADProjectTECHS.Model.MyCourse;
 import nus.iss.team2.ADProjectTECHS.Repository.MyCourseRepository;
 import nus.iss.team2.ADProjectTECHS.Service.MyCourseService;
 
-
 @Service
-public class MyCourseServiceImpl implements MyCourseService{
-    @Autowired 
+public class MyCourseServiceImpl implements MyCourseService {
+    @Autowired
     private MyCourseRepository mcRepo;
-
-    
 
     @Override
     public MyCourse createMyCourse(MyCourse myCourse) {
-        
+
         return mcRepo.saveAndFlush(myCourse);
     }
 
@@ -32,7 +29,7 @@ public class MyCourseServiceImpl implements MyCourseService{
         course.setProgress(myCourse.getProgress());
         course.setScheduleEvent(myCourse.getScheduleEvent());
         course.setSkill(myCourse.getSkill());
-        
+
         return mcRepo.saveAndFlush(course);
     }
 
@@ -40,7 +37,7 @@ public class MyCourseServiceImpl implements MyCourseService{
     @Transactional
     public Boolean deleteMyCourse(Long id) {
         MyCourse course = mcRepo.findById(id).get();
-        if(course != null){
+        if (course != null) {
             mcRepo.delete(course);
             return true;
         }
@@ -58,9 +55,9 @@ public class MyCourseServiceImpl implements MyCourseService{
         // TODO Auto-generated method stub
         return mcRepo.findById(id).orElse(null);
     }
-    
+
     @Override
-    public List<MyCourse> getMyCoursesByMemberId(Long id){
+    public List<MyCourse> getMyCoursesByMemberId(Long id) {
         return mcRepo.findMyCoursesByMemberId(id);
     }
 

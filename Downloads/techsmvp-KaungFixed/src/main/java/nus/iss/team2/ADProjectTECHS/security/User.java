@@ -1,10 +1,10 @@
 package nus.iss.team2.ADProjectTECHS.security;
 
-import org.springframework.security.core.GrantedAuthority;
-
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
+
+import org.springframework.security.core.GrantedAuthority;
 
 public class User implements org.springframework.security.core.userdetails.UserDetails {
 
@@ -15,7 +15,6 @@ public class User implements org.springframework.security.core.userdetails.UserD
     private Long id;
 
     private List<GrantedAuthority> authorities;
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -61,7 +60,7 @@ public class User implements org.springframework.security.core.userdetails.UserD
     }
 
     public String getAvatar() {
-        if (this.avatar == null || this.avatar.equals("")){
+        if (this.avatar == null || this.avatar.equals("")) {
             return "http://localhost:8080/images/defaultAvatar.jpeg";
         } else {
             return this.avatar;
@@ -86,8 +85,10 @@ public class User implements org.springframework.security.core.userdetails.UserD
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
         User user = (User) o;
         return username.equals(user.username);
     }

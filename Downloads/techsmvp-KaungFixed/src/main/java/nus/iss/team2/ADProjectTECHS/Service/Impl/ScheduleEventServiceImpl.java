@@ -3,16 +3,16 @@ package nus.iss.team2.ADProjectTECHS.Service.Impl;
 import java.time.LocalDate;
 import java.util.List;
 
-import nus.iss.team2.ADProjectTECHS.Model.Member;
-import nus.iss.team2.ADProjectTECHS.Model.MyCourse;
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import nus.iss.team2.ADProjectTECHS.Model.Member;
+import nus.iss.team2.ADProjectTECHS.Model.MyCourse;
 import nus.iss.team2.ADProjectTECHS.Model.ScheduleEvent;
 import nus.iss.team2.ADProjectTECHS.Repository.ScheduleEventRepository;
 import nus.iss.team2.ADProjectTECHS.Service.ScheduleEventService;
-
-import javax.transaction.Transactional;
 
 
 @Service
@@ -47,7 +47,7 @@ public class ScheduleEventServiceImpl implements ScheduleEventService{
     @Override
     public ScheduleEvent findScheduleEventById(Long id) {
         // TODO Auto-generated method stub
-        return null;
+        return seRepo.findById(id).get();
     }
 
     @Override
@@ -59,7 +59,8 @@ public class ScheduleEventServiceImpl implements ScheduleEventService{
     @Override
     public ScheduleEvent updateScheduleEvent(ScheduleEvent event) {
         // TODO Auto-generated method stub
-        return null;
+        
+        return seRepo.save(event);
     }
 
     @Override
@@ -77,7 +78,7 @@ public class ScheduleEventServiceImpl implements ScheduleEventService{
     @Override
     public List<ScheduleEvent> getAllScheduleEvents() {
         // TODO Auto-generated method stub
-        return null;
+        return seRepo.findAll();
     }
     
 }
