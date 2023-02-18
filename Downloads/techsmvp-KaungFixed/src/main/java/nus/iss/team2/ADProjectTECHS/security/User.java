@@ -61,8 +61,8 @@ public class User implements org.springframework.security.core.userdetails.UserD
     }
 
     public String getAvatar() {
-        if (this.avatar == null){
-            return "images/defaultAvatar.JPEG";
+        if (this.avatar == null || this.avatar.equals("")){
+            return "http://localhost:8080/images/defaultAvatar.jpeg";
         } else {
             return this.avatar;
         }
