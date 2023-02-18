@@ -1,21 +1,21 @@
 <!DOCTYPE html>
+
 <head th:fragment="html_head" id="html_head" xmlns:sec="http://www.w3.org/1999/xhtml">
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>TECHS</title>
-<link rel="icon" type="image/x-icon" href="/images/favicon.ico">
-<!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"> -->
-<link th:href="@{/DataTable/css.css}" rel="stylesheet" />
-<link th:href="@{/css/styles.css}" rel="stylesheet" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<link th:href="@{/css/setting.css}" rel="stylesheet" />
-<script defer th:src="@{/js/js-setting.js}"></script> 
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>TECHS</title>
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"> -->
+    <link th:href="@{/DataTable/css.css}" rel="stylesheet" />
+    <link th:href="@{/css/styles.css}" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link th:href="@{/css/setting.css}" rel="stylesheet" />
+    <script defer th:src="@{/js/js-setting.js}"></script>
 
 
     <style>
-
         .autocomplete-items {
             position: absolute;
             border: 1px solid #d4d4d4;
@@ -39,229 +39,242 @@
         .autocomplete-items div:hover {
             background-color: #e9e9e9;
         }
-
     </style>
 
 </head>
 
 <!-- FRAGMENT: MENU -->
+
 <body>
-<div th:fragment="menu" id="menu">
-    <!-- <div class="m-4"> -->
-    <nav class="navbar navbar-expand-sm navbar-light bg-light">
-        <div class="container-fluid">
-            <a th:href="@{/search/skills/home}" class="navbar-brand"><img src="/images/TECHSLOGO.JPG" width="100" height="50"></a>
-            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-            <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div id="navbarCollapse" class="collapse navbar-collapse">
-                <ul class="nav navbar-nav">
-                    <li class="nav-item">
-                        <!-- <form class="d-flex"> -->
+    <div th:fragment="menu" id="menu">
+        <!-- <div class="m-4"> -->
+        <nav class="navbar navbar-expand-sm navbar-light bg-light">
+            <div class="container-fluid">
+                <a th:href="@{/search/skills/home}" class="navbar-brand"><img src="/images/TECHSLOGO.JPG" width="100"
+                        height="50"></a>
+                <link rel="stylesheet"
+                    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div id="navbarCollapse" class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li class="nav-item">
+                            <!-- <form class="d-flex"> -->
                             <div class="input-group">
-                                <form id="myForm1" autocomplete="off" style="width:300px;" th:action="@{/search/fragment}" method="POST">
+                                <form id="myForm1" autocomplete="off" style="width:300px;"
+                                    th:action="@{/search/fragment}" method="POST">
                                     <span class="autocomplete form-outline input-group">
-                                        <input id="myInput" type="text" name="query" placeholder="Search by skills or job" class="form-control">
-                                        <a class="btn btn-secondary" role="button"  onclick="validateForm();" > <i class="bi-search"></i></a>
+                                        <input id="myInput" type="text" name="query"
+                                            placeholder="Search by skills or job" class="form-control">
+                                        <a class="btn btn-secondary" role="button" onclick="validateForm();"> <i
+                                                class="bi-search"></i></a>
                                     </span>
                                     <p id="message1"></p>
                                 </form>
                             </div>
-                        <!-- </form> -->
-                    </li>
-                </ul>
-
-                <ul class="nav navbar-nav ms-auto">
-                    <div sec:authorize="!isAuthenticated()">
-                        <div style="padding: 5px; display: inline-block;"><a th:href="@{/login}" class="link-secondary">Log In</a></div>
-                        <div style="padding: 5px; display: inline-block;"><a class="button-2" th:href="@{/members/register}" role="button"> Sign Up</a></div>
-                    </div>
-
-                    <div sec:authorize="isAuthenticated()">
-                        <li class="nav-item dropdown">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <!-- icon -->
-                                        <a th:href="@{/dashboard}" class="navbar-brand"><img th:src="${#authentication.getPrincipal().getAvatar()}" width="50" height="50"></a> <br>
-                                    </td>
-                                    <td>
-                                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" ><span th:sec:authentication= "name"></span></a>
-                                        <div class="dropdown-menu dropdown-menu-end">
-                                            <a th:href="@{/dashboard}" class="dropdown-item">Dashboard</a>
-                                            <a th:href="@{/settings}" class="dropdown-item setting" data-modal="modalTwo">Settings</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a th:href="@{/logout}" class="dropdown-item">Logout</a>
-                                        </div>
-                                    </td></tr>
-
-                            </table>
-
+                            <!-- </form> -->
                         </li>
-                        <!-- below is /div for security -->
-                    </div>
-                </ul>
+                    </ul>
+
+                    <ul class="nav navbar-nav ms-auto">
+                        <div sec:authorize="!isAuthenticated()">
+                            <div style="padding: 5px; display: inline-block;"><a th:href="@{/login}"
+                                    class="link-secondary">Log In</a></div>
+                            <div style="padding: 5px; display: inline-block;"><a class="button-2"
+                                    th:href="@{/members/register}" role="button"> Sign Up</a></div>
+                        </div>
+
+                        <div sec:authorize="isAuthenticated()">
+                            <li class="nav-item dropdown">
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <!-- icon -->
+                                            <a th:href="@{/dashboard}" class="navbar-brand"><img
+                                                    th:src="${#authentication.getPrincipal().getAvatar()}" width="50"
+                                                    height="50"></a> <br>
+                                        </td>
+                                        <td>
+                                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><span
+                                                    th:sec:authentication="name"></span></a>
+                                            <div class="dropdown-menu dropdown-menu-end">
+                                                <a th:href="@{/dashboard}" class="dropdown-item">Dashboard</a>
+                                                <a th:href="@{/settings}" class="dropdown-item setting"
+                                                    data-modal="modalTwo">Settings</a>
+                                                <div class="dropdown-divider"></div>
+                                                <a th:href="@{/logout}" class="dropdown-item">Logout</a>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                </table>
+
+                            </li>
+                            <!-- below is /div for security -->
+                        </div>
+                    </ul>
+                </div>
             </div>
-        </div>
-    </nav>
+        </nav>
 
-    <script>
+        <script>
 
-        let modalBtns = [...document.querySelectorAll(".setting")];
-        modalBtns.forEach(function (btn) {
-            btn.onclick = function () {
-                let modal = btn.getAttribute("data-modal");
-                document.getElementById(modal).style.display = "block";
+            let modalBtns = [...document.querySelectorAll(".setting")];
+            modalBtns.forEach(function (btn) {
+                btn.onclick = function () {
+                    let modal = btn.getAttribute("data-modal");
+                    document.getElementById(modal).style.display = "block";
+                };
+            });
+            let closeBtns = [...document.querySelectorAll(".close")];
+            closeBtns.forEach(function (btn) {
+                btn.onclick = function () {
+                    let modal = btn.closest(".modal");
+                    modal.style.display = "none";
+                };
+            });
+            window.onclick = function (event) {
+                if (event.target.className === "modal") {
+                    event.target.style.display = "none";
+                }
             };
-        });
-        let closeBtns = [...document.querySelectorAll(".close")];
-        closeBtns.forEach(function (btn) {
-            btn.onclick = function () {
-                let modal = btn.closest(".modal");
-                modal.style.display = "none";
-            };
-        });
-        window.onclick = function (event) {
-            if (event.target.className === "modal") {
-                event.target.style.display = "none";
-            }
-        };
 
-        function autocomplete(inp, arr) {
-            var currentFocus;
-            inp.addEventListener("input", function(e) {
-                var a, b, i, val = this.value;
-                closeAllLists();
-                if (!val) { return false;}
-                currentFocus = -1;
-                a = document.createElement("DIV");
-                a.setAttribute("id", this.id + "autocomplete-list");
-                a.setAttribute("class", "autocomplete-items");
-                this.parentNode.appendChild(a);
-                for (i = 0; i < arr.length; i++) {
-                    if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
-                        b = document.createElement("DIV");
-                        b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
-                        b.innerHTML += arr[i].substr(val.length);
-                        b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
-                        b.addEventListener("click", function(e) {
-                            inp.value = this.getElementsByTagName("input")[0].value;
-                            closeAllLists();
-                        });
-                        a.appendChild(b);
+            function autocomplete(inp, arr) {
+                var currentFocus;
+                inp.addEventListener("input", function (e) {
+                    var a, b, i, val = this.value;
+                    closeAllLists();
+                    if (!val) { return false; }
+                    currentFocus = -1;
+                    a = document.createElement("DIV");
+                    a.setAttribute("id", this.id + "autocomplete-list");
+                    a.setAttribute("class", "autocomplete-items");
+                    this.parentNode.appendChild(a);
+                    for (i = 0; i < arr.length; i++) {
+                        if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+                            b = document.createElement("DIV");
+                            b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+                            b.innerHTML += arr[i].substr(val.length);
+                            b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+                            b.addEventListener("click", function (e) {
+                                inp.value = this.getElementsByTagName("input")[0].value;
+                                closeAllLists();
+                            });
+                            a.appendChild(b);
+                        }
+                    }
+                });
+                inp.addEventListener("keydown", function (e) {
+                    var x = document.getElementById(this.id + "autocomplete-list");
+                    if (x) x = x.getElementsByTagName("div");
+                    if (e.keyCode == 40) {
+                        currentFocus++;
+                        addActive(x);
+                    } else if (e.keyCode == 38) { //up
+                        currentFocus--;
+                        addActive(x);
+                    } else if (e.keyCode == 13) {
+                        e.preventDefault();
+                        if (currentFocus > -1) {
+                            if (x) x[currentFocus].click();
+                        }
+                    }
+                });
+                function addActive(x) {
+                    if (!x) return false;
+                    removeActive(x);
+                    if (currentFocus >= x.length) currentFocus = 0;
+                    if (currentFocus < 0) currentFocus = (x.length - 1);
+                    x[currentFocus].classList.add("autocomplete-active");
+                }
+                function removeActive(x) {
+                    for (var i = 0; i < x.length; i++) {
+                        x[i].classList.remove("autocomplete-active");
                     }
                 }
-            });
-            inp.addEventListener("keydown", function(e) {
-                var x = document.getElementById(this.id + "autocomplete-list");
-                if (x) x = x.getElementsByTagName("div");
-                if (e.keyCode == 40) {
-                    currentFocus++;
-                    addActive(x);
-                } else if (e.keyCode == 38) { //up
-                    currentFocus--;
-                    addActive(x);
-                } else if (e.keyCode == 13) {
-                    e.preventDefault();
-                    if (currentFocus > -1) {
-                        if (x) x[currentFocus].click();
+                function closeAllLists(elmnt) {
+                    var x = document.getElementsByClassName("autocomplete-items");
+                    for (var i = 0; i < x.length; i++) {
+                        if (elmnt != x[i] && elmnt != inp) {
+                            x[i].parentNode.removeChild(x[i]);
+                        }
                     }
                 }
-            });
-            function addActive(x) {
-                if (!x) return false;
-                removeActive(x);
-                if (currentFocus >= x.length) currentFocus = 0;
-                if (currentFocus < 0) currentFocus = (x.length - 1);
-                x[currentFocus].classList.add("autocomplete-active");
+                document.addEventListener("click", function (e) {
+                    closeAllLists(e.target);
+                });
             }
-            function removeActive(x) {
-                for (var i = 0; i < x.length; i++) {
-                    x[i].classList.remove("autocomplete-active");
+
+            var jobskill = ["SQL DEVELOPER", "SOFTWARE DEVELOPER",
+                "DATA ENGINEER", "DATA ARCHITECT", "FULL STACK DEVELOPER",
+                "TECHNICAL CONSULTANT", "IT PROJECT EXECUTIVE", "Android DEVELOPER", "UI UX DESIGNER",
+                "IOS DEVELOPER", "DEVOPS ENGINEER", "CLOUD SOLUTIONS ARCHITECT", "FRONTEND ENGINEER",
+                "ARTIFICIAL INTELLIGENCE ENGINEER", "COMPUTER VISION ENGINEER", "SYSTEM ANALYST",
+                "JAVA DEVELOPER", "DOT NET DEVELOPER",
+                "HTML", "JavaScript", "SQL", "C plus plus", "Visual Basic",
+                "CSS", "Spring boot framework", "Angular", "Data Analysis Expressions", "Azure Cloud", "Java",
+                "Talend", "Azure Data Lake", "Devpos", "ReactJS", "Amazon EC2", "Tableau", "C sharp", "Docker", "Kubernetes",
+                "Kotlin", "vue.js", "Redis", "Spark Framework", "Grafana", "OAuth security framework", "Flutter", "Figma",
+                "Swift", "Perl", "XML", "Bash", "Python", "MongoDB", "VB .NET", "J2ee", "Terraform", "Ruby", "Groovy", "Ubuntu",
+                "Debian", "Git", "PHP", "ASP DOT NET", "Redux", "Express", "Bootstrap", "OPENAPI", "Linux", "PostgreSQL", "Ruby on Rails",
+                "Flask", "Django", "Objective C", "Nginx", "jQuery", "Apache", "Node.js", "Redshift", "Snowflake", "Laravel", "Emberjs",
+                "Backbonejs", "Matlab", "TypeScript", "Scala", "Rust", "Go", "Android Studio", "Neural Network Models",
+                "Machine Learning", "Amazon S3", "AWS Aurora", "Amazon DynamoDB", "Amazon RDB", "Amazon Lambda", "Amazon VPC",
+                "Natural Language Processing", "HQL", "PyTorch", "Tensorflow", "MindSpore", "Drupal", "Ether.js", "Unity", "FastAPI"
+            ];
+
+            autocomplete(document.getElementById("myInput"), jobskill);
+
+            function openSetting(settingtype) {
+                var i;
+                var x = document.getElementsByClassName("setting");
+                for (i = 0; i < x.length; i++) {
+                    x[i].style.display = "none";
                 }
+                document.getElementById(settingtype).style.display = "block";
             }
-            function closeAllLists(elmnt) {
-                var x = document.getElementsByClassName("autocomplete-items");
-                for (var i = 0; i < x.length; i++) {
-                    if (elmnt != x[i] && elmnt != inp) {
-                        x[i].parentNode.removeChild(x[i]);
-                    }
-                }
-            }
-            document.addEventListener("click", function (e) {
-                closeAllLists(e.target);
-            });
-        }
 
-        var jobskill = ["SQL DEVELOPER", "SOFTWARE DEVELOPER",
-            "DATA ENGINEER", "DATA ARCHITECT", "FULL STACK DEVELOPER", 
-            "TECHNICAL CONSULTANT", "IT PROJECT EXECUTIVE", "Android DEVELOPER","UI UX DESIGNER", 
-            "IOS DEVELOPER", "DEVOPS ENGINEER", "CLOUD SOLUTIONS ARCHITECT","FRONTEND ENGINEER",
-            "ARTIFICIAL INTELLIGENCE ENGINEER","COMPUTER VISION ENGINEER", "SYSTEM ANALYST",
-            "JAVA DEVELOPER", "DOT NET DEVELOPER",
-            "HTML", "JavaScript","SQL","C plus plus","Visual Basic",
-            "CSS","Spring boot framework",	"Angular",	"Data Analysis Expressions","Azure Cloud","Java",
-            "Talend","Azure Data Lake","Devpos","ReactJS","Amazon EC2","Tableau","C sharp", "Docker","Kubernetes",
-            "Kotlin","vue.js","Redis","Spark Framework","Grafana","OAuth security framework","Flutter" ,"Figma",
-            "Swift","Perl","XML","Bash",	"Python","MongoDB", "VB .NET", "J2ee","Terraform","Ruby","Groovy","Ubuntu",
-            "Debian","Git","PHP","ASP DOT NET","Redux","Express","Bootstrap","OPENAPI","Linux",	"PostgreSQL","Ruby on Rails",
-            "Flask","Django","Objective C","Nginx","jQuery","Apache","Node.js","Redshift","Snowflake","Laravel","Emberjs",
-            "Backbonejs", "Matlab","TypeScript","Scala","Rust","Go","Android Studio","Neural Network Models",
-            "Machine Learning","Amazon S3","AWS Aurora", "Amazon DynamoDB",	"Amazon RDB","Amazon Lambda","Amazon VPC",
-            "Natural Language Processing","HQL","PyTorch","Tensorflow",	"MindSpore","Drupal","Ether.js","Unity","FastAPI"
-        ];
+            const message1 = document.getElementById("message1")
+            message1.style.display = "none"
 
-        autocomplete(document.getElementById("myInput"), jobskill);
+            function validateForm() {
+                message1.style.display = "none"
 
-        function openSetting(settingtype) {
-            var i;
-            var x = document.getElementsByClassName("setting");
-            for (i = 0; i < x.length; i++) {
-                x[i].style.display = "none";
-            }
-            document.getElementById(settingtype).style.display = "block";
-        }
+                const input = document.getElementById("myInput");
+                let shouldSumbit = true;
 
-        const message1 = document.getElementById("message1")
-        message1.style.display="none"
-
-        function validateForm() {
-            message1.style.display="none"
-
-            const input = document.getElementById("myInput");
-            let shouldSumbit = true;
-
-            let inputValue = input.value;
-            if ((inputValue.trim()=="")||(inputValue==null)){
-                shouldSumbit = false
-                message1.style.display=""
-                message1.innerHTML="Please input a query"
-                message1.style.color="red"
-            } else {
-                if(!jobskill.includes(inputValue)) {
+                let inputValue = input.value;
+                if ((inputValue.trim() == "") || (inputValue == null)) {
                     shouldSumbit = false
                     message1.style.display = ""
-                    message1.innerHTML = "Please choose from the dropdown list"
+                    message1.innerHTML = "Please input a query"
                     message1.style.color = "red"
+                } else {
+                    if (!jobskill.includes(inputValue)) {
+                        shouldSumbit = false
+                        message1.style.display = ""
+                        message1.innerHTML = "Please choose from the dropdown list"
+                        message1.style.color = "red"
+                    }
+                }
+
+                if (shouldSumbit) {
+                    document.getElementById("myForm1").submit()
                 }
             }
 
-            if (shouldSumbit) {
-                document.getElementById("myForm1").submit()
-            }
-        }
+        </script>
 
-    </script>
-
-</div>
+    </div>
 
 
-<div th:fragment="footer">
+    <div th:fragment="footer">
 
-    <footer>
-        <div id="footer"
-        <div class="footer-copyright text-center py-3"><span style="color:#fff; font-size:12px"> Copyright© 2023 GDSA-55 Team-2 All Rights Reserved©</span></div>
-        </section>
-    </footer>
-</html>
+        <footer>
+            <div id="footer" <div class="footer-copyright text-center py-3"><span style="color:#fff; font-size:12px">
+                    Copyright© 2023 GDSA-55 Team-2 All Rights Reserved©</span></div>
+            </section>
+        </footer>
+
+        </html>
