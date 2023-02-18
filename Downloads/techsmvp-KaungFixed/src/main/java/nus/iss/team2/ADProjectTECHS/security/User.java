@@ -61,7 +61,11 @@ public class User implements org.springframework.security.core.userdetails.UserD
     }
 
     public String getAvatar() {
-        return avatar;
+        if (this.avatar == null){
+            return "images/defaultAvatar.JPEG";
+        } else {
+            return this.avatar;
+        }
     }
 
     public void setAvatar(String avatar) {
