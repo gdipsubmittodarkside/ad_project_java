@@ -1,19 +1,12 @@
 package nus.iss.team2.ADProjectTECHS.Controller;
 
-import nus.iss.team2.ADProjectTECHS.Model.Member;
-import nus.iss.team2.ADProjectTECHS.Model.MyCourse;
-import nus.iss.team2.ADProjectTECHS.Model.ScheduleEvent;
-import nus.iss.team2.ADProjectTECHS.Service.MemberService;
-import nus.iss.team2.ADProjectTECHS.Service.MyCourseService;
-import nus.iss.team2.ADProjectTECHS.Service.ScheduleEventService;
-import nus.iss.team2.ADProjectTECHS.Utility.MemberUtils;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,10 +14,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import nus.iss.team2.ADProjectTECHS.Model.Member;
+import nus.iss.team2.ADProjectTECHS.Model.MyCourse;
+import nus.iss.team2.ADProjectTECHS.Model.ScheduleEvent;
+import nus.iss.team2.ADProjectTECHS.Service.MemberService;
+import nus.iss.team2.ADProjectTECHS.Service.MyCourseService;
+import nus.iss.team2.ADProjectTECHS.Service.ScheduleEventService;
+import nus.iss.team2.ADProjectTECHS.Utility.MemberUtils;
 
 @Controller
 @RequestMapping("/calendar")
@@ -46,17 +42,6 @@ public class CalendarController {
     @GetMapping(value = {"/",""})
     public String ViewCalendar(Model model) {
 
-        // from spring security context get member
-
-        // String currentUsername;
-        // currentUsername = MemberUtils.getMemberFromSpringSecurity();
-
-
-        // if (userId < 0) {
-        //     String username = MemberUtils.getMemberFromSpringSecurity();
-        //     Member currentMember = memberService.loadMemberByUsername(username);
-        //     userId = currentMember.getMemberId();
-        // }
 
         String currentUsername = MemberUtils.getMemberFromSpringSecurity();
 
@@ -121,8 +106,6 @@ public class CalendarController {
 
 
         MyCourse myCourse = myCourseService.findMyCourseByTitle(courseTitle,currentMember.getMemberId());
-        // startDate = startDate.substring(0, startDate.indexOf("T"));
-        // endDate = endDate.substring(0, endDate.indexOf("T"));
         LocalDateTime sd = LocalDateTime.parse(startDate);
         LocalDateTime ed = LocalDateTime.parse(endDate);
 
@@ -151,7 +134,7 @@ public class CalendarController {
         }
 
 
-        return "redirect:/calendar";
+        return "redirect:/calendar/";
 
     }
 
@@ -185,7 +168,7 @@ public class CalendarController {
 
         scheduleEventService.delete(se);
 
-        return "redirect:/calendar";
+        return "redirect:/calendar/";
     }
 
 

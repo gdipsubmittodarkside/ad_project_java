@@ -124,7 +124,7 @@ public class SearchController {
 
         List<CourseCrawled> courseCrawledList = courseCrawledService.findCoursesBySkillId(skill1.getSkillId());
 
-
+        List<String> strings = new ArrayList<>();
         model.addAttribute("courseList", courseCrawledList);
         model.addAttribute("entered", skill);
 
@@ -137,7 +137,9 @@ public class SearchController {
         if(currentMember != null && currentMember.getMyCourses() != null){
             model.addAttribute("myCourses", myCourseService.getMyCoursesByMemberId(currentMember.getMemberId()).stream().map(mc->mc.getCourseUrl()).toList());
         }
-
+        else{
+            model.addAttribute("myCourses",strings);
+        }
         return "Feature2-SearchCourse/course-result";
 
     }

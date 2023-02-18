@@ -1,9 +1,7 @@
 package nus.iss.team2.ADProjectTECHS.Config;
 
-import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
@@ -11,9 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.session.SessionRegistry;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import nus.iss.team2.ADProjectTECHS.Model.Member;
 import nus.iss.team2.ADProjectTECHS.Model.ScheduleEvent;
@@ -22,7 +18,6 @@ import nus.iss.team2.ADProjectTECHS.Service.EmailService;
 import nus.iss.team2.ADProjectTECHS.Service.MemberService;
 import nus.iss.team2.ADProjectTECHS.Service.MyCourseService;
 import nus.iss.team2.ADProjectTECHS.Service.ScheduleEventService;
-import nus.iss.team2.ADProjectTECHS.Utility.MemberUtils;
 
 @Component
 public class Scheduler {

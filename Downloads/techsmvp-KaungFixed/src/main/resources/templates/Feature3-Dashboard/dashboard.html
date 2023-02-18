@@ -1,157 +1,197 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/layout.html :: html_head"/>
-<body>
-    <div th:replace="fragments/layout.html :: menu"/>
+  <head th:replace="fragments/layout.html :: html_head" />
+  <body>
+    <div th:replace="fragments/layout.html :: menu" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
-    <link th:href="@{/css/js-calendar-dashboard.css}" rel="stylesheet">
-    <script defer th:src="@{/js/js-calendar-dashboard.js}"></script> 
-<head>
-</head>
+    <link th:href="@{/css/js-calendar-dashboard.css}" rel="stylesheet" />
+    <script defer th:src="@{/js/js-calendar-dashboard.js}"></script>
+    <head> </head>
 
-<body style="background-color: #ebebeb">
-    <img class="image1" src="/images/dashboardbgmini.png" width=100% height=10%/>
+    <body style="background-color: #ebebeb">
+      <img
+        class="image1"
+        src="/images/dashboardbgmini.png"
+        width="100%"
+        height="10%"
+      />
 
-    <table th:object="${member}">
+      <table th:object="${member}">
         <tr>
-            <img type= "image" class="image2"  th:src="${#authentication.getPrincipal().getAvatar()}" alt="photo" width=100 height=100  />
+          <img
+            type="image"
+            class="image2"
+            th:src="${#authentication.getPrincipal().getAvatar()}"
+            alt="photo"
+            width="100"
+            height="100"
+          />
 
-            <div class="bottom-left" th:text="*{username}"></div>
-            <td class="container3" style="height:fit-content">
-                <h5><span> Dream Job : </span><span  th:text="${member.dreamJob.jobTitle}"></span></h5>
+          <div class="bottom-left" th:text="*{username}"></div>
+          <td class="container3" style="height: fit-content">
+            <h5>
+              <span> Dream Job : </span
+              ><span th:text="${member.dreamJob.jobTitle}"></span>
+            </h5>
 
-                <p th:text="*{shortBio}"></p>
-
-            </td>
+            <p th:text="*{shortBio}"></p>
+          </td>
         </tr>
+      </table>
 
-    </table>
-
-
-    <div class="m-5">
-        <table style="margin-left:auto;margin-right:auto;">
-            <tr>
-                <td width="430px" height="430px">
-                    <div class="container4">
-                        <table>
-                            <tr>
-                                <td width="70%">
-                                    <p><b>Progress of skills</b></p>
-                                    <p style="font-size: small;"><i>towards acheiving<b> Dream Job</b></i></p>
-                                </td>
-                            </tr>
-                        </table>
-                        <table>
-                            <tr >
-                                <td>
-                                    <canvas id="courseChart" style="width:150%; height:400px"></canvas>
-                                </td>
-                            </tr>
-                        </table>
+      <div class="m-5">
+        <table style="margin-left: auto; margin-right: auto">
+          <tr>
+            <td width="430px" height="430px">
+              <div class="container4">
+                <table>
+                  <tr>
+                    <td width="70%">
+                      <p><b>Progress of skills</b></p>
+                      <p style="font-size: small">
+                        <i>towards acheiving<b> Dream Job</b></i>
+                      </p>
+                    </td>
+                  </tr>
+                </table>
+                <table>
+                  <tr>
+                    <td>
+                      <canvas
+                        id="courseChart"
+                        style="width: 150%; height: 400px"
+                      ></canvas>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </td>
+            <td width="430px" height="430px">
+              <div class="container5">
+                <div id="content-wrapper-dashboard">
+                  <table>
+                    <tr>
+                      <td width="70%">
+                        <p><b>Courses</b></p>
+                      </td>
+                      <td width="10%">
+                        <a
+                          th:href="@{/myCourses/manageProgress}"
+                          class="link-secondary"
+                          >Manage</a
+                        >
+                      </td>
+                    </tr>
+                  </table>
+                  <table class="coursesTable">
+                    <div th:if="${#lists.isEmpty(myCourses)}">
+                      <span
+                        ><center>You have no course in progress.</center></span
+                      >
                     </div>
-                </td>
-                <td width="430px" height="430px">
-                    <div class="container5">
-                        <div id="content-wrapper-dashboard">
-                            <table>
-                                <tr>
-                                    <td width="70%">
-                                        <p><b>Courses</b></p>
-                                    </td>
-                                    <td width="10%">
-                                        <a th:href="@{/myCourses/manageProgress}" class="link-secondary">Manage</a>
-                                    </td>
-                                </tr>
-                            </table>
-                            <table class="coursesTable">
-                                <div th:if="${#lists.isEmpty(myCourses)}">
-                                    <span><center>You have no course in progress.</center></span></div>
 
-                                <tr th:each="course : ${myCourses}">
-
-                                    <td align="left"  style= "width: 35% ; font-size: smaller;"><span th:text="${course.myCourseTitle}" ></span><hr></td>
-                                    <td class="progress progress-bar" role="progressbar" th:style="'width:' + ( ${course.progress}) + '%;'"  aria-valuenow="'width:' + ( ${course.progress}) + '%;'"  aria-valuemin="0" aria-valuemax="100" th:text="${course.progress}+'%'"><hr></td>     
-                                </tr>       
-                            </table>
+                    <tr th:each="course : ${myCourses}">
+                      <td align="left" style="width: 35%; font-size: smaller">
+                        <span th:text="${course.myCourseTitle}"></span>
+                        <hr />
+                      </td>
+                      <td
+                        class="progress progress-bar"
+                        role="progressbar"
+                        th:style="'width:' + ( ${course.progress}) + '%;'"
+                        aria-valuenow="'width:' + ( ${course.progress}) + '%;'"
+                        aria-valuemin="0"
+                        aria-valuemax="100"
+                        th:text="${course.progress}+'%'"
+                      >
+                        <hr />
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td width="430px" height="430px">
+              <div class="container7">
+                <table>
+                  <tr>
+                    <td width="70%">
+                      <p><b>Skills Acquired</b></p>
+                    </td>
+                  </tr>
+                </table>
+                <table class="skillsTable">
+                  <div th:if="${#lists.isEmpty(skillTitles)}">
+                    <span
+                      ><center>You have not acquired any skills.</center></span
+                    >
+                  </div>
+                  <tr>
+                    <td
+                      th:each="skill : ${skillTitles}"
+                      class="award shadow p-0.5 mb-5 rounded"
+                    >
+                      <span th:text="${skill}"> </span>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </td>
+            <td width="430px" height="430px">
+              <div class="container6">
+                <table>
+                  <tr>
+                    <td width="70%">
+                      <p><b>Monthly Schedule</b></p>
+                    </td>
+                    <td width="10%">
+                      <a th:href="@{/calendar/}" class="link-secondary"
+                        >Manage</a
+                      >
+                    </td>
+                  </tr>
+                </table>
+                <table>
+                  <tr>
+                    <td style="position: sticky">
+                      <div id="calHead">
+                        <div id="calPeriod" style="width: 550px">
+                          <select id="calMonth"></select>
+                          <input id="calYear" type="number" />
                         </div>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td width="430px" height="430px">
-                    <div class="container7">
-                        <table>
-                            <tr>
-                                <td width="70%">
-                                    <p><b>Skills Acquired</b></p>
-                                </td>
-                            </tr>
-                        </table>
-                        <table class="skillsTable">
-                            <div th:if="${#lists.isEmpty(skillTitles)}">
-                                <span><center>You have not acquired any skills.</center></span></div>
-                            <tr > 
-                                <td  th:each="skill : ${skillTitles}" class="award shadow p-0.5 mb-5 rounded"> <span th:text="${skill}" > </span></td>
-                            </tr>
-                        </table>
-                    </div>
-                </td>
-                <td width="430px" height="430px">
-                    <div class="container6">
-                        <table>
-                            <tr>
-                                <td width="70%">
-                                    <p><b>Monthly Schedule</b></p>
-                                </td>
-                                <td width="10%">
-                                    <a th:href="@{/calendar/}" class="link-secondary">Manage</a>
-                                </td>
-                            </tr>
-                        </table>
-                        <table>
-                            <tr>
-                                <td style="position:sticky">
-                                      <div id="calHead">
-                                        <div id="calPeriod" style="width:550px;">
-                                          <!-- <input id="calBack" type="button" class="mi"> -->
-                                          <select id="calMonth"></select>
-                                          <input id="calYear" type="number">
-                                          <!-- <input id="calNext" type="button" class="mi"> -->
-                                        </div>
-                                        <!-- <input id="calAdd" type="button" class="mi"> -->
-                                        <input type="hidden" id="events" class="events" th:value="${events}">
-                                      </div>
-                                  
-                                      <!-- (B) CALENDAR WRAPPER -->
-                                      <div id="calWrap">
-                                        <div id="calDays"></div>
-                                        <div id="calBody"></div>
-                                      </div>
-                                  
-                                      
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                </td>
-            </tr>
+                        <input
+                          type="hidden"
+                          id="events"
+                          class="events"
+                          th:value="${events}"
+                        />
+                      </div>
 
+                      <!-- (B) CALENDAR WRAPPER -->
+                      <div id="calWrap">
+                        <div id="calDays"></div>
+                        <div id="calBody"></div>
+                      </div>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </td>
+          </tr>
         </table>
-        <br>
+        <br />
+      </div>
 
+      <script th:inline="javascript">
+        var chartDatas = /*[[${chartDatas}]]*/ [];
+      </script>
 
-    </div>
-        
-
-        <script th:inline="javascript">
-            var chartDatas = /*[[${chartDatas}]]*/ [];
-        </script>
-        
-
-        <script th:src="@{/js/chart.js}"></script>
-
-</body>
-<footer>
-    <div th:replace="fragments/layout.html :: footer" />
-</footer>
-
+      <script th:src="@{/js/chart.js}"></script>
+    </body>
+    <footer>
+      <div th:replace="fragments/layout.html :: footer" />
+    </footer>
+  </body>
+</html>
