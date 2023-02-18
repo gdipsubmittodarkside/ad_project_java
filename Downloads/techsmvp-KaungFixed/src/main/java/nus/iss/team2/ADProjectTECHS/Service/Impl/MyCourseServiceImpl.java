@@ -69,4 +69,11 @@ public class MyCourseServiceImpl implements MyCourseService{
         return mcRepo.findMyCoursesByTitle(title, memberId).orElse(null);
     }
 
+    // yt 18 feb
+    @Override
+    public void deleteMyCourseByMemberIdCourseUrlAndSkillId(Long memberId, String url, Long skillId){
+        MyCourse mc = mcRepo.findByMemberIdCourseUrlAndSkill(memberId, url, skillId);
+        Boolean deleted = deleteMyCourse(mc.getMyCourseId());
+    }
+
 }

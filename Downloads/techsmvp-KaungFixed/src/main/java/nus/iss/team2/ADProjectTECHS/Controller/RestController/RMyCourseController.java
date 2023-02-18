@@ -118,18 +118,32 @@ public class RMyCourseController {
         }
 
 
-    @DeleteMapping("/myCourses/{id}")
-    public ResponseEntity<Long> deleteMyCourse(@PathVariable("id") Long id) {
+    // yt 18 feb
+    @DeleteMapping("/myCourses/{member_id}/{youtubeId}/{skillId}")
+    public ResponseEntity<Long> deleteMyCourse(@PathVariable("youtubeId") String youtubeId, 
+                                                @PathVariable("skillId")  Long skillId,
+                                                @PathVariable("member_id")  Long member_id) 
+    {
+        //https://www.youtube.com/watch?v=h0nxCDiD-zg
 
-        try {
-            var isRemoved = myCourseService.deleteMyCourse(id);
-            if (!isRemoved) {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
-            return new ResponseEntity<>(id, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        String courseUrl = "https://www.youtube.com/watch?v=" + youtubeId;
+        myCourseService.deleteMyCourseByMemberIdCourseUrlAndSkillId(member_id, courseUrl, skillId);
+
+        if (true){
+            return new ResponseEntity<>(Long.valueOf(0), HttpStatus.OK);
         }
+        else{
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        // try {
+        //     var isRemoved = myCourseService.deleteMyCourse(id);
+        //     if (!isRemoved) {
+        //         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        //     }
+        //     return new ResponseEntity<>(id, HttpStatus.OK);
+        // } catch (Exception e) {
+        //     return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        // }
     }
 
 }
