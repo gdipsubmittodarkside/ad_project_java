@@ -30,40 +30,52 @@ public class RSkillController {
             List<Skill> skills = new ArrayList<Skill>();
             skills = skillService.getAllSkills();
             if (skills.isEmpty()) {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+                return new ResponseEntity<>(
+                        HttpStatus.NO_CONTENT);
             }
-            List<String> titles = (List<String>) skills.stream().map(s -> s.getSkillTitle());
-            return new ResponseEntity<>(titles, HttpStatus.OK);
+            List<String> titles = (List<String>) skills
+                    .stream().map(s -> s.getSkillTitle());
+            return new ResponseEntity<>(titles,
+                    HttpStatus.OK);
 
         } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(null,
+                    HttpStatus.INTERNAL_SERVER_ERROR);
 
         }
     }
 
     @PostMapping("/skills")
-    public ResponseEntity<Skill> saveSkill(@RequestBody Skill skill) {
+    public ResponseEntity<Skill> saveSkill(
+            @RequestBody Skill skill) {
 
-        return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(null,
+                HttpStatus.INTERNAL_SERVER_ERROR);
 
     }
 
     @PutMapping("/skills")
-    public ResponseEntity<Skill> updateSkill(@RequestBody Skill skill) {
+    public ResponseEntity<Skill> updateSkill(
+            @RequestBody Skill skill) {
 
-        return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(null,
+                HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @DeleteMapping("/skills/{id}")
-    public ResponseEntity<Long> deleteSkill(@PathVariable("id") Long id) {
+    public ResponseEntity<Long> deleteSkill(
+            @PathVariable("id") Long id) {
 
-        return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(null,
+                HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @GetMapping("/skills/{id}")
-    public ResponseEntity<Skill> getSkillById(@PathVariable("id") Long id) {
+    public ResponseEntity<Skill> getSkillById(
+            @PathVariable("id") Long id) {
 
-        return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(null,
+                HttpStatus.INTERNAL_SERVER_ERROR);
 
     }
 

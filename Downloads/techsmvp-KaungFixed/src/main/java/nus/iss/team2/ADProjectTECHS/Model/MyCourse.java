@@ -5,7 +5,6 @@ import java.util.Objects;
 
 import javax.persistence.*;
 
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.AllArgsConstructor;
@@ -31,7 +30,8 @@ public class MyCourse implements Serializable {
     @Column(name = "progress")
     private int progress;
 
-    @OneToOne(mappedBy = "myCourse", cascade = { CascadeType.PERSIST })
+    @OneToOne(mappedBy = "myCourse", cascade = {
+            CascadeType.PERSIST })
     @JoinColumn(name = "schedule_id")
     private ScheduleEvent scheduleEvent;
 
@@ -39,15 +39,13 @@ public class MyCourse implements Serializable {
     private String myCourseTitle;
 
     @JsonProperty("skill_id")
-    // @OneToOne
-    // @JoinColumn(name = "skill_id")
     private Long skill;
 
     @ManyToOne
-    @JoinColumn(name ="member_id")
+    @JoinColumn(name = "member_id")
     private Member member;
 
-    @Column(name="course_url")
+    @Column(name = "course_url")
     private String courseUrl;
 
     private String thumbnail;

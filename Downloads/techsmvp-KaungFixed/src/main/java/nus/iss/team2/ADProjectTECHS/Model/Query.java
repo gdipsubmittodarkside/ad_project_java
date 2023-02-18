@@ -13,8 +13,7 @@ import javax.validation.constraints.Pattern;
 public class Query {
     private SearchType searchType;
 
-    @Pattern(regexp = "^[A-Za-z0-9#]*$" , message= "{error.queryString.limitSpecialCharacter}")
+    @Pattern(regexp = "^[A-Za-z0-9#]*$", message = "{error.queryString.limitSpecialCharacter}")
     private String queryString;
-
 
 }

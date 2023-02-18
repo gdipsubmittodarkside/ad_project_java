@@ -1,6 +1,5 @@
 package nus.iss.team2.ADProjectTECHS.Model;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
@@ -25,13 +24,13 @@ import lombok.Setter;
 @Data
 @AllArgsConstructor
 @Table(name = "job")
-public class Job  {
+public class Job {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="job_id")
+    @Column(name = "job_id")
     private long jobId;
 
-    @Column(name="job_title")
+    @Column(name = "job_title")
     private String jobTitle;
 
     @OneToMany(mappedBy = "job")
@@ -39,8 +38,10 @@ public class Job  {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
         Job job = (Job) o;
         return jobId == job.jobId;
     }
@@ -50,5 +51,4 @@ public class Job  {
         return Objects.hash(jobId);
     }
 
-    
 }

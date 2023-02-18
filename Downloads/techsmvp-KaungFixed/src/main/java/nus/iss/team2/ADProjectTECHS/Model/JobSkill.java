@@ -20,35 +20,37 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name="job_skill")
+@Table(name = "job_skill")
 @Getter
 @Setter
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class JobSkill{
+public class JobSkill {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="job_skill_id")
+    @Column(name = "job_skill_id")
     private long jobSkillId;
 
     @ManyToOne
     @JoinColumn(name = "skill_id")
     private Skill skill;
 
-    @ManyToOne(cascade = { 
-        CascadeType.PERSIST,CascadeType.MERGE})
+    @ManyToOne(cascade = { CascadeType.PERSIST,
+            CascadeType.MERGE })
     @JoinColumn(name = "job_id")
     private Job job;
 
-    @Column(name="last_updated_date")
+    @Column(name = "last_updated_date")
     private LocalDate lastUpdatedDate;
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
         JobSkill jobSkill = (JobSkill) o;
         return jobSkillId == jobSkill.jobSkillId;
     }
