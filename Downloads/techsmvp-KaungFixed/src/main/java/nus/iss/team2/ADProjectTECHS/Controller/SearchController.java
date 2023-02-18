@@ -1,22 +1,35 @@
 package nus.iss.team2.ADProjectTECHS.Controller;
 
-import lombok.RequiredArgsConstructor;
-import nus.iss.team2.ADProjectTECHS.Model.*;
-import nus.iss.team2.ADProjectTECHS.Model.Enums.SearchType;
-import nus.iss.team2.ADProjectTECHS.Service.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
+import nus.iss.team2.ADProjectTECHS.Model.CourseCrawled;
+import nus.iss.team2.ADProjectTECHS.Model.Job;
+import nus.iss.team2.ADProjectTECHS.Model.Member;
+import nus.iss.team2.ADProjectTECHS.Model.Skill;
+import nus.iss.team2.ADProjectTECHS.Service.CourseCrawledService;
+import nus.iss.team2.ADProjectTECHS.Service.JobService;
+import nus.iss.team2.ADProjectTECHS.Service.JobSkillService;
+import nus.iss.team2.ADProjectTECHS.Service.MemberService;
+import nus.iss.team2.ADProjectTECHS.Service.MyCourseService;
+import nus.iss.team2.ADProjectTECHS.Service.SkillService;
+import nus.iss.team2.ADProjectTECHS.Utility.MemberUtils;
 
 @Controller
 @RequiredArgsConstructor
@@ -38,6 +51,9 @@ public class SearchController {
     private List<CourseCrawled> currentList;
     @Autowired
     private MemberService memberService;
+
+    @Autowired
+    private MyCourseService myCourseService;
 
 
 
@@ -113,6 +129,14 @@ public class SearchController {
         model.addAttribute("entered", skill);
 
         this.currentList = courseCrawledList;
+
+        String currentUsername = MemberUtils.getMemberFromSpringSecurity();
+
+        Member currentMember = memberService.loadMemberByUsername(currentUsername);
+
+        if(currentMember != null && currentMember.getMyCourses() != null){
+            model.addAttribute("myCourses", myCourseService.getMyCoursesByMemberId(currentMember.getMemberId()).stream().map(mc->mc.getCourseUrl()).toList());
+        }
 
         return "Feature2-SearchCourse/course-result";
 
@@ -195,62 +219,5 @@ public class SearchController {
 
 
     }
-
-
-
-
-
-
-    // TESTING WEB CLIENT
-    // @Autowired
-    // WebClient client;
-    
-    // @GetMapping("")
-    // public void findEmployee(){
-        
-    //     Flux<Employee> empListFlux = client.get()
-    //         .uri("allcourses")
-    //         .accept(MediaType.APPLICATION_JSON)
-    //         .retrieve()
-    //         .bodyToFlux(Employee.class);
-
-    //     List<Employee> empList = empListFlux.collectList().block();
-
-    //     Mono<Employee> emp = client.get()
-    //         .uri("/employee/1")
-    //         .accept(MediaType.APPLICATION_JSON)
-    //         .retrieve()
-    //         .bodyToMono(Employee.class);
-    //     Employee employee = emp.block();
-
-    //     System.out.println(employee);
-    //     empList.stream().forEach(System.out::println);
-    // }
-
-
-//    @GetMapping(value = {"/search","/","home"})
-//    public String Search(Model model){
-//        model.addAttribute("query", new Query());
-//        return "search";
-//    }
-//
-//    @PostMapping("/search")
-//    public String SearchRedirect(@ModelAttribute Query query,
-//                                 RedirectAttributes redirectAttributes){
-//
-//        SearchType searchType = query.getSearchType();
-//        String input = query.getQueryString().toLowerCase();
-//
-//        if (searchType.equals(SearchType.JOBS)) {
-//            redirectAttributes.addAttribute("jobTitleEntered", input);
-//            return "redirect:/skills/searchByJobTitle";
-//        } else if (searchType.equals(SearchType.COURSES)){
-//            redirectAttributes.addAttribute("courseTitleEntered", input);
-//            return "redirect:/courses/searchByCourseTitle";
-//        }
-//
-//        return "redirect:/search";
-//
-//    }
     
 }

@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -12,8 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,6 +24,7 @@ import nus.iss.team2.ADProjectTECHS.Model.Skill;
 import nus.iss.team2.ADProjectTECHS.Service.CourseCrawledService;
 import nus.iss.team2.ADProjectTECHS.Service.MemberService;
 import nus.iss.team2.ADProjectTECHS.Service.MyCourseService;
+import nus.iss.team2.ADProjectTECHS.Utility.MemberUtils;
 
 @Controller
 @RequestMapping("/courses")
@@ -44,20 +42,21 @@ public class CourseController {
     private MemberService memberService;
 
 
-    // @GetMapping("/searchBySkillTitle")
-    // public String FindCoursesBySkillTitle(@RequestParam String skillTitleEntered, Model model){
-    //     List<CourseCrawled> courses = courseCrawledService.findCoursesBySkillTitleLike(skillTitleEntered);
-
-    //     model.addAttribute("entered", skillTitleEntered);
-    //     model.addAttribute("courseList", courses);
-    //     currentList = courses;
-    //     return findPaginated(1, 5, model);
-    // }
 
 
     @GetMapping("/searchByCourseTitle")
     public String FindCoursesByCourseTitle(@RequestParam String courseTitleEntered, Model model){
         List<CourseCrawled> courses = courseCrawledService.findCoursesTitleLike(courseTitleEntered);
+
+        String currentUsername = MemberUtils.getMemberFromSpringSecurity();
+
+        Member currentMember = memberService.loadMemberByUsername(currentUsername);
+
+        if(currentMember != null && currentMember.getMyCourses() != null){
+            model.addAttribute("myCourses", myCourseService.getMyCoursesByMemberId(currentMember.getMemberId()).stream().map(mc->mc.getMyCourseId()).toList());
+        }
+
+
 
         model.addAttribute("entered", courseTitleEntered);
         model.addAttribute("courseList", courses);
@@ -79,7 +78,6 @@ public class CourseController {
     public String WatchCourseVideo(@PathVariable Long id, Model model){
 
         //find current selected course
-        // MyCourse course = myCourseService.findMyCourseById(id);
         CourseCrawled course = courseCrawledService.findCourseCrawledById(id);
 
         //substring url for embedded purpose

@@ -11,7 +11,6 @@
     <h4 align="center">There is no course available for <i><b><span th:text="${entered}">skillEntered</span></b></i></h4>
 </div>
 <!-- joey updated from m-5 to m-4 -->
-<div class="m-4" th:if="${not #lists.isEmpty(courseList)}">
     <div class="m-4" th:if="${not #lists.isEmpty(courseList)}">
         <table class="table">
             <td width="20%" style="text-align: left">
@@ -78,9 +77,12 @@
                     </td>
 
                     <td width="20%" style="vertical-align: middle">
-                        <div sec:authorize="isAuthenticated()">
-                            <a class="btn btn-secondary saved" id="myBtn" role="button" th:data-name="${course.courseId}" th:onclick="SaveCourse(this.getAttribute('data-name'))"><i class="bi bi-bookmarks"></i></i> Save</a>
+                        <div sec:authorize="isAuthenticated()" >
+                            <a class="btn btn-secondary saved" 
+                            th:if="${!#lists.contains(myCourses, course.urlLink)}"
+                            id="myBtn" role="button" th:data-name="${course.courseId}" th:onclick="SaveCourse(this.getAttribute('data-name'))"><i class="bi bi-bookmarks">Save</i></a>
                         </div>
+                        <div th:if="${#lists.contains(myCourses, course.urlLink)}">saved</div>
                     </td>
                 </tr>
 
@@ -95,51 +97,49 @@
 
     <script>
 
-        function SaveCourse(courseId) {
-            let ajax = new XMLHttpRequest();
+    function SaveCourse(courseId) {
+        let ajax = new XMLHttpRequest();
 
-            ajax.open("post", "/courses/save/" + courseId);
-            ajax.setRequestHeader("Content-Type", "application/json; charset=utf8");
+        ajax.open("post", "/courses/save/" + courseId);
+        ajax.setRequestHeader("Content-Type", "application/json; charset=utf8");
 
-            ajax.onreadystatechange = function () {
-                if (this.readyState === XMLHttpRequest.DONE) {
-                    // receive response from server
-                    if (this.status !== 200) {
-                        return;
-                    }
-
-                    // success
-                    console.log("successfully save course!")
-                    // disableSaveBtn()
+        ajax.onreadystatechange = function () {
+            if (this.readyState === XMLHttpRequest.DONE) {
+                // receive response from server
+                if (this.status !== 200) {
+                    return;
                 }
-            }
 
-            let data = {
-                "courseId": courseId
+                // success
+                console.log("successfully save course!")
+                // disableSaveBtn()
             }
-            ajax.send(JSON.stringify(data))
         }
 
-    </script>
-
-    <script>
-
-        var listItems = document.getElementsByClassName("saved");
-        for(var i = 0; i < listItems.length; i += 1){
-            listItems[i].addEventListener('click', function (e) {
-                // e.target.style.visibility = 'hidden';
-                e.target.outerText= 'saved';
-            });
+        let data = {
+            "courseId": courseId
         }
+        ajax.send(JSON.stringify(data))
+    }
+
+    var listItems = document.getElementsByClassName("saved");
+    for(var i = 0; i < listItems.length; i++){
+        listItems[i].addEventListener('click', function (e) {
+            // e.target.style.visibility = 'hidden';
+            e.target.parentNode.classList=''
+            e.target.parentNode.disabled = true;
+            e.target.parentNode.removeAttribute("onClick")
+            e.target.classList.value = '';
+            e.target.innerHTML= 'saved';
+            
+            
+        });
+    }
+
+    const tables = document.getElementById("courseList");
 
 
-    </script>
-
-    <script>
-        const tables = document.getElementById("courseList");
-
-
-function sortByDuration(hours){
+    function sortByDuration(hours){
     let i;
     let ListOfTable = tables.getElementsByTagName("table");
 
@@ -242,7 +242,6 @@ function sortByDuration(hours){
 
     }
     </script>
-</div>
 </body>
 
 <footer>

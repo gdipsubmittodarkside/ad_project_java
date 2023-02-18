@@ -107,8 +107,10 @@
                         <label>Event Title</label>
                         <input id="evtTxt" class="select" type="text">
                         <label>Choose the Unscheduled Course</label>
-                        <select id="select" class="select" name="selectList">
-                            <option th:each="course: ${unscheduledCourseList}" th:text="${course.getMyCourseTitle()}" th:value="${course.getMyCourseTitle()}"></option>
+                        <select id="select"  class="select" name="selectList">
+                            <option th:if="${#lists.isEmpty(unscheduledCourseList)}"
+                            >Please Go Save Some Courses</option>
+                            <option th:if="${not #lists.isEmpty(unscheduledCourseList)}" th:each="course: ${unscheduledCourseList}" th:text="${course.getMyCourseTitle()}" th:value="${course.getMyCourseTitle()}"></option>
                         </select>
                     </div>
                     <div class="evt100">
@@ -157,7 +159,7 @@
 
 
 
-    selectCourse.addEventListener("change", function () {
+    selectCourse.addEventListener("click", function () {
         txtNote.value = selectCourse.value;
         txtNote.innerHTML = selectCourse.value;
     })
