@@ -20,6 +20,6 @@ public interface MyCourseService {
     MyCourse findMyCourseByTitle(String title, Long memberId);
 
     // yt 18 feb
-    void deleteMyCourseByMemberIdCourseUrlAndSkillId(Long memberId, String url, Long skillId);
+    Boolean deleteMyCourseByMemberIdCourseUrlAndSkillId(Long memberId, String url, Long skillId);
 
 }

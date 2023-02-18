@@ -118,20 +118,20 @@ public class RMyCourseController {
 
     // yt 18 feb
     @DeleteMapping("/myCourses/{member_id}/{youtubeId}/{skillId}")
-    public ResponseEntity<Long> deleteMyCourse(@PathVariable("youtubeId") String youtubeId, 
+    public ResponseEntity<Boolean> deleteMyCourse(@PathVariable("youtubeId") String youtubeId, 
                                                 @PathVariable("skillId")  Long skillId,
                                                 @PathVariable("member_id")  Long member_id) 
     {
         //https://www.youtube.com/watch?v=h0nxCDiD-zg
 
         String courseUrl = "https://www.youtube.com/watch?v=" + youtubeId;
-        myCourseService.deleteMyCourseByMemberIdCourseUrlAndSkillId(member_id, courseUrl, skillId);
+        Boolean deleted = myCourseService.deleteMyCourseByMemberIdCourseUrlAndSkillId(member_id, courseUrl, skillId);
 
-        if (true){
-            return new ResponseEntity<>(Long.valueOf(0), HttpStatus.OK);
+        if (deleted){
+            return new ResponseEntity<>(true, HttpStatus.OK);
         }
         else{
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(false, HttpStatus.NO_CONTENT);
         }
         // try {
         //     var isRemoved = myCourseService.deleteMyCourse(id);
