@@ -19,5 +19,9 @@ public interface MyCourseRepository extends JpaRepository<MyCourse, Long>{
 
     @Query("select mc from MyCourse mc where mc.myCourseTitle = :title and mc.member.memberId = :memberId ")
     Optional<MyCourse> findMyCoursesByTitle(@Param("title") String title,@Param("memberId")Long memberId);
+
+    // yt 18 feb
+    @Query("select mc from MyCourse mc where mc.member.memberId = :memberId and mc.courseUrl = :courseUrl and mc.skill = :skill")
+    MyCourse findByMemberIdCourseUrlAndSkill(@Param("memberId")Long memberId, @Param("courseUrl")String courseUrl, @Param("skill")Long skill);
     
 }
