@@ -33,7 +33,7 @@ import nus.iss.team2.ADProjectTECHS.Utility.MemberUtils;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping(value={"/search", "/"})
+@RequestMapping(value = { "/search", "/" })
 public class SearchController {
 
     @Autowired
@@ -58,47 +58,51 @@ public class SearchController {
 
 
     @GetMapping("/skills/result")
-    public String ViewSkillSearchResult(@RequestParam String job, Model model){
+    public String ViewSkillSearchResult(
+            @RequestParam String job, Model model) {
 
         Job job1 = jobService.findJobByJobTitle(job);
-        List<Skill> skillList = skillService.findSkillsByJob(job1);
+        List<Skill> skillList = skillService
+                .findSkillsByJob(job1);
 
-        //find member
+        // find member
         String currentUsername;
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Authentication authentication = SecurityContextHolder
+                .getContext().getAuthentication();
         if (!(authentication instanceof AnonymousAuthenticationToken)) {
             currentUsername = authentication.getName();
         } else {
 
-            //if not member
-            model.addAttribute("skillList",skillList);
+            // if not member
+            model.addAttribute("skillList", skillList);
             return "Feature1-SearchSkills/skill-result";
         }
 
-        Member currentMember = memberService.loadMemberByUsername(currentUsername);
+        Member currentMember = memberService
+                .loadMemberByUsername(currentUsername);
 
-        if (currentMember == null) throw new RuntimeException("cannot find current member");
+        if (currentMember == null)
+            throw new RuntimeException(
+                    "cannot find current member");
 
-        //if member
-        model.addAttribute("skillList",skillList);
-        model.addAttribute("member",currentMember);
-        model.addAttribute("searchedjob",job);
-        model.addAttribute("job1",job1);
-
+        // if member
+        model.addAttribute("skillList", skillList);
+        model.addAttribute("member", currentMember);
+        model.addAttribute("searchedjob", job);
+        model.addAttribute("job1", job1);
 
         return "Feature1-SearchSkills/skill-result";
     }
 
-
-    @GetMapping(value={"/skills/home", "","/"})
-    public String SearchSkill(Model model){
+    @GetMapping(value = { "/skills/home", "", "/" })
+    public String SearchSkill(Model model) {
         List<Job> jobList = jobService.findAll();
         List<String> titles = new ArrayList<>();
         for (int i = 0; i < jobList.size(); i++) {
             titles.add(jobList.get(i).getJobTitle());
         }
 
-        model.addAttribute("titles",titles);
+        model.addAttribute("titles", titles);
 
         return "Feature1-SearchSkills/search";
     }
@@ -118,7 +122,9 @@ public class SearchController {
     }
 
     @GetMapping("/courses/result")
-    public String getSearchResult(@RequestParam(value="skill") String skill, Model model){
+    public String getSearchResult(
+            @RequestParam(value = "skill") String skill,
+            Model model) {
 
         Skill skill1 = skillService.findSkillByTitle(skill);
 
@@ -145,16 +151,18 @@ public class SearchController {
     }
 
     @PostMapping("/fragment")
-    public String getSearchResultFromHeader(@RequestParam(value="query") String query, RedirectAttributes redirectAttributes){
-        
+    public String getSearchResultFromHeader(
+            @RequestParam(value = "query") String query,
+            RedirectAttributes redirectAttributes) {
+
         Skill skill = skillService.findSkillByTitle(query);
         Job job = jobService.findJobByJobTitle(query);
 
-        if (skill != null){
+        if (skill != null) {
             redirectAttributes.addAttribute("skill", query);
-           return "redirect:/courses/result";
+            return "redirect:/courses/result";
         }
-        if (job != null){
+        if (job != null) {
             redirectAttributes.addAttribute("job", query);
             return "redirect:/skills/result";
         }
@@ -163,62 +171,68 @@ public class SearchController {
     }
 
     @GetMapping("/sort/popular")
-    public String sortByLikes(Model model){
+    public String sortByLikes(Model model) {
 
-        currentList.sort(Comparator.comparingInt(c -> (int) c.getLikes()));
+        currentList.sort(Comparator
+                .comparingInt(c -> (int) c.getLikes()));
         model.addAttribute("courseList", currentList);
 
         return "Feature2-SearchCourse/course-result";
-
-
 
     }
 
     @GetMapping("/sort/time")
-    public String sortByPopular(Model model){
+    public String sortByPopular(Model model) {
 
-        currentList.sort(Comparator.comparing(CourseCrawled::getDate));
+        currentList.sort(Comparator
+                .comparing(CourseCrawled::getDate));
         model.addAttribute("courseList", currentList);
 
         return "Feature2-SearchCourse/course-result";
     }
 
-    public List<String> getAllJobsAndSkillTitles(){
+    public List<String> getAllJobsAndSkillTitles() {
         List<String> titles = new ArrayList<>();
         List<String> jobTitles = jobService.findJobTitles();
-        List<String> skillTitles = skillService.findSkillTitles();
+        List<String> skillTitles = skillService
+                .findSkillTitles();
         titles.addAll(jobTitles);
         titles.addAll(skillTitles);
         return titles;
     }
 
     @GetMapping("/duration/{i}")
-    public String filterByVideoDuration(@PathVariable("i") int i, Model model) {
+    public String filterByVideoDuration(
+            @PathVariable("i") int i, Model model) {
 
         List<CourseCrawled> result = new ArrayList<>();
 
         if (i == 1) {
-            result = currentList.stream().filter(courseCrawled ->
-                            courseCrawled.getDurationHours() < 1)
+            result = currentList.stream()
+                    .filter(courseCrawled -> courseCrawled
+                            .getDurationHours() < 1)
                     .collect(Collectors.toList());
         }
 
         if (i == 2) {
-            result = currentList.stream().filter(courseCrawled ->
-                            courseCrawled.getDurationHours() >= 1 && courseCrawled.getDurationHours() < 2)
+            result = currentList.stream()
+                    .filter(courseCrawled -> courseCrawled
+                            .getDurationHours() >= 1
+                            && courseCrawled
+                                    .getDurationHours() < 2)
                     .collect(Collectors.toList());
         }
 
         if (i == 3) {
-            result = currentList.stream().filter(courseCrawled ->
-                            courseCrawled.getDurationHours() >=2 )
+            result = currentList.stream()
+                    .filter(courseCrawled -> courseCrawled
+                            .getDurationHours() >= 2)
                     .collect(Collectors.toList());
         }
 
         model.addAttribute("courseList", result);
 
         return "Feature2-SearchCourse/course-result";
-
 
     }
     

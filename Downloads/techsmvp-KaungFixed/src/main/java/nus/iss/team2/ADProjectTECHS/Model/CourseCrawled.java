@@ -1,8 +1,6 @@
 package nus.iss.team2.ADProjectTECHS.Model;
 
-import java.sql.Time;
 import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -10,15 +8,12 @@ import java.util.regex.Pattern;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -55,7 +50,6 @@ public class CourseCrawled {
     @Column(name = "channel_name")
     private String channelName;
 
-
     @Column(name = "date")
     private LocalDate date;
 
@@ -68,8 +62,8 @@ public class CourseCrawled {
     @Column(name = "duration")
     private String duration;
 
-    @ManyToOne(cascade = { 
-        CascadeType.PERSIST,CascadeType.MERGE})
+    @ManyToOne(cascade = { CascadeType.PERSIST,
+            CascadeType.MERGE })
     @JoinColumn(name = "skill_id")
     private Skill skill;
 
@@ -88,7 +82,7 @@ public class CourseCrawled {
         return Objects.hash(courseId);
     }
 
-    public int getDurationHours(){
+    public int getDurationHours() {
 
         String duration = this.getDuration();
 
@@ -105,10 +99,12 @@ public class CourseCrawled {
 
     }
 
-    public String getCourseDuration(){
+    public String getCourseDuration() {
         String duration = this.getDuration();
 
-        return duration.replace("PT","").replace("H","hr ").replace("M","min ").replace("S","sec");
+        return duration.replace("PT", "")
+                .replace("H", "hr ").replace("M", "min ")
+                .replace("S", "sec");
     }
 
 }

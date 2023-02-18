@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
-<head th:replace="fragments/layout.html :: html_head"/>
+
+<head th:replace="fragments/layout.html :: html_head" />
+
 <body>
-<div th:replace="fragments/layout.html :: menu"/>
-<head>
+    <div th:replace="fragments/layout.html :: menu" />
+
+    <head>
 
 </head>
 <body>
 <div th:if="${#lists.isEmpty(courseList)}">
-    <h4 align="center">There is no course available for <i><b><span th:text="${entered}">skillEntered</span></b></i></h4>
+    <h4 align="center">Courses coming soon</h4>
 </div>
 <!-- joey updated from m-5 to m-4 -->
     <div class="m-4" th:if="${not #lists.isEmpty(courseList)}">
@@ -28,74 +31,90 @@
                 </div>
             </td>
 
-            <td width="20%" style="text-align: left">
-                <!-- SORT BY "BEST MATCH", "MOST POPULAR", "MOST RECENT" -->
-                <div class="dropdown">
-                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                        Sort By
-                        <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                        <div sec:authorize="isAuthenticated()">
-                        <li id="best_match"><a class="dropdown-item" th:href="@{'/courses/recommend?query='+ ${entered}}">Best Match</a></li>
+                    <td width="20%" style="text-align: left">
+                        <!-- SORT BY "BEST MATCH", "MOST POPULAR", "MOST RECENT" -->
+                        <div class="dropdown">
+                            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenuButton1"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                Sort By
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                <div sec:authorize="isAuthenticated()">
+                                    <li id="best_match"><a class="dropdown-item"
+                                            th:href="@{'/courses/recommend?query='+ ${entered}}">Best Match</a></li>
+                                </div>
+                                <li id="most_popular"><a class="dropdown-item" href="#" onclick="sortByLikes();">Most
+                                        Popular</a></li>
+                                <li id="most_recent"><a class="dropdown-item" href="#" onclick="sortByDate();">Most
+                                        Recent</a></li>
+                            </ul>
                         </div>
-                        <li id="most_popular"><a class="dropdown-item" href="#" onclick="sortByLikes();" >Most Popular</a></li>
-                        <li id="most_recent"><a class="dropdown-item" href="#" onclick="sortByDate();">Most Recent</a></li>
-                    </ul>
-                </div>
-            </td>
-
-            <td width="60%" style="text-align: right">
-                <div sec:authorize="isAuthenticated()">
-                    <a th:href="@{/myCourses/manageProgress}" class="btn btn-secondary">View My Courses</a>
-                </div>
-                <!-- joey updated this -->
-                <div sec:authorize="!isAuthenticated()">
-                    <a th:href="@{/login}" class="btn btn-secondary">To save course, please log in or sign up</a>
-                </div>
-            </td>
-
-        </table>
-
-        <!-- LIST OF COURSES -->
-        <div id="courseList">
-        <table class="table table-striped" th:each="course : ${courseList}"  id="table_displayCourses">
-
-                <tr  th:attr="data-id=${course.getCourseId()}, data-date=${course.getDate()}, data-likes=${course.getLikes()}, data-hours=${course.getDurationHours()}">
-                    <td width="30%">
-                        <a th:href="@{'/courses/watchCourse/' + ${course.courseId}}"> <img th:src="@{${course.thumbnail}}" width="320" height="180"></a>
                     </td>
 
-                    <td class="course" width="50%" style="vertical-align: middle">
-                        <a th:href="@{'/courses/watchCourse/' + ${course.courseId}}"><p class="text-uppercase"><b><span th:text="${course.courseTitle}"></span></b></p></a>
-                        <span style="padding: 5px; display: inline-block;" th:text=" 'by ' + ${course.channelName} + ' on ' + ${course.date} + ' &nbsp; &nbsp;|'"></span>
-                        <span style="padding: 5px; display: inline-block;" th:text="${course.getCourseDuration()}"></span>
-                        <br>
-                        <div  style="padding: 5px; display: inline-block;" th:text="${course.views} + ' views &nbsp; &nbsp;| '" ></div>
-                        <div  style="padding: 5px; display: inline-block;" th:text="${course.likes} + ' likes &nbsp; &nbsp;| '" ></div>
-                        <div style="padding: 5px; display: inline-block;" th:text="${course.subscribers} + ' subscribers'"></div>
+                    <td width="60%" style="text-align: right">
+                        <div sec:authorize="isAuthenticated()">
+                            <a th:href="@{/myCourses/manageProgress}" class="btn btn-secondary">View My Courses</a>
+                        </div>
+                        <!-- joey updated this -->
+                        <div sec:authorize="!isAuthenticated()">
+                            <a th:href="@{/login}" class="btn btn-secondary">To save course, please log in or sign
+                                up</a>
+                        </div>
                     </td>
+
+                </table>
+
+                <!-- LIST OF COURSES -->
+                <div id="courseList">
+                    <table class="table table-striped" th:each="course : ${courseList}" id="table_displayCourses">
+
+                        <tr
+                            th:attr="data-id=${course.getCourseId()}, data-date=${course.getDate()}, data-likes=${course.getLikes()}, data-hours=${course.getDurationHours()}">
+                            <td width="30%">
+                                <a th:href="@{'/courses/watchCourse/' + ${course.courseId}}"> <img
+                                        th:src="@{${course.thumbnail}}" width="320" height="180"></a>
+                            </td>
+
+                            <td class="course" width="50%" style="vertical-align: middle">
+                                <a th:href="@{'/courses/watchCourse/' + ${course.courseId}}">
+                                    <p class="text-uppercase"><b><span th:text="${course.courseTitle}"></span></b></p>
+                                </a>
+                                <span style="padding: 5px; display: inline-block;"
+                                    th:text=" 'by ' + ${course.channelName} + ' on ' + ${course.date} + ' &nbsp; &nbsp;|'"></span>
+                                <span style="padding: 5px; display: inline-block;"
+                                    th:text="${course.getCourseDuration()}"></span>
+                                <br>
+                                <div style="padding: 5px; display: inline-block;"
+                                    th:text="${course.views} + ' views &nbsp; &nbsp;| '"></div>
+                                <div style="padding: 5px; display: inline-block;"
+                                    th:text="${course.likes} + ' likes &nbsp; &nbsp;| '"></div>
+                                <div style="padding: 5px; display: inline-block;"
+                                    th:text="${course.subscribers} + ' subscribers'"></div>
+                            </td>
 
                     <td width="20%" style="vertical-align: middle">
                         <div sec:authorize="isAuthenticated()" >
                             <a class="btn btn-secondary saved" 
                             th:if="${!#lists.contains(myCourses, course.urlLink)}"
                             id="myBtn" role="button" th:data-name="${course.courseId}" th:onclick="SaveCourse(this.getAttribute('data-name'))"><i class="bi bi-bookmarks">Save</i></a>
+                            
+                            <div th:if="${#lists.contains(myCourses, course.urlLink)}">saved</div>
                         </div>
-                        <div th:if="${#lists.contains(myCourses, course.urlLink)}">saved</div>
+                        
                     </td>
                 </tr>
 
-        </table>
-        <br>
-        </div>
+                    </table>
+                    <br>
+                </div>
 
-        <table th:if="${totalPages > 1}">
-        </table>
+                <table th:if="${totalPages > 1}">
+                </table>
 
-    </div>
+            </div>
 
-    <script>
+            <script>
 
     function SaveCourse(courseId) {
         let ajax = new XMLHttpRequest();
@@ -143,107 +162,107 @@
     let i;
     let ListOfTable = tables.getElementsByTagName("table");
 
-    for (i = 0; i < (ListOfTable.length - 1); i++) {
-        let tr = ListOfTable[i].getElementsByTagName("tr")[0];
-        let dh = tr.getAttribute("data-hours");
-        console.log(dh)
-        if (hours == 1) {
-            if (dh < 2) {
-                ListOfTable[i].style.display = "";
-            } else {
-                ListOfTable[i].style.display = "none";
-            }
-        }
-        if (hours == 2) {
+                    for (i = 0; i < (ListOfTable.length - 1); i++) {
+                        let tr = ListOfTable[i].getElementsByTagName("tr")[0];
+                        let dh = tr.getAttribute("data-hours");
+                        console.log(dh)
+                        if (hours == 1) {
+                            if (dh < 2) {
+                                ListOfTable[i].style.display = "";
+                            } else {
+                                ListOfTable[i].style.display = "none";
+                            }
+                        }
+                        if (hours == 2) {
 
-            if (dh >= 2 && dh < 3) {
-                ListOfTable[i].style.display = "";
-            } else {
-                ListOfTable[i].style.display = "none";
-            }
+                            if (dh >= 2 && dh < 3) {
+                                ListOfTable[i].style.display = "";
+                            } else {
+                                ListOfTable[i].style.display = "none";
+                            }
 
-        }
-        if (hours == 3) {
+                        }
+                        if (hours == 3) {
 
-            if (dh >= 3) {
-                ListOfTable[i].style.display = "";
-            } else {
-                ListOfTable[i].style.display = "none";
-            }
+                            if (dh >= 3) {
+                                ListOfTable[i].style.display = "";
+                            } else {
+                                ListOfTable[i].style.display = "none";
+                            }
 
-        }
+                        }
 
-    }
+                    }
 
-}
-
-    function sortByLikes() {
-
-        let x, y, i, switching, shouldSwitch, rows;
-        switching = true;
-        while (switching) {
-            switching = false;
-            rows = tables.getElementsByTagName("table");
-            for ( i = 0; i < (rows.length - 1); i++ ) {
-                shouldSwitch = false;
-                x = rows[i].getElementsByTagName("tr")[0].getAttribute("data-likes");
-
-                y = rows[i+1].getElementsByTagName("tr")[0].getAttribute("data-likes");
-
-                if (Number(x) < Number(y)) {
-                    shouldSwitch = true;
-                    break;
                 }
-            }
-            if (shouldSwitch) {
-                rows[i].parentNode.insertBefore(rows[i+1], rows[i]);
-                switching = true;
-            }
-        }
 
-    }
+                function sortByLikes() {
+
+                    let x, y, i, switching, shouldSwitch, rows;
+                    switching = true;
+                    while (switching) {
+                        switching = false;
+                        rows = tables.getElementsByTagName("table");
+                        for (i = 0; i < (rows.length - 1); i++) {
+                            shouldSwitch = false;
+                            x = rows[i].getElementsByTagName("tr")[0].getAttribute("data-likes");
+
+                            y = rows[i + 1].getElementsByTagName("tr")[0].getAttribute("data-likes");
+
+                            if (Number(x) < Number(y)) {
+                                shouldSwitch = true;
+                                break;
+                            }
+                        }
+                        if (shouldSwitch) {
+                            rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                            switching = true;
+                        }
+                    }
+
+                }
 
 
-    function sortByDate() {
+                function sortByDate() {
 
-    let rows, switching, i, x, y, shouldSwitch;
-    switching = true;
+                    let rows, switching, i, x, y, shouldSwitch;
+                    switching = true;
 
-    while (switching) {
-        switching = false;
-        rows = tables.getElementsByTagName("table");
+                    while (switching) {
+                        switching = false;
+                        rows = tables.getElementsByTagName("table");
 
-        for(i = 0; i < (rows.length - 1); i++) {
-            shouldSwitch = false;
-            x = rows[i].getElementsByTagName("tr")[0].getAttribute("data-date");
-            x = convertDate(x)
+                        for (i = 0; i < (rows.length - 1); i++) {
+                            shouldSwitch = false;
+                            x = rows[i].getElementsByTagName("tr")[0].getAttribute("data-date");
+                            x = convertDate(x)
 
-            y = rows[i+1].getElementsByTagName("tr")[0].getAttribute("data-date");
-            y = convertDate(y);
+                            y = rows[i + 1].getElementsByTagName("tr")[0].getAttribute("data-date");
+                            y = convertDate(y);
 
 
-            if (x < y) {
-                shouldSwitch = true;
-                break;
-            }
-        }
+                            if (x < y) {
+                                shouldSwitch = true;
+                                break;
+                            }
+                        }
 
-        if (shouldSwitch) {
-            rows[i].parentNode.insertBefore(rows[i+1], rows[i])
-            switching = true;
-        }
-    }
+                        if (shouldSwitch) {
+                            rows[i].parentNode.insertBefore(rows[i + 1], rows[i])
+                            switching = true;
+                        }
+                    }
 
-    }
+                }
 
-    function convertDate(d) {
-    let myDate = new Date(d);
-    return myDate;
+                function convertDate(d) {
+                    let myDate = new Date(d);
+                    return myDate;
 
     }
     </script>
 </body>
 
-<footer>
-    <div th:replace="fragments/layout.html :: footer" />
-</footer>
+    <footer>
+        <div th:replace="fragments/layout.html :: footer" />
+    </footer>

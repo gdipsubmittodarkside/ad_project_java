@@ -21,6 +21,7 @@ import nus.iss.team2.ADProjectTECHS.Model.JobSkill;
 import nus.iss.team2.ADProjectTECHS.Model.Skill;
 import nus.iss.team2.ADProjectTECHS.Service.JobService;
 import nus.iss.team2.ADProjectTECHS.Service.JobSkillService;
+
 @RestController
 @RequestMapping("api/")
 public class RJobSkillController {
@@ -31,85 +32,96 @@ public class RJobSkillController {
     private JobService jobService;
 
     @GetMapping("/jobskills/{jobTitle}")
-    public ResponseEntity<List<Skill>> getSkillsByJobTitle(@PathVariable("jobTitle") String jobTitle){
+    public ResponseEntity<List<Skill>> getSkillsByJobTitle(
+            @PathVariable("jobTitle") String jobTitle) {
         jobTitle = jobTitle.toLowerCase();
 
         Job job = jobService.findJobByJobTitle(jobTitle);
-        
-        List<JobSkill> jobSkills = jobSkillService.findJobSkillByJob(job);
+
+        List<JobSkill> jobSkills = jobSkillService
+                .findJobSkillByJob(job);
         List<Skill> skillsRequired = new ArrayList<>();
-        for (JobSkill js : jobSkills){
+        for (JobSkill js : jobSkills) {
             skillsRequired.add(js.getSkill());
         }
-        
-        try{
-            return new ResponseEntity<>(skillsRequired, HttpStatus.OK);
-        }catch (Exception e) {
 
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        try {
+            return new ResponseEntity<>(skillsRequired,
+                    HttpStatus.OK);
+        } catch (Exception e) {
+
+            return new ResponseEntity<>(null,
+                    HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @GetMapping("/jobSkills")
-    public ResponseEntity<List<Skill>> getAllJobSkills(){
+    public ResponseEntity<List<Skill>> getAllJobSkills() {
 
-
-        return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(null,
+                HttpStatus.INTERNAL_SERVER_ERROR);
 
     }
 
     @PostMapping("/jobSkills")
-    public ResponseEntity<JobSkill> saveJobSkill(@RequestBody JobSkill jobSkill){
+    public ResponseEntity<JobSkill> saveJobSkill(
+            @RequestBody JobSkill jobSkill) {
 
-
-        return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(null,
+                HttpStatus.INTERNAL_SERVER_ERROR);
 
     }
 
     @PutMapping("/jobSkills")
-    public ResponseEntity<JobSkill> updateJobSkill(@RequestBody Skill skill){
+    public ResponseEntity<JobSkill> updateJobSkill(
+            @RequestBody Skill skill) {
 
-        return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(null,
+                HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @DeleteMapping("/jobSkills/{id}")
-    public ResponseEntity<Long> deleteJobSkill(@PathVariable("id") Long id){
+    public ResponseEntity<Long> deleteJobSkill(
+            @PathVariable("id") Long id) {
 
-
-        return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(null,
+                HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @GetMapping("/jobSkills/{id}")
-    public ResponseEntity<Skill> getJobSkillById(@PathVariable("id")Long id){
+    public ResponseEntity<Skill> getJobSkillById(
+            @PathVariable("id") Long id) {
 
-        return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(null,
+                HttpStatus.INTERNAL_SERVER_ERROR);
 
     }
 
     @GetMapping("/jobSkills/skill")
-    public ResponseEntity<List<JobSkill>> getJobSkillBySkill(@RequestBody Skill skill){
+    public ResponseEntity<List<JobSkill>> getJobSkillBySkill(
+            @RequestBody Skill skill) {
 
-        return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(null,
+                HttpStatus.INTERNAL_SERVER_ERROR);
 
     }
 
-
     @GetMapping("/jobSkills/job")
-    public ResponseEntity<List<JobSkill>> getJobSkillByJob(@RequestBody Job job){
+    public ResponseEntity<List<JobSkill>> getJobSkillByJob(
+            @RequestBody Job job) {
 
-        return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(null,
+                HttpStatus.INTERNAL_SERVER_ERROR);
 
     }
 
     @GetMapping("/jobSkills/{date}")
-    public ResponseEntity<List<JobSkill>> getJobSkillByDate(@PathVariable("date") LocalDate date){
+    public ResponseEntity<List<JobSkill>> getJobSkillByDate(
+            @PathVariable("date") LocalDate date) {
 
-        return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(null,
+                HttpStatus.INTERNAL_SERVER_ERROR);
 
     }
-
-
-    
-
 
 }

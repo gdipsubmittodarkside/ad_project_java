@@ -31,89 +31,114 @@ public class RCourseController {
 
     @Autowired
     private CourseCrawledService courseCrawledService;
+
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "${api.response-codes.ok.desc}"),
-        @ApiResponse(responseCode = "400", description = "${api.response-codes.badRequest.desc}", content = {
-                @Content(examples = { @ExampleObject(value = "") }) }),
-        @ApiResponse(responseCode = "404", description = "${api.response-codes.notFound.desc}", content = {
-                @Content(examples = { @ExampleObject(value = "") }) }) })
+            @ApiResponse(responseCode = "200", description = "${api.response-codes.ok.desc}"),
+            @ApiResponse(responseCode = "400", description = "${api.response-codes.badRequest.desc}", content = {
+                    @Content(examples = {
+                            @ExampleObject(value = "") }) }),
+            @ApiResponse(responseCode = "404", description = "${api.response-codes.notFound.desc}", content = {
+                    @Content(examples = {
+                            @ExampleObject(value = "") }) }) })
     @GetMapping("/courses")
     public ResponseEntity<List<CourseCrawled>> getAllCourses() {
 
         try {
             List<CourseCrawled> coursesCrawled = new ArrayList<CourseCrawled>();
-            coursesCrawled = courseCrawledService.getCourseCrawledList();
+            coursesCrawled = courseCrawledService
+                    .getCourseCrawledList();
 
             if (coursesCrawled.isEmpty()) {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+                return new ResponseEntity<>(
+                        HttpStatus.NO_CONTENT);
             }
-            return new ResponseEntity<>(coursesCrawled, HttpStatus.OK);
+            return new ResponseEntity<>(coursesCrawled,
+                    HttpStatus.OK);
 
         } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(null,
+                    HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @PostMapping("/courses")
-    public ResponseEntity<CourseCrawled> saveCourse(@RequestBody CourseCrawled courseCrawled) {
+    public ResponseEntity<CourseCrawled> saveCourse(
+            @RequestBody CourseCrawled courseCrawled) {
 
         try {
-            CourseCrawled savedCourseCrawled = courseCrawledService.saveCourseCrawled(courseCrawled);
-            return new ResponseEntity<>(savedCourseCrawled, HttpStatus.CREATED);
+            CourseCrawled savedCourseCrawled = courseCrawledService
+                    .saveCourseCrawled(courseCrawled);
+            return new ResponseEntity<>(savedCourseCrawled,
+                    HttpStatus.CREATED);
 
         } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(null,
+                    HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
     }
 
     @PutMapping("/courses/{id}")
-    public ResponseEntity<CourseCrawled> updateCourse(@PathVariable("id") long id,
+    public ResponseEntity<CourseCrawled> updateCourse(
+            @PathVariable("id") long id,
             @RequestBody CourseCrawled courseCrawled) {
 
         try {
 
-            Optional<CourseCrawled> optCourseCrawled = courseCrawledService.findCourseCrawled(id);
+            Optional<CourseCrawled> optCourseCrawled = courseCrawledService
+                    .findCourseCrawled(id);
 
             if (optCourseCrawled.isPresent()) {
-                CourseCrawled course = optCourseCrawled.get();
-                course.setCourseTitle(courseCrawled.getCourseTitle());
+                CourseCrawled course = optCourseCrawled
+                        .get();
+                course.setCourseTitle(
+                        courseCrawled.getCourseTitle());
                 course.setLikes(courseCrawled.getLikes());
-                course.setSubscribers(courseCrawled.getSubscribers());
-                course.setUrlLink(courseCrawled.getUrlLink());
+                course.setSubscribers(
+                        courseCrawled.getSubscribers());
+                course.setUrlLink(
+                        courseCrawled.getUrlLink());
                 course.setViews(courseCrawled.getViews());
                 course.setSkill(courseCrawled.getSkill());
 
-                CourseCrawled savedCourseCrawled = courseCrawledService.updateCourseCrawled(course);
+                CourseCrawled savedCourseCrawled = courseCrawledService
+                        .updateCourseCrawled(course);
 
-                return new ResponseEntity<CourseCrawled>(savedCourseCrawled, HttpStatus.OK);
+                return new ResponseEntity<CourseCrawled>(
+                        savedCourseCrawled, HttpStatus.OK);
             }
 
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(
+                    HttpStatus.NOT_FOUND);
 
         } catch (Exception e) {
 
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(null,
+                    HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
     }
 
     @DeleteMapping("/course/{id}")
-    public ResponseEntity<Long> deleteCourse(@PathVariable("id") Long id) {
+    public ResponseEntity<Long> deleteCourse(
+            @PathVariable("id") Long id) {
 
         try {
 
-            var isRemoved = courseCrawledService.deleteCourseCrawledById(id);
+            var isRemoved = courseCrawledService
+                    .deleteCourseCrawledById(id);
 
             if (!isRemoved) {
 
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>(
+                        HttpStatus.NOT_FOUND);
 
             }
 
             return new ResponseEntity<>(id, HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(null,
+                    HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -121,11 +146,14 @@ public class RCourseController {
     public ResponseEntity<List<CourseCrawled>> getCoursesSortedByViews() {
 
         try {
-            List<CourseCrawled> courseCrawleds = courseCrawledService.findCoursesSortedByViews();
-            return new ResponseEntity<>(courseCrawleds, HttpStatus.OK);
+            List<CourseCrawled> courseCrawleds = courseCrawledService
+                    .findCoursesSortedByViews();
+            return new ResponseEntity<>(courseCrawleds,
+                    HttpStatus.OK);
         } catch (Exception e) {
 
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(null,
+                    HttpStatus.INTERNAL_SERVER_ERROR);
 
         }
 
@@ -134,54 +162,46 @@ public class RCourseController {
     @GetMapping("/courses/likes")
     public ResponseEntity<List<CourseCrawled>> getCoursesByLikes() {
 
-        return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(null,
+                HttpStatus.INTERNAL_SERVER_ERROR);
 
     }
 
     @GetMapping("/courses/skill")
-    public ResponseEntity<List<CourseCrawled>> getCoursesBySkill(@RequestBody Skill skill) {
+    public ResponseEntity<List<CourseCrawled>> getCoursesBySkill(
+            @RequestBody Skill skill) {
 
         try {
-            List<CourseCrawled> coursesCrawled = courseCrawledService.findCoursesBySkill(skill);
-            return new ResponseEntity<>(coursesCrawled, HttpStatus.OK);
+            List<CourseCrawled> coursesCrawled = courseCrawledService
+                    .findCoursesBySkill(skill);
+            return new ResponseEntity<>(coursesCrawled,
+                    HttpStatus.OK);
 
         } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(null,
+                    HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
     }
-
-    // find courses by title keyword ignoring case
-    // @GetMapping("/courses/{title}")
-    // public ResponseEntity<List<CourseCrawled>> getCoursesByTitleLike(@PathVariable("title") String title) {
-
-    //     try {
-
-    //         List<CourseCrawled> coursesCrawled = courseCrawledService.findCoursesTitleLike(title);
-    //         return new ResponseEntity<>(coursesCrawled, HttpStatus.OK);
-
-    //     } catch (Exception e) {
-
-    //         return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-    //     }
-
-    // }
 
     @GetMapping("/courses/sortBySubscribers")
     public ResponseEntity<List<CourseCrawled>> getCoursesBySubscribers() {
 
         try {
-            List<CourseCrawled> coursesCrawled = courseCrawledService.findCoursesSortedBySubscribers();
+            List<CourseCrawled> coursesCrawled = courseCrawledService
+                    .findCoursesSortedBySubscribers();
 
-            return new ResponseEntity<>(coursesCrawled, HttpStatus.OK);
+            return new ResponseEntity<>(coursesCrawled,
+                    HttpStatus.OK);
 
         } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(null,
+                    HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
     }
 
-    @RequestMapping(value = "/courses/{skillTitle}",method = RequestMethod.GET)
+    @RequestMapping(value = "/courses/{skillTitle}", method = RequestMethod.GET)
     public ResponseEntity<List<CourseCrawled>> getCoursesBySkillTitleLike(
             @PathVariable("skillTitle") String skillTitle) {
 
@@ -189,13 +209,16 @@ public class RCourseController {
 
             skillTitle = skillTitle.toLowerCase();
             List<CourseCrawled> courseCrawleds = courseCrawledService
-                    .findCoursesBySkillTitleLike(skillTitle);
+                    .findCoursesBySkillTitleLike(
+                            skillTitle);
 
-            return new ResponseEntity<>(courseCrawleds, HttpStatus.OK);
+            return new ResponseEntity<>(courseCrawleds,
+                    HttpStatus.OK);
 
         } catch (Exception e) {
 
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(null,
+                    HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
     }

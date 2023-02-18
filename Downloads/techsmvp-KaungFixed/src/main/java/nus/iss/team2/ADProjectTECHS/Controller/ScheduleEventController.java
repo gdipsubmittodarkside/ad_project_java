@@ -20,17 +20,20 @@ public class ScheduleEventController {
     private ScheduleEventService scheduleEventService;
 
     @GetMapping("/")
-    public String getAllScheduleEvents(Model model){
-        List<ScheduleEvent> scheduleEventList = scheduleEventService.getAllScheduleEvents();
-        model.addAttribute("scheduleEventList", scheduleEventList);
+    public String getAllScheduleEvents(Model model) {
+        List<ScheduleEvent> scheduleEventList = scheduleEventService
+                .getAllScheduleEvents();
+        model.addAttribute("scheduleEventList",
+                scheduleEventList);
         return null;
     }
 
-
     @GetMapping("/save")
-    private String saveCourseToSchedule(@ModelAttribute("schedule") @Valid ScheduleEvent scheduleEvent,
-                                        Model model) {
-        scheduleEventService.createScheduleEvent(scheduleEvent);
+    private String saveCourseToSchedule(
+            @ModelAttribute("schedule") @Valid ScheduleEvent scheduleEvent,
+            Model model) {
+        scheduleEventService
+                .createScheduleEvent(scheduleEvent);
         model.addAttribute("schedule", scheduleEvent);
         return "/";
     }
@@ -38,12 +41,15 @@ public class ScheduleEventController {
     @GetMapping("/update/{id}")
     private String updateCourseInSchedule(
             @PathVariable("id") Long id,
-            @ModelAttribute("schedule")@Valid ScheduleEvent scheduleEvent,
+            @ModelAttribute("schedule") @Valid ScheduleEvent scheduleEvent,
             Model model) {
-       ScheduleEvent scheduleEventExist = scheduleEventService.findScheduleEventById(id);
-       scheduleEvent.setScheduleId(scheduleEventExist.getScheduleId());
-       scheduleEventService.updateScheduleEvent(scheduleEvent);
-       return "/";
+        ScheduleEvent scheduleEventExist = scheduleEventService
+                .findScheduleEventById(id);
+        scheduleEvent.setScheduleId(
+                scheduleEventExist.getScheduleId());
+        scheduleEventService
+                .updateScheduleEvent(scheduleEvent);
+        return "/";
 
     }
 

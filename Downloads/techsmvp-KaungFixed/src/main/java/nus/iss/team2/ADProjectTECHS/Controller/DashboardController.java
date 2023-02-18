@@ -44,114 +44,117 @@ public class DashboardController {
     @Autowired
     private JobSkillService jobSkillService;
 
-   
     private Member currentMember;
 
     @GetMapping("")
-    public String viewDashBoard(Model model){
-        //find member
-       
-                //find member
-        String currentUsername = MemberUtils.getMemberFromSpringSecurity();
+    public String viewDashBoard(Model model) {
+        // find member
 
-        Member currentMember = memberService.loadMemberByUsername(currentUsername);
+        // find member
+        String currentUsername = MemberUtils
+                .getMemberFromSpringSecurity();
 
-        
-        if (currentMember == null) throw new RuntimeException("cannot find current member");
+        Member currentMember = memberService
+                .loadMemberByUsername(currentUsername);
 
-        //check all the schedule events
-        List<ScheduleEvent> events = scheduleEventService.findScheduleEventByMemberId(currentMember.getMemberId());
+        if (currentMember == null)
+            throw new RuntimeException(
+                    "cannot find current member");
 
+        // check all the schedule events
+        List<ScheduleEvent> events = scheduleEventService
+                .findScheduleEventByMemberId(
+                        currentMember.getMemberId());
 
         JSONArray jsonArray = new JSONArray();
 
-        for(int i=0; i<events.size();i++){
+        for (int i = 0; i < events.size(); i++) {
             JSONObject jo = new JSONObject();
             jo.put("s", events.get(i).getStartDate());
             jo.put("e", events.get(i).getEndDate());
             jo.put("t", events.get(i).getNotes());
             jo.put("c", events.get(i).getTxtColor());
             jo.put("b", events.get(i).getBgColor());
-            jo.put("course", events.get(i).getMyCourse().getMyCourseTitle());
-            jo.put("id",events.get(i).getScheduleId());
+            jo.put("course", events.get(i).getMyCourse()
+                    .getMyCourseTitle());
+            jo.put("id", events.get(i).getScheduleId());
             jsonArray.put(jo);
         }
 
-        //check if member have dream job or not 
-        Job memberDreamJob = currentMember.getDreamJob();       
-        if (memberDreamJob==null){
+        // check if member have dream job or not
+        Job memberDreamJob = currentMember.getDreamJob();
+        if (memberDreamJob == null) {
             return "redirect:/settings";
         }
-        
-         //mySkills (list)
-         List <MySkill> mySkills = mySkillService.findMySkillByMemberId(currentMember.getMemberId());
 
-         List<String> skillTitles = new ArrayList<>();
-         List<MyCourse> myCourses = myCourseService.getMyCoursesByMemberId(currentMember.getMemberId());
- 
-     
-         for(MySkill ms : mySkills){
-             skillTitles.add(ms.getSkill().getSkillTitle());
-         }
- 
-         List<Integer> progressList = new ArrayList<>();
-         for(MyCourse mc : myCourses){
-             progressList.add(mc.getProgress());
-         }
- 
-         String dreamJob = currentMember.getDreamJob().getJobTitle();
-        if(dreamJob.isEmpty()|| dreamJob==null){
-          dreamJob = "EMPTY";
+        // mySkills (list)
+        List<MySkill> mySkills = mySkillService
+                .findMySkillByMemberId(
+                        currentMember.getMemberId());
+
+        List<String> skillTitles = new ArrayList<>();
+        List<MyCourse> myCourses = myCourseService
+                .getMyCoursesByMemberId(
+                        currentMember.getMemberId());
+
+        for (MySkill ms : mySkills) {
+            skillTitles.add(ms.getSkill().getSkillTitle());
         }
-        
-         model.addAttribute("events", jsonArray);
-         model.addAttribute("member", currentMember);
-         model.addAttribute("skillTitles", skillTitles);
-         model.addAttribute("myCourses", myCourses);
-         model.addAttribute("progressList",progressList);
-         model.addAttribute("dreamJobTitle",dreamJob);
 
+        List<Integer> progressList = new ArrayList<>();
+        for (MyCourse mc : myCourses) {
+            progressList.add(mc.getProgress());
+        }
 
-         //Kaung Code
-         Long jobId = memberDreamJob.getJobId();
-         List<Skill> skills = jobSkillService.findSkillsReq(jobId);
-         model.addAttribute("skills",skills);
+        String dreamJob = currentMember.getDreamJob()
+                .getJobTitle();
+        if (dreamJob.isEmpty() || dreamJob == null) {
+            dreamJob = "EMPTY";
+        }
 
-         
-         
-         List<ChartData> chartDatas = new ArrayList<>();
-         for(Skill sk : skills){
+        model.addAttribute("events", jsonArray);
+        model.addAttribute("member", currentMember);
+        model.addAttribute("skillTitles", skillTitles);
+        model.addAttribute("myCourses", myCourses);
+        model.addAttribute("progressList", progressList);
+        model.addAttribute("dreamJobTitle", dreamJob);
+
+        // Kaung Code
+        Long jobId = memberDreamJob.getJobId();
+        List<Skill> skills = jobSkillService
+                .findSkillsReq(jobId);
+        model.addAttribute("skills", skills);
+
+        List<ChartData> chartDatas = new ArrayList<>();
+        for (Skill sk : skills) {
             ChartData chartData = new ChartData();
             chartData.setX_lable(sk.getSkillTitle());
-            int count=0;
-            for(MyCourse mc : myCourses){
-                if(mc.getSkill()==sk.getSkillId()){
+            int count = 0;
+            for (MyCourse mc : myCourses) {
+                if (mc.getSkill() == sk.getSkillId()) {
                     chartData.setY_data(mc.getProgress());
                     count++;
                     break;
                 }
             }
-            if(count==0){
+            if (count == 0) {
                 chartData.setY_data(count);
             }
-            for(MySkill ms : mySkills){
+            for (MySkill ms : mySkills) {
                 Long msSkillId = ms.getSkill().getSkillId();
-                if(msSkillId == sk.getSkillId()){
+                if (msSkillId == sk.getSkillId()) {
                     chartData.setY_data(100);
                 }
 
             }
 
             chartDatas.add(chartData);
-         }
-         
-         model.addAttribute("chartDatas", chartDatas);
+        }
 
+        model.addAttribute("chartDatas", chartDatas);
 
-
-         return "Feature3-Dashboard/dashboard";
+        return "Feature3-Dashboard/dashboard";
 
     }
-
 
 }

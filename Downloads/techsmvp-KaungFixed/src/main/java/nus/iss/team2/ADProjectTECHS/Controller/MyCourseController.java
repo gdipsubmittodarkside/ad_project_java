@@ -47,39 +47,40 @@ public class MyCourseController {
 
     @Autowired
     private MySkillService mySkillService;
-    
+
     // CREATE
     // Saving of new courses done at "CourseController"
 
     // READ
     @GetMapping("")
-    public String ViewMyCourses(Model model){
+    public String ViewMyCourses(Model model) {
 
-       
-        //find member
-        String currentUsername = MemberUtils.getMemberFromSpringSecurity();
+        // find member
+        String currentUsername = MemberUtils
+                .getMemberFromSpringSecurity();
 
-        Member currentMember = memberService.loadMemberByUsername(currentUsername);
+        Member currentMember = memberService
+                .loadMemberByUsername(currentUsername);
 
+        if (currentMember == null)
+            throw new RuntimeException(
+                    "cannot find current member");
 
-        if (currentMember == null) throw new RuntimeException("cannot find current member");
-
-        
-
-        List<MyCourse> myCourseList = myCourseService.getMyCoursesByMemberId(currentMember.getMemberId());
+        List<MyCourse> myCourseList = myCourseService
+                .getMyCoursesByMemberId(
+                        currentMember.getMemberId());
 
         List<String> skillTitles = new ArrayList<>();
-       
 
+        for (MyCourse mc : myCourseList) {
 
-        for (MyCourse mc : myCourseList){
-
-            skillTitles.add((skillService.findSkillById(mc.getSkill())).getSkillTitle());
+            skillTitles.add((skillService
+                    .findSkillById(mc.getSkill()))
+                            .getSkillTitle());
 
         }
 
-		model.addAttribute("skillTitles",skillTitles);
-
+        model.addAttribute("skillTitles", skillTitles);
 
         // List<MyCourse> myCourseList = myCourseService.getAllMyCourses();
         model.addAttribute("myCourseList", myCourseList);
@@ -88,117 +89,126 @@ public class MyCourseController {
 
     // DELETE
 
-
-          // READ
+    // READ
     @GetMapping("/manageProgress")
-    public String ManageProgress(Model model){
-      
-    
-        // Member currentMember = memberService.findById(userId);  
-        
-        //find member
-        String currentUsername = MemberUtils.getMemberFromSpringSecurity();
+    public String ManageProgress(Model model) {
 
-        Member currentMember = memberService.loadMemberByUsername(currentUsername);
+        // Member currentMember = memberService.findById(userId);
 
+        // find member
+        String currentUsername = MemberUtils
+                .getMemberFromSpringSecurity();
 
-        if (currentMember == null) throw new RuntimeException("cannot find current member");
+        Member currentMember = memberService
+                .loadMemberByUsername(currentUsername);
 
-      
-        //get MyCourse
-        List<MyCourse> myCourseList = myCourseService.getMyCoursesByMemberId(currentMember.getMemberId());
-              
-      
-        //get progress
+        if (currentMember == null)
+            throw new RuntimeException(
+                    "cannot find current member");
+
+        // get MyCourse
+        List<MyCourse> myCourseList = myCourseService
+                .getMyCoursesByMemberId(
+                        currentMember.getMemberId());
+
+        // get progress
         List<Integer> progressList = new ArrayList<>();
-        for(MyCourse mc : myCourseList){
-                progressList.add(mc.getProgress());
+        for (MyCourse mc : myCourseList) {
+            progressList.add(mc.getProgress());
         }
-      
-        //inprogess courses
+
+        // inprogess courses
         List<MyCourse> inProgressList = new ArrayList<>();
-      
-        //completed courses if progress 100%
+
+        // completed courses if progress 100%
         List<MyCourse> completedList = new ArrayList<>();
-          
-          
-        //add in 2 lists with condition
-        for(MyCourse c: myCourseList){
-            if(c.getProgress()<100){
-                     inProgressList.add(c);
-                }
-            else{
-                      completedList.add(c);
-                }
+
+        // add in 2 lists with condition
+        for (MyCourse c : myCourseList) {
+            if (c.getProgress() < 100) {
+                inProgressList.add(c);
+            } else {
+                completedList.add(c);
+            }
         }
-      
-      
-              model.addAttribute("myCourseList", myCourseList);
-              model.addAttribute("inProgressList",inProgressList);
-              model.addAttribute("completedLlist",completedList);
-      
-              return "Feature3-Dashboard/course";
-          }
 
+        model.addAttribute("myCourseList", myCourseList);
+        model.addAttribute("inProgressList",
+                inProgressList);
+        model.addAttribute("completedLlist", completedList);
 
-    @GetMapping(value={"/watchCourse/{id}"})
-    public String WatchCourseVideo(@PathVariable Long id, Model model){
+        return "Feature3-Dashboard/course";
+    }
 
-        //find current selected course
-        MyCourse course = myCourseService.findMyCourseById(id);
-        if(course==null) throw new RuntimeException("cannot find course in my course");
+    @GetMapping(value = { "/watchCourse/{id}" })
+    public String WatchCourseVideo(@PathVariable Long id,
+            Model model) {
 
-        //substring url for embedded purpose
+        // find current selected course
+        MyCourse course = myCourseService
+                .findMyCourseById(id);
+        if (course == null)
+            throw new RuntimeException(
+                    "cannot find course in my course");
+
+        // substring url for embedded purpose
         String separator = "=";
         String url = course.getCourseUrl();
 
-
         int sepPos = url.indexOf(separator);
-        String urlQuery = url.substring(sepPos+separator.length());
+        String urlQuery = url
+                .substring(sepPos + separator.length());
 
+        // find channel_name, descrioption and date from courseCrawled table
+        // CourseCrawled currentCourse =
+        // courseCrawledService.findCourseCrawledByUrl(url);
+        CourseCrawled currentCourse = courseCrawledService
+                .findCourseCrawledByUrlAndSkillId(url,
+                        course.getSkill());
 
-        //find channel_name, descrioption and date from courseCrawled table
-        // CourseCrawled currentCourse = courseCrawledService.findCourseCrawledByUrl(url);
-        CourseCrawled currentCourse = courseCrawledService.findCourseCrawledByUrlAndSkillId(url, course.getSkill());
-
-        //model.addAttribute("Mycourse", course);
-        model.addAttribute("urlQuery",urlQuery);
+        // model.addAttribute("Mycourse", course);
+        model.addAttribute("urlQuery", urlQuery);
         model.addAttribute("course", currentCourse);
 
         return "Feature2-SearchCourse/watchCourse";
     }
-      
-          
-      
-    @GetMapping("/updateProgress/{id}")
-    public String updateProgress(@PathVariable Long id, @RequestParam("updatedProgress") String progress, Model model){
 
-        //kaung code
-        String currentUsername = MemberUtils.getMemberFromSpringSecurity();
-        Member currentMember = memberService.loadMemberByUsername(currentUsername);
-                
-        int  updatedProgress= Integer.parseInt(progress);
-        
-        MyCourse existingCourse = myCourseService.findMyCourseById(id);
+    @GetMapping("/updateProgress/{id}")
+    public String updateProgress(@PathVariable Long id,
+            @RequestParam("updatedProgress") String progress,
+            Model model) {
+
+        // kaung code
+        String currentUsername = MemberUtils
+                .getMemberFromSpringSecurity();
+        Member currentMember = memberService
+                .loadMemberByUsername(currentUsername);
+
+        int updatedProgress = Integer.parseInt(progress);
+
+        MyCourse existingCourse = myCourseService
+                .findMyCourseById(id);
 
         existingCourse.setProgress(updatedProgress);
-    
+
         myCourseService.updateMyCourse(existingCourse, id);
 
-        //kaung
-        if(updatedProgress == 100){
+        // kaung
+        if (updatedProgress == 100) {
             MySkill mySkill = new MySkill();
             Long skillId = existingCourse.getSkill();
-            Skill newSkill = skillService.findSkillById(skillId);
+            Skill newSkill = skillService
+                    .findSkillById(skillId);
             Boolean isOwned = false;
             for (MySkill ms : currentMember.getMySkills()) {
-                if(ms.getSkill() == newSkill){
+                if (ms.getSkill() == newSkill) {
                     isOwned = true;
                     break;
                 }
             }
-            if(!isOwned){
-                mySkill.setCourseTaken(existingCourse.getMyCourseTitle());
+            if (!isOwned) {
+                mySkill.setCourseTaken(
+                        existingCourse.getMyCourseTitle());
                 mySkill.setSkill(newSkill);
                 mySkill.setMember(currentMember);
                 mySkillService.save(mySkill);
@@ -209,15 +219,12 @@ public class MyCourseController {
     }
 
     @GetMapping("/deleteCourse/{id}")
-    public String deleteMyCourse(@PathVariable Long id){
+    public String deleteMyCourse(@PathVariable Long id) {
 
         myCourseService.deleteMyCourse(id);
 
         return "redirect:/myCourses/manageProgress";
-        
-    }
 
-    
-    
+    }
 
 }

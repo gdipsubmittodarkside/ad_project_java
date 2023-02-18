@@ -23,7 +23,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import nus.iss.team2.ADProjectTECHS.Model.Enums.Education;
 import nus.iss.team2.ADProjectTECHS.Model.Enums.Gender;
-import nus.iss.team2.ADProjectTECHS.Model.Enums.SearchType;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
@@ -85,7 +84,7 @@ public class Member {
     @Column(name = "notification")
     private String notification;
 
-    public Member (String username, String password){
+    public Member(String username, String password) {
         this.username = username;
         this.password = password;
     }
