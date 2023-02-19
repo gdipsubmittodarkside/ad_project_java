@@ -66,16 +66,16 @@ public class CourseController {
     }
 
     // to view details and watch a course (OLD)
-    @GetMapping("/{courseId}")
-    public String watchCourse(@PathVariable String courseId,
-            Model model) {
+//     @GetMapping("/{courseId}")
+//     public String watchCourse(@PathVariable String courseId,
+//             Model model) {
 
-        CourseCrawled courseSelected = courseCrawledService
-                .findCourseCrawledById(
-                        Long.parseLong(courseId));
-        model.addAttribute("course", courseSelected);
-        return "Feature2-SearchCourse/watchCourse";
-    }
+//         CourseCrawled courseSelected = courseCrawledService
+//                 .findCourseCrawledById(
+//                         Long.parseLong(courseId));
+//         model.addAttribute("course", courseSelected);
+//         return "Feature2-SearchCourse/watchCourse";
+//     }
 
     // watch course video
     @GetMapping(value = { "/watchCourse/{id}" })
@@ -94,6 +94,17 @@ public class CourseController {
 
         model.addAttribute("course", course);
         model.addAttribute("urlQuery", urlQuery);
+
+        // yt added 19 feb
+        String currentUsername = MemberUtils.getMemberFromSpringSecurity();
+
+        Member currentMember = memberService.loadMemberByUsername(currentUsername);
+
+        List<String> myCoursesURLs = myCourseService.getMyCoursesByMemberId(currentMember.getMemberId()).stream().map(mc->mc.getCourseUrl()).toList();
+
+        if(currentMember != null && currentMember.getMyCourses() != null){
+            model.addAttribute("myCoursesURLs", myCoursesURLs);
+        }
 
         return "Feature2-SearchCourse/watchCourse";
     }

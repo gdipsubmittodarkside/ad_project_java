@@ -75,14 +75,23 @@
                             </main>
                         </td>
                         <td>
-                            <div sec:authorize="isAuthenticated()">
+                            <!-- YT added -->
+                            <div sec:authorize="isAuthenticated()" >
+                                <a class="btn btn-secondary saved" 
+                                th:if="${!#lists.contains(myCoursesURLs, course.urlLink)}"
+                                id="myBtn" role="button" th:data-name="${course.courseId}" th:onclick="SaveCourse(this.getAttribute('data-name'))"><i class="bi bi-bookmarks">Save</i></a>
+                                
+                                <div th:if="${#lists.contains(myCoursesURLs, course.urlLink)}">saved</div>
+                            </div>
+                            
+                            <!-- <div sec:authorize="isAuthenticated()">
 
                                 <a class="btn btn-secondary saved" id="myBtn" role="button"
                                     th:data-name="${course.courseId}"
                                     th:onclick="SaveCourse(this.getAttribute('data-name'))"><i
                                         class="bi bi-bookmarks"></i></i> Save</a>
 
-                            </div>
+                            </div> -->
                         </td>
                     </tr>
                 </table>
@@ -154,13 +163,19 @@
             ajax.send(JSON.stringify(data))
         }
 
-        var listItems = document.getElementsByClassName("saved");
-        for (var i = 0; i < listItems.length; i += 1) {
-            listItems[i].addEventListener('click', function (e) {
-                // e.target.style.visibility = 'hidden';
-                e.target.outerText = 'saved';
-            });
-        }
+    var listItems = document.getElementsByClassName("saved");
+    for(var i = 0; i < listItems.length; i++){
+        listItems[i].addEventListener('click', function (e) {
+            // e.target.style.visibility = 'hidden';
+            e.target.parentNode.classList=''
+            e.target.parentNode.disabled = true;
+            e.target.parentNode.removeAttribute("onClick")
+            e.target.classList.value = '';
+            e.target.innerHTML= 'saved';
+            
+            
+        });
+    }
 
 
     </script>
