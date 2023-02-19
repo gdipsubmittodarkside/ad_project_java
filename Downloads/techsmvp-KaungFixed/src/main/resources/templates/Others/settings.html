@@ -3,9 +3,8 @@
 <head th:replace="fragments/layout.html :: html_head"/>
 <body>
 <div th:replace="fragments/layout.html :: menu"/>
-    <div th:if="${message!=null}">
-        <p class="text-danger" th:text="${message}"></p>
-    </div>
+<!--    <div th:if="${message}">-->
+<!--    </div>-->
     
 
     <body onload="checkdj()">
@@ -81,7 +80,7 @@
                                                 th:field="*{currentJobTitle}"></p>
                                             </td>
                                             <td width="50%">
-                                                <b>Date of Birth</b>
+                                                <b>Year of Birth</b>
                                                 <p><input class="fname input1" type="date" th:field="*{birthday}"></p>
                                             </td>
                                         </tr>
@@ -93,10 +92,10 @@
                                             <td width="50%">
                                                 <b>Dream Job</b>
                                                 <p><select class="select" th:field="*{dreamJob}">
-                                                    
-                                                    <option th:if="${currentMember.dreamJob!=null}" value="${currentMember.dreamJob}"
-                                                    th:text="${currentMember.dreamJob.JobTitle}"
-                                                    selected></option>
+<!--                                                    Type doesn't match-->
+<!--                                                    <option th:if="${currentMember.dreamJob!=null}" value="${currentMember.dreamJob}"-->
+<!--                                                    th:text="${currentMember.dreamJob.JobTitle}"-->
+<!--                                                    selected></option> -->
                                                     <option th:each="job : ${jobList}" th:value="${job.JobId}" th:text="${job.JobTitle}"></option>
                                                 </select></p>
                                             </td>
@@ -172,7 +171,7 @@
                                                     <p><b>Current Password</b></p>
                                                     <p><input class="fname input1" type="password" name="curPwd" required></p>
                                                     <p><b>New Password</b></p>
-                                                    <p><input class="fname input1" type="password"  name="newPwd" id="newPassword" required></p>
+                                                    <p><input class="fname input1" type="password"  name="newPwd" id="newPassword" oninput="checkPasswordLength(this);" required></p>
                                                     <p><b>Confirm New Password</b></p>
                                                     <p><input class="fname input1" type="password"  required oninput="checkPasswordMatch(this);"/></p>
                                                     <div class= "btn-group">
@@ -196,9 +195,12 @@
         </div>
         <input type="hidden" th:value="${dj}" id="dj"/>
     </body>
+        
+        <!-- <footer>
+            <div th:replace="fragments/layout.html :: footer" />
+        </footer> -->
 
-
-    <script>
+    <script th:inline="javascript">
         function openSetting(settingtype) {
             var i;
             var x = document.getElementsByClassName("setting");
@@ -223,6 +225,13 @@
                 } else {
                     shouldUploadImage = true
                 }
+            }
+        }
+        function checkPasswordLength(p) {
+            if (p.value.trim().length < 8) {
+                p.setCustomValidity("Password length must be 8 or more than 8 characters");
+            } else {
+                p.setCustomValidity("")
             }
         }
 
@@ -250,6 +259,20 @@
             }
             return shouldUploadImage;
         }
+
+        let msg = null
+
+        /*<![CDATA[*/
+
+        msg = [[${message}]]
+
+        /*]]>*/
+
+
+        if (msg!=null){
+            alert(msg)
+        }
+
     </script>
 
 </html>

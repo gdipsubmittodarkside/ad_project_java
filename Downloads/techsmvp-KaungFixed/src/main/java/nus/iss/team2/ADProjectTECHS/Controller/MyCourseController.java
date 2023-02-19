@@ -170,6 +170,17 @@ public class MyCourseController {
         model.addAttribute("urlQuery", urlQuery);
         model.addAttribute("course", currentCourse);
 
+        // yt added 19 feb
+        String currentUsername = MemberUtils.getMemberFromSpringSecurity();
+
+        Member currentMember = memberService.loadMemberByUsername(currentUsername);
+
+        List<String> myCoursesURLs = myCourseService.getMyCoursesByMemberId(currentMember.getMemberId()).stream().map(mc->mc.getCourseUrl()).toList();
+
+        if(currentMember != null && currentMember.getMyCourses() != null){
+            model.addAttribute("myCoursesURLs", myCoursesURLs);
+        }
+
         return "Feature2-SearchCourse/watchCourse";
     }
 
