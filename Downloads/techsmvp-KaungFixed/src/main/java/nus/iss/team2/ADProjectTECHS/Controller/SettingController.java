@@ -131,7 +131,7 @@ public class SettingController {
 
         }
 
-        model.addAttribute("message", "saved profile");
+        redirectAttributes.addFlashAttribute("message", "Saved profile");
 
 
         return "redirect:/settings";
@@ -139,7 +139,7 @@ public class SettingController {
     }
 
     @PostMapping("/information")
-    public String updateInfo(@ModelAttribute("member") Member newMember, @RequestParam(value = "skills", required = false) List<Integer> skillsIds , RedirectAttributes redirectAttributes, Model model){
+    public String updateInfo(@ModelAttribute("member") Member newMember, @RequestParam(value = "skills", required = false) List<Integer> skillsIds , RedirectAttributes ra, Model model){
         // Member currentMember = getCurrentMember(userId);
 
         String currentUsername = MemberUtils.getMemberFromSpringSecurity();
@@ -182,7 +182,7 @@ public class SettingController {
             memberService.save(currentMember);
         }
 
-        model.addAttribute("message", "save info");
+        ra.addFlashAttribute("message", "Saved info");
 
         return "redirect:/settings";
 

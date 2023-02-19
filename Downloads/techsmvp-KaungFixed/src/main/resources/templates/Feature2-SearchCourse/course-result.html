@@ -148,7 +148,7 @@ function sortByDuration(hours){
         let dh = tr.getAttribute("data-hours");
         console.log(dh)
         if (hours == 1) {
-            if (dh < 2) {
+            if (dh < 2 && dh >= 1) {
                 ListOfTable[i].style.display = "";
             } else {
                 ListOfTable[i].style.display = "none";
