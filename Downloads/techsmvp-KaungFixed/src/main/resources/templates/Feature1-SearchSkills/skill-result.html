@@ -20,12 +20,12 @@
                     <td Align=Middle> <img th:src="${#authentication.getPrincipal().getAvatar()}" width="80"
                             height="80"> </td>
                     <td style="vertical-align:middle;">
-                        <h5 th:text="${member.username} + ', your career goal is to be a ' +${searchedjob}  +'.'"
+                        <h5 th:text="${member.username} + ', is your dream job to be a ' +${searchedjob}  +'?'"
                             style="color:#ad2eb3;"><span style="color:#ad2eb3;"><b></b></span></h5>
                     </td>
                     <td class="text-center align-middle"><a class="btn btn-secondary" id="settinggoal" role="button"
                             th:data-name="${job1.jobId}" th:onclick="savedDreamJob(this.getAttribute('data-name'))"><i
-                                class="bi bi-pencil"></i> Set Goal</a></td>
+                                class="bi bi-pencil"></i> Update Dream Job</a></td>
 
                 </table>
             </div>
@@ -80,7 +80,7 @@
 
             var x = document.getElementById("settinggoal");
             x.addEventListener('click', function (event) {
-                event.target.outerText = 'set';
+                event.target.outerText = 'Updated';
                 event.target.disabled = true;
             });
 
