@@ -1,6 +1,7 @@
 package nus.iss.team2.ADProjectTECHS.Controller;
 
 import java.util.List;
+import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -54,7 +55,7 @@ public class CourseController {
         Member currentMember = memberService.loadMemberByUsername(currentUsername);
 
         if(currentMember != null && currentMember.getMyCourses() != null){
-            model.addAttribute("myCourses", myCourseService.getMyCoursesByMemberId(currentMember.getMemberId()).stream().map(mc->mc.getMyCourseId()).toList());
+            model.addAttribute("myCourses", myCourseService.getMyCoursesByMemberId(currentMember.getMemberId()).stream().map(mc->mc.getCourseUrl()).toList());
         }
 
 
@@ -221,13 +222,19 @@ public class CourseController {
 
         Member member = memberService
                 .loadMemberByUsername(currentUsername);
-
+        List<String> strings = new ArrayList<>();
         List<CourseCrawled> courses = courseCrawledService
                 .recommend_best_match(query,
                         member.getMyCourses());
 
         model.addAttribute("entered", query);
         model.addAttribute("courseList", courses);
+        if(member != null && member.getMyCourses() != null){
+            model.addAttribute("myCourses", myCourseService.getMyCoursesByMemberId(member.getMemberId()).stream().map(mc->mc.getCourseUrl()).toList());
+        }
+        else{
+            model.addAttribute("myCourses",strings);
+        }
 
         return "Feature2-SearchCourse/course-result";
 
