@@ -175,9 +175,8 @@ public class MyCourseController {
 
         Member currentMember = memberService.loadMemberByUsername(currentUsername);
 
-        List<String> myCoursesURLs = myCourseService.getMyCoursesByMemberId(currentMember.getMemberId()).stream().map(mc->mc.getCourseUrl()).toList();
-
         if(currentMember != null && currentMember.getMyCourses() != null){
+                List<String> myCoursesURLs = myCourseService.getMyCoursesByMemberId(currentMember.getMemberId()).stream().map(mc->mc.getCourseUrl()).toList();
             model.addAttribute("myCoursesURLs", myCoursesURLs);
         }
 
